@@ -11,6 +11,7 @@ This repository is the standalone source-of-truth for:
 - a reusable Codex skill
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
+- optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 

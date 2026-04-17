@@ -153,6 +153,9 @@ github_delivery_flow:
     - when_using_gh_issue_or_pr_commands_from_shell_prefer_body_file_over_inline_body
     - never_embed_markdown_with_backticks_in_inline_double_quoted_gh_body_arguments
     - single_quoted_heredoc_is_an_acceptable_fallback_only_when_it_writes_the_body_file_first
+    - github_projects_are_optional_not_bootstrap_default
+    - adopt_github_projects_only_when_issue_first_execution_needs_shared_custom_fields_iterations_roadmaps_or_cross_repo_planning
+    - do_not_require_github_projects_for_data_driven_non_engineering_lanes
 
 pr_verification_contract:
   required_fields:

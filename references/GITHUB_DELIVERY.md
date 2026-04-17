@@ -33,6 +33,9 @@ Execution-surface rule:
 - when using `gh issue create`, `gh issue edit`, or `gh pr create` from shell, prefer `--body-file` over inline `--body`
 - never embed markdown with backticks or fenced code blocks in inline double-quoted `gh --body` arguments
 - acceptable fallback is a single-quoted heredoc such as `<<'EOF'` that writes the body file first
+- GitHub Projects are an optional planning layer, not a bootstrap default
+- adopt a Project when multiple simultaneous engineering epics need shared custom fields, iteration views, roadmap views, or cross-repo planning
+- do not require Projects when issue-first execution already covers the repo and the non-engineering lanes are data-driven outside GitHub Issues
 
 ## Why this matters
 
