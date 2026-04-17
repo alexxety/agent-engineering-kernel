@@ -34,6 +34,16 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - reopen or update the existing bug issue when the fingerprint matches
 - create a new bug issue only when no open issue already tracks that fingerprint
 
+## Kernel sync review
+
+- every serious slice must end with `kernel_sync_review`
+- record `Kernel Impact` as:
+  - `none`
+  - `project_local_only`
+  - `promote_to_kernel`
+- use `promote_to_kernel` only for reusable engineering workflow or verification patterns
+- keep repository-specific ops canon in the project repo instead of polluting the universal kernel
+
 ## PR rule
 
 - one PR should normally close one leaf issue

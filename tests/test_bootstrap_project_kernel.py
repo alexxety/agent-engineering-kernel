@@ -57,6 +57,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertIn("raw logs", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("local operator machine", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("GitHub Actions", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("kernel_sync_review", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("Kernel Impact", (target / "docs" / "PRD_TEMPLATE.md").read_text(encoding="utf-8"))
             self.assertIn("paid GitHub-hosted Actions", (target / "CONTRIBUTING.md").read_text(encoding="utf-8"))
 
 

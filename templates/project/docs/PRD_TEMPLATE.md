@@ -31,3 +31,17 @@ Phased plan with validation and rollback.
 - source-of-truth / sync checks
 - live checks
 - rollback validation
+
+## Kernel Impact
+
+Record this during `kernel_sync_review`.
+
+Choose one:
+
+- `none`
+- `project_local_only`
+- `promote_to_kernel`
+
+Why:
+
+Explain whether this slice produced a reusable engineering rule or only a project-local decision.

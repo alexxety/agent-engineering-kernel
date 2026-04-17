@@ -13,6 +13,7 @@ layers:
     - prd_first_execution
     - research_policy
     - execution_surface_policy
+    - kernel_sync_policy
     - github_issue_tree
     - automatic_bug_intake
     - github_delivery_flow
@@ -87,6 +88,22 @@ execution_surface_policy:
     - detect_local_prerequisites_before_work_starts
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
     - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
+
+kernel_sync_policy:
+  protocol_name: kernel_sync_review
+  decision_field: kernel_impact
+  allowed_kernel_impact_values:
+    - none
+    - project_local_only
+    - promote_to_kernel
+  rules:
+    - every_serious_slice_must_end_with_kernel_sync_review
+    - do_not_create_a_separate_skill_name_for_kernel_sync_when_engineering_kernel_already_applies
+    - promote_only_reusable_process_or_pattern_learnings_not_project_specific_operational_details
+    - kernel_impact_must_be_recorded_in_the_active_prd_or_closeout
+    - if_kernel_impact_is_promote_to_kernel_open_or_update_work_in_the_kernel_repo
+    - if_learning_is_project_specific_keep_it_in_project_local_canon_not_the_universal_kernel
+    - kernel_sync_review_happens_after_live_verification_not_before
 
 github_issue_tree:
   parent: Epic

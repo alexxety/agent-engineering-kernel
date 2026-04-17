@@ -36,6 +36,8 @@ The bootstrapped canon should also make explicit:
 - whether the repo uses self-hosted runners
 - which workflows must stay in GitHub Actions
 - that routine development and verification should not default to paid GitHub-hosted Actions
+- that each serious slice ends with `kernel_sync_review`
+- that active PRDs and closeouts carry a `Kernel Impact` decision
 
 ## How to use the templates
 

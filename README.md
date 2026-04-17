@@ -10,6 +10,7 @@ This repository is the standalone source-of-truth for:
 - project bootstrap templates
 - a reusable Codex skill
 - repo-managed GitHub metadata and community-health baseline
+- kernel sync review for promoting proven project learnings back into the universal kernel
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -48,6 +49,14 @@ Research canon:
 - official docs for external contracts
 - known URLs fetched directly when already available
 
+Kernel sync canon:
+
+- every serious slice ends with `kernel_sync_review`
+- `kernel_impact` must be classified as `none`, `project_local_only`, or `promote_to_kernel`
+- active PRDs and serious closeouts carry an explicit `Kernel Impact` decision
+- only reusable process patterns belong in the universal kernel
+- project-specific ops details stay in the project-local canon
+
 Model-specific behavior is a thin adapter only:
 
 - tool selection
@@ -71,6 +80,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - model adapter policy
 - [references/EXECUTION_SURFACES.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/EXECUTION_SURFACES.md)
   - local-first versus GitHub Actions execution policy
+- [references/KERNEL_SYNC_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_SYNC_POLICY.md)
+  - how kernel learnings are promoted without polluting the universal core
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
   - how branch/PR/merge flow should work end-to-end
 - [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)
