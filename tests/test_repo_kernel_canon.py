@@ -24,6 +24,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BOOTSTRAP.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
+            "references/KERNEL_SYNC_POLICY.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/GITHUB_DELIVERY.md",
@@ -38,6 +39,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
+        self.assertIn("kernel_sync_policy", payload)
 
     def test_project_templates_include_minimal_core(self) -> None:
         for rel in (
@@ -115,6 +117,21 @@ class RepoKernelCanonTests(unittest.TestCase):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("local", content.lower(), rel)
             self.assertIn("GitHub Actions", content, rel)
+
+    def test_kernel_docs_and_templates_mention_kernel_sync_review(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/KERNEL_SYNC_POLICY.md",
+            "references/BOOTSTRAP.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("kernel", content.lower(), rel)
+            self.assertIn("kernel_sync_review", content, rel)
+            self.assertIn("Kernel Impact", content, rel)
 
 
 if __name__ == "__main__":

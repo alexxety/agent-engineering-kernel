@@ -26,6 +26,16 @@ This repository follows the agent engineering kernel.
 - if the repo defines a local bootstrap path, use or repair it before escalating elsewhere
 - use GitHub Actions for repository-native automation, schedules, deploys, and hosted verification that genuinely belongs there
 
+## Kernel sync canon
+
+- every serious slice ends with `kernel_sync_review`
+- record `Kernel Impact` as one of:
+  - `none`
+  - `project_local_only`
+  - `promote_to_kernel`
+- only promote reusable process patterns into the universal kernel
+- keep project-specific operational rules in this repository, not in the universal kernel
+
 ## GitHub workflow canon
 
 - non-trivial work starts from a parent GitHub issue
