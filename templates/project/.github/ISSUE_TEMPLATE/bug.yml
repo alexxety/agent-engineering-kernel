@@ -1,0 +1,42 @@
+name: Bug
+description: Confirmed bug, incident, or regression that needs root cause and regression protection.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+    validations:
+      required: true
+  - type: textarea
+    id: root_cause
+    attributes:
+      label: Root cause hypothesis
+    validations:
+      required: true
+  - type: textarea
+    id: regression
+    attributes:
+      label: Regression protection
+    validations:
+      required: true
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback and containment
+    validations:
+      required: true

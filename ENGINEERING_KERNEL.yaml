@@ -1,0 +1,148 @@
+version: 1
+name: universal-agent-engineering-kernel
+scope: multi-project
+purpose:
+  - establish one reusable engineering workflow for agent-led software development
+  - stop serious work from starting as chat-only improvisation
+  - preserve PRD-first execution and GitHub issue decomposition across repositories
+  - keep the shared process model-agnostic across GPT/Codex and Claude-style agents
+
+layers:
+  minimal_core:
+    - project_local_canon
+    - prd_first_execution
+    - research_policy
+    - github_issue_tree
+    - github_delivery_flow
+    - pr_verification_contract
+    - ownership_and_metadata
+  maximum_practical_core:
+    - protected_branch_or_ruleset_enforcement
+    - required_approvals
+    - stale_review_dismissal
+    - code_owner_review
+    - required_status_checks
+    - github_projects_and_issue_types
+    - merge_policy_enforcement
+    - automatic_head_branch_deletion
+
+project_local_canon:
+  required_files:
+    - README.md
+    - AGENTS.md
+    - CONTRIBUTING.md
+  required_sections:
+    - source_of_truth
+    - workflow_order
+    - verification_matrix
+    - rollback_rule
+  rules:
+    - prefer_project_local_canon_over_chat_memory
+    - create_local_canon_if_missing
+
+prd_first_execution:
+  order:
+    - research
+    - code_audit
+    - reconciliation
+    - documentation_first
+    - implementation
+    - verification
+  rules:
+    - non_trivial_work_must_not_start_with_code
+    - verification_defined_before_edits
+    - docs_and_prd_are_part_of_the_slice
+
+research_policy:
+  preferred_stack:
+    discovery_and_research:
+      - Tavily search
+      - Tavily research
+    known_urls_or_known_docs:
+      - fetch_or_index_the_known_url
+  rules:
+    - research_is_tavily_first
+    - use_official_vendor_docs_for_external_contracts
+    - distinguish_verified_facts_from_assumptions
+    - if_known_url_exists_fetch_it_directly_instead_of_re-searching_blindly
+    - if_primary_tool_is_unavailable_record_the_gap_and_use_the_best_documented_fallback
+
+github_issue_tree:
+  parent: Epic
+  executable_leafs:
+    - Task
+    - Bug
+  rules:
+    - non_trivial_work_starts_from_parent_issue
+    - use_sub_issues_for_multi_slice_work
+    - pr_closes_leaf_issue_only
+    - parent_epic_closes_after_acceptance_and_live_verification
+
+github_delivery_flow:
+  preferred_sequence:
+    - create_or_update_prd
+    - open_parent_issue_if_needed
+    - create_leaf_issue
+    - create_branch_from_leaf_issue
+    - implement_in_small_slice
+    - open_or_update_draft_pr
+    - run_verification
+    - mark_pr_ready
+    - squash_merge
+    - delete_head_branch
+  rules:
+    - use_draft_pr_while_scope_or_verification_is_still_moving
+    - keep_pr_description_aligned_with_real_scope_and_verification
+    - merge_only_after_required_checks_and_reviews_are_satisfied
+    - prefer_squash_merge_for_single_slice_history_unless_project_canon_overrides_it
+
+pr_verification_contract:
+  required_fields:
+    - linked_leaf_issue
+    - parent_context
+    - scope
+    - verification
+    - rollback_path
+  minimum_checks:
+    - code_path_tests
+    - build_or_runtime_checks
+    - source_of_truth_or_sync_checks
+    - live_checks_when_runtime_or_state_is_touched
+
+ownership_and_metadata:
+  required_files:
+    - CODEOWNERS
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/epic.yml
+    - .github/ISSUE_TEMPLATE/task.yml
+    - .github/ISSUE_TEMPLATE/bug.yml
+    - .github/pull_request_template.md
+    - .github/labels.yml
+  rules:
+    - labels_are_source_of_truth_not_ui_drift
+    - ownership_should_exist_even_before_platform_enforcement
+
+model_adapter_policy:
+  shared_core_must_match:
+    - prd_first_execution
+    - github_issue_tree
+    - verification_contract
+    - documentation_discipline
+    - final_reporting_discipline
+  adapter_scope_only:
+    - tool_selection
+    - shell_or_editor_constraints
+    - verbosity
+    - planning_mechanics
+    - platform_specific_skills_plugins_or_commands
+  primary_target: GPT-5.4/Codex
+  secondary_target: Claude Code
+  hard_rule:
+    - do_not_fork_the_engineering_process_by_model
+
+bootstrap:
+  when_new_repo_starts:
+    - inspect_repo_reality
+    - install_minimal_core
+    - record_plan_gated_maximum_layer_separately
+    - leave_durable_project_docs_not_chat_memory

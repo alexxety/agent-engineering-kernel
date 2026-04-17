@@ -1,0 +1,6 @@
+# Replace @owner with the real default maintainer or team for the project.
+* @owner
+
+.github/ @owner
+scripts/ @owner
+docs/ @owner

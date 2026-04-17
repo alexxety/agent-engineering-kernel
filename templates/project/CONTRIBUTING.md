@@ -1,0 +1,42 @@
+# Contributing
+
+This repository uses a PRD-first and issue-first engineering workflow.
+
+## Research policy
+
+- Tavily first
+- official docs for external contracts
+- known URLs should be fetched/indexed directly when available
+- verified facts must be separated from assumptions
+
+## Start from the correct issue
+
+Use:
+
+- `Epic` for the parent work envelope
+- `Task` for one executable leaf slice
+- `Bug` for a confirmed regression or incident
+
+If the work spans multiple slices, decompose it into GitHub sub-issues.
+
+## PR rule
+
+- one PR should normally close one leaf issue
+- parent epic stays open until acceptance and required live verification are complete
+- use draft PR while scope or verification is still moving
+- prefer squash merge unless project canon says otherwise
+
+## Minimum PR contents
+
+- linked leaf issue
+- parent context
+- write scope
+- verification
+- rollback path
+
+## Repo-managed metadata
+
+- `CODEOWNERS`
+- issue templates
+- PR template
+- labels source-of-truth

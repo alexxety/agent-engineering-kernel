@@ -1,0 +1,51 @@
+name: Epic
+description: Large engineering slice that will be decomposed into sub-issues.
+title: "[Epic] "
+labels:
+  - epic
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is broken, missing, or changing?
+    validations:
+      required: true
+  - type: textarea
+    id: current_state
+    attributes:
+      label: Current state
+      description: Verified facts only.
+    validations:
+      required: true
+  - type: textarea
+    id: target_state
+    attributes:
+      label: Target state
+    validations:
+      required: true
+  - type: textarea
+    id: write_scope
+    attributes:
+      label: Expected write scope
+    validations:
+      required: true
+  - type: input
+    id: prd
+    attributes:
+      label: Active PRD or decision doc
+      placeholder: docs/path.md or URL
+    validations:
+      required: true
+  - type: textarea
+    id: decomposition
+    attributes:
+      label: Planned sub-issues
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification and rollback
+    validations:
+      required: true

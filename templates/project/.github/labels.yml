@@ -1,0 +1,19 @@
+labels:
+  - name: epic
+    color: "5319e7"
+    description: Parent issue for a non-trivial engineering initiative
+  - name: task
+    color: "0e8a16"
+    description: Executable leaf slice under a parent epic
+  - name: bug
+    color: "d73a4a"
+    description: Something isn't working
+  - name: documentation
+    color: "0075ca"
+    description: Improvements or additions to documentation
+  - name: enhancement
+    color: "a2eeef"
+    description: New feature or request
+  - name: question
+    color: "d876e3"
+    description: Further information is requested
