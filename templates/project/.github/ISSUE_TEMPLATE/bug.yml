@@ -4,6 +4,21 @@ title: "[Bug] "
 labels:
   - bug
 body:
+  - type: input
+    id: fingerprint
+    attributes:
+      label: Stable fingerprint
+      description: Canonical bug-class key, e.g. yotubol:notebooklm_auth_expired
+      placeholder: service:bug_class
+    validations:
+      required: true
+  - type: input
+    id: source_surface
+    attributes:
+      label: Source surface
+      description: Verifier, watchdog, readiness gate, or other normalized intake source
+    validations:
+      required: true
   - type: textarea
     id: observed
     attributes:
@@ -17,9 +32,21 @@ body:
     validations:
       required: true
   - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+    validations:
+      required: true
+  - type: textarea
     id: evidence
     attributes:
       label: Evidence
+    validations:
+      required: true
+  - type: textarea
+    id: occurrences
+    attributes:
+      label: First seen / last seen / occurrence count
     validations:
       required: true
   - type: textarea

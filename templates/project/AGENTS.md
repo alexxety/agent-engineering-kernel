@@ -28,6 +28,14 @@ This repository follows the agent engineering kernel.
 - use sub-issues for multi-slice work
 - PR closes the leaf issue only, not the parent epic
 
+## Automatic bug intake canon
+
+- canonical bug intake comes from verifier, watchdog, or other normalized runtime gates
+- do not create GitHub bug issues directly from raw logs or Telegram alerts
+- use one stable fingerprint per bug class
+- update the existing open bug issue when the fingerprint matches
+- only create a new bug issue when there is no open match for that fingerprint
+
 ## GitHub delivery flow
 
 1. create or update PRD

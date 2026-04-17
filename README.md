@@ -26,7 +26,15 @@ Shared core:
 - implementation
 - verification
 - GitHub `Epic / Task / Bug` hierarchy
+- automatic deduplicated `Bug` intake from verifier/watchdog/runtime gates
 - PR closes leaf issue only
+
+Bug-intake canon:
+
+- runtime bugs come from canonical surfaces, not raw logs or Telegram alerts
+- one stable fingerprint maps to one durable GitHub `Bug` issue
+- repeated incidents update the open bug issue for that fingerprint instead of
+  creating duplicates
 
 Research canon:
 
@@ -55,6 +63,10 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how to materialize the kernel into a project
 - [references/MODEL_ADAPTERS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/MODEL_ADAPTERS.md)
   - model adapter policy
+- [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
+  - how branch/PR/merge flow should work end-to-end
+- [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)
+  - how runtime incidents become deduplicated GitHub `Bug` issues
 - [templates/project](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project)
   - reusable project-local files
 - [scripts/bootstrap_project_kernel.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/bootstrap_project_kernel.py)

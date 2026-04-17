@@ -22,6 +22,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "agents/openai.yaml",
             "scripts/sync_github_labels.py",
             "references/BOOTSTRAP.md",
+            "references/BUG_INTAKE.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/GITHUB_DELIVERY.md",
@@ -34,6 +35,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("model_adapter_policy", payload)
         self.assertIn("research_policy", payload)
         self.assertIn("github_delivery_flow", payload)
+        self.assertIn("automatic_bug_intake", payload)
 
     def test_project_templates_include_minimal_core(self) -> None:
         for rel in (
@@ -78,6 +80,19 @@ class RepoKernelCanonTests(unittest.TestCase):
         ):
             payload = yaml.safe_load((ROOT / rel).read_text(encoding="utf-8"))
             self.assertIsNotNone(payload, rel)
+
+    def test_kernel_docs_and_templates_mention_bug_intake_canon(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/BUG_INTAKE.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("fingerprint", content, rel)
+            self.assertIn("raw logs", content, rel)
 
 
 if __name__ == "__main__":

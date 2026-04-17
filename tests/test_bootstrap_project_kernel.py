@@ -53,6 +53,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertTrue((target / "SECURITY.md").exists())
             self.assertTrue((target / ".github" / "labels.yml").exists())
             self.assertTrue((target / "scripts" / "sync_github_labels.py").exists())
+            self.assertIn("fingerprint", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("raw logs", (target / "AGENTS.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

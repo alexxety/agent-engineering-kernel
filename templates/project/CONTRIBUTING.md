@@ -19,6 +19,14 @@ Use:
 
 If the work spans multiple slices, decompose it into GitHub sub-issues.
 
+## Automatic bug intake
+
+- runtime and pipeline bugs should come from verifier/watchdog/readiness-gate evidence
+- do not create bug issues directly from raw logs or chat alerts
+- use one stable fingerprint per bug class
+- reopen or update the existing bug issue when the fingerprint matches
+- create a new bug issue only when no open issue already tracks that fingerprint
+
 ## PR rule
 
 - one PR should normally close one leaf issue

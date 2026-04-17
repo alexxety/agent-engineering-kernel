@@ -10,6 +10,7 @@ This repository follows the agent engineering kernel.
   - `Epic`
   - `Task`
   - `Bug`
+- runtime bugs come from verifier/watchdog/runtime-gate fingerprints, not raw logs or chat alerts
 - PR closes the leaf issue only
 
 ## Canon files

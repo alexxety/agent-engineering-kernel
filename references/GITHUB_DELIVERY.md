@@ -22,6 +22,8 @@ Use this when the user wants the full branch / PR / merge discipline, not just i
 - keep the PR description aligned with the real scope and verification
 - use draft PR while the scope or verification is still moving
 - prefer squash merge unless the project canon explicitly chooses another method
+- automatic bug intake opens or updates the `Bug` issue before the fix slice starts
+- repeated incidents should update the existing bug issue for the same fingerprint instead of spawning duplicates
 
 ## Why this matters
 

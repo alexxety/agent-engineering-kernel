@@ -13,6 +13,7 @@ layers:
     - prd_first_execution
     - research_policy
     - github_issue_tree
+    - automatic_bug_intake
     - github_delivery_flow
     - pr_verification_contract
     - ownership_and_metadata
@@ -80,6 +81,22 @@ github_issue_tree:
     - pr_closes_leaf_issue_only
     - parent_epic_closes_after_acceptance_and_live_verification
 
+automatic_bug_intake:
+  canonical_sources:
+    - verifier
+    - watchdog
+    - readiness_gates
+    - normalized_runtime_incident_surfaces
+  rules:
+    - do_not_create_bug_issues_directly_from_raw_logs
+    - do_not_create_bug_issues_directly_from_chat_or_telegram_alerts
+    - one_bug_class_maps_to_one_stable_fingerprint
+    - update_existing_open_bug_issue_when_fingerprint_matches
+    - create_new_bug_issue_only_when_no_open_match_exists
+    - require_threshold_or_confirmed_terminal_state_before_bug_creation
+    - issue_body_must_include_fingerprint_surface_impact_and_evidence
+    - close_bug_issue_only_after_recovery_is_verified_by_the_same_canonical_surface
+
 github_delivery_flow:
   preferred_sequence:
     - create_or_update_prd
@@ -97,6 +114,7 @@ github_delivery_flow:
     - keep_pr_description_aligned_with_real_scope_and_verification
     - merge_only_after_required_checks_and_reviews_are_satisfied
     - prefer_squash_merge_for_single_slice_history_unless_project_canon_overrides_it
+    - auto_bug_intake_should_open_or_update_the_bug_issue_before_fix_delivery_begins
 
 pr_verification_contract:
   required_fields:
@@ -125,6 +143,7 @@ ownership_and_metadata:
     - labels_are_source_of_truth_not_ui_drift
     - ownership_should_exist_even_before_platform_enforcement
     - bootstrap_should_materialize_repo_managed_metadata_not_retype_it
+    - bug_issue_forms_should_capture_fingerprint_and_runtime_evidence
 
 community_health:
   required_files:

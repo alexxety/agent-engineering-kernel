@@ -12,6 +12,13 @@ Read [references/BOOTSTRAP.md](references/BOOTSTRAP.md) when you need to materia
 Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user asks how the kernel should map across GPT/Codex and Claude-style agents.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the user asks how branch/PR/merge flow should work end-to-end.
+Read [references/BUG_INTAKE.md](references/BUG_INTAKE.md) when the user asks how runtime failures should become GitHub `Bug` issues without noisy duplication.
+
+The bug-intake rule is explicit:
+
+- do not create bug issues from raw logs or chat alerts
+- use one stable fingerprint per bug class
+- update the existing open bug issue when the fingerprint matches
 
 ## Use this skill for
 
@@ -19,6 +26,7 @@ Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the use
 - bootstrapping a new repository so agents stop depending on chat memory
 - establishing PRD-first execution
 - establishing GitHub `Epic / Task / Bug` workflow
+- establishing automatic deduplicated GitHub bug intake
 - establishing Tavily-first research behavior
 - establishing branch / draft PR / merge discipline
 - creating project-local canon files and templates
@@ -73,5 +81,6 @@ Prefer a small durable set of outputs:
 - `SECURITY.md`
 - `CODEOWNERS`
 - active PRD / decision record
+- explicit bug-intake policy for verifier/watchdog/runtime incidents
 
 Use the templates in [templates/project](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project) when bootstrapping a repo.
