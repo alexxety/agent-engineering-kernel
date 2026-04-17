@@ -75,6 +75,16 @@ Automatic or semi-automatic bug issues should include:
 - current evidence
 - containment / rollback status
 
+## Target repository rule
+
+Automatic bug intake belongs in the repository that owns the runtime or workflow
+being observed.
+
+That means:
+
+- project/runtime incidents land in the target project repo
+- the kernel repo stores the canon, not the target project's live bug backlog
+
 ## Fix flow
 
 - create or update the `Bug` intake issue

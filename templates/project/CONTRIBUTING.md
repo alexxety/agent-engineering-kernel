@@ -9,6 +9,13 @@ This repository uses a PRD-first and issue-first engineering workflow.
 - known URLs should be fetched/indexed directly when available
 - verified facts must be separated from assumptions
 
+## Execution surface policy
+
+- use the local machine first for ordinary development, debugging, research, and verification
+- if the repository already has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
+- check or bootstrap local prerequisites before assuming CI is the right place to run the work
+- keep GitHub Actions for repository-native automation, schedules, deploys, and hosted checks that genuinely need the platform
+
 ## Start from the correct issue
 
 Use:

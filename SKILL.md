@@ -11,6 +11,7 @@ Read [ENGINEERING_KERNEL.yaml](ENGINEERING_KERNEL.yaml) for the machine-readable
 Read [references/BOOTSTRAP.md](references/BOOTSTRAP.md) when you need to materialize the kernel into a project.
 Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user asks how the kernel should map across GPT/Codex and Claude-style agents.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
+Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the user asks how branch/PR/merge flow should work end-to-end.
 Read [references/BUG_INTAKE.md](references/BUG_INTAKE.md) when the user asks how runtime failures should become GitHub `Bug` issues without noisy duplication.
 
@@ -28,6 +29,7 @@ The bug-intake rule is explicit:
 - establishing GitHub `Epic / Task / Bug` workflow
 - establishing automatic deduplicated GitHub bug intake
 - establishing Tavily-first research behavior
+- establishing local-first execution and prerequisite bootstrap
 - establishing branch / draft PR / merge discipline
 - creating project-local canon files and templates
 - creating repo-managed GitHub metadata and community-health files
@@ -52,6 +54,7 @@ The bug-intake rule is explicit:
 - project canon
 - PRD-first execution
 - issue tree
+- local-first execution surface
 - PR verification contract
 - ownership and labels
 - research policy

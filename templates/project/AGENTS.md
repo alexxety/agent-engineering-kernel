@@ -18,6 +18,14 @@ This repository follows the agent engineering kernel.
 - if a known URL already exists, fetch/index it directly instead of re-running broad search
 - distinguish verified facts from assumptions
 
+## Execution surface canon
+
+- prefer the local operator machine first for ordinary development, debugging, research, and verification
+- if the project already has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
+- check local prerequisites before work starts
+- if the repo defines a local bootstrap path, use or repair it before escalating elsewhere
+- use GitHub Actions for repository-native automation, schedules, deploys, and hosted verification that genuinely belongs there
+
 ## GitHub workflow canon
 
 - non-trivial work starts from a parent GitHub issue
