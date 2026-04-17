@@ -15,10 +15,13 @@ This repository follows the agent engineering kernel.
 ## Canon files
 
 - `README.md`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
 - `AGENTS.md`
 - `CONTRIBUTING.md`
 - `.github/ISSUE_TEMPLATE/*`
 - `.github/pull_request_template.md`
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
+- `scripts/sync_github_labels.py`
 - active PRD in `docs/`

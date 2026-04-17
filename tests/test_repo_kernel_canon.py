@@ -13,11 +13,14 @@ class RepoKernelCanonTests(unittest.TestCase):
     def test_repo_has_expected_top_level_health_files(self) -> None:
         for rel in (
             "README.md",
+            "CONTRIBUTING.md",
             "LICENSE",
             "CODE_OF_CONDUCT.md",
             "SECURITY.md",
             "SKILL.md",
             "ENGINEERING_KERNEL.yaml",
+            "agents/openai.yaml",
+            "scripts/sync_github_labels.py",
             "references/BOOTSTRAP.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
@@ -37,15 +40,36 @@ class RepoKernelCanonTests(unittest.TestCase):
             "templates/project/AGENTS.md",
             "templates/project/README.md",
             "templates/project/CONTRIBUTING.md",
+            "templates/project/CODE_OF_CONDUCT.md",
+            "templates/project/SECURITY.md",
             "templates/project/.github/CODEOWNERS",
             "templates/project/.github/labels.yml",
             "templates/project/.github/pull_request_template.md",
+            "templates/project/scripts/sync_github_labels.py",
             "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            self.assertTrue((ROOT / rel).exists(), rel)
+
+    def test_root_repo_github_health_files_exist(self) -> None:
+        for rel in (
+            ".github/CODEOWNERS",
+            ".github/labels.yml",
+            ".github/ISSUE_TEMPLATE/config.yml",
+            ".github/ISSUE_TEMPLATE/epic.yml",
+            ".github/ISSUE_TEMPLATE/task.yml",
+            ".github/ISSUE_TEMPLATE/bug.yml",
+            ".github/pull_request_template.md",
         ):
             self.assertTrue((ROOT / rel).exists(), rel)
 
     def test_issue_and_label_templates_parse(self) -> None:
         for rel in (
+            "agents/openai.yaml",
+            ".github/labels.yml",
+            ".github/ISSUE_TEMPLATE/config.yml",
+            ".github/ISSUE_TEMPLATE/epic.yml",
+            ".github/ISSUE_TEMPLATE/task.yml",
+            ".github/ISSUE_TEMPLATE/bug.yml",
             "templates/project/.github/labels.yml",
             "templates/project/.github/ISSUE_TEMPLATE/config.yml",
             "templates/project/.github/ISSUE_TEMPLATE/epic.yml",

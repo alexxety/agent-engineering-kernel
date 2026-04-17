@@ -22,6 +22,7 @@ Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the use
 - establishing Tavily-first research behavior
 - establishing branch / draft PR / merge discipline
 - creating project-local canon files and templates
+- creating repo-managed GitHub metadata and community-health files
 - auditing an existing repo against the kernel and closing the gaps
 
 ## Do not use this skill for
@@ -67,6 +68,9 @@ Prefer a small durable set of outputs:
 - issue templates
 - PR template
 - labels source-of-truth
+- `scripts/sync_github_labels.py`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
 - `CODEOWNERS`
 - active PRD / decision record
 

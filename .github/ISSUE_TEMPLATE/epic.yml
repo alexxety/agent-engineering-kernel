@@ -1,0 +1,24 @@
+name: Epic
+description: Large kernel change that will be decomposed into sub-issues.
+title: "[Epic] "
+labels:
+  - epic
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: target_state
+    attributes:
+      label: Target state
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification and rollback
+    validations:
+      required: true

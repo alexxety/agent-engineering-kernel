@@ -1,0 +1,24 @@
+name: Bug
+description: Confirmed regression or incident in the kernel.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+    validations:
+      required: true
+  - type: textarea
+    id: regression
+    attributes:
+      label: Regression protection
+    validations:
+      required: true

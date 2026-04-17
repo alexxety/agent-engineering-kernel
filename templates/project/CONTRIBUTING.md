@@ -40,3 +40,6 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - issue templates
 - PR template
 - labels source-of-truth
+- `scripts/sync_github_labels.py`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`

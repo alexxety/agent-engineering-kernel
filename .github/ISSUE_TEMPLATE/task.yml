@@ -1,0 +1,25 @@
+name: Task
+description: Narrow executable slice under a parent epic.
+title: "[Task] "
+labels:
+  - task
+body:
+  - type: input
+    id: parent
+    attributes:
+      label: Parent issue
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+    validations:
+      required: true

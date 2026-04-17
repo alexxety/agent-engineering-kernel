@@ -31,6 +31,8 @@ project_local_canon:
     - README.md
     - AGENTS.md
     - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - SECURITY.md
   required_sections:
     - source_of_truth
     - workflow_order
@@ -118,9 +120,22 @@ ownership_and_metadata:
     - .github/ISSUE_TEMPLATE/bug.yml
     - .github/pull_request_template.md
     - .github/labels.yml
+    - scripts/sync_github_labels.py
   rules:
     - labels_are_source_of_truth_not_ui_drift
     - ownership_should_exist_even_before_platform_enforcement
+    - bootstrap_should_materialize_repo_managed_metadata_not_retype_it
+
+community_health:
+  required_files:
+    - CODE_OF_CONDUCT.md
+    - SECURITY.md
+  recommended_files:
+    - LICENSE
+  rules:
+    - kernel_repo_itself_should_follow_the_same_health_baseline
+    - project_templates_should_ship_with_code_of_conduct_and_security_policy
+    - license_selection_may_remain_project_specific
 
 model_adapter_policy:
   shared_core_must_match:
@@ -146,3 +161,4 @@ bootstrap:
     - install_minimal_core
     - record_plan_gated_maximum_layer_separately
     - leave_durable_project_docs_not_chat_memory
+    - use_templates_and_sync_scripts_instead_of_recreating_github_metadata_manually

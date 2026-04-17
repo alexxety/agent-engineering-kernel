@@ -54,8 +54,11 @@ This repository follows the agent engineering kernel.
 - `README.md`
 - `AGENTS.md`
 - `CONTRIBUTING.md`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
 - `.github/ISSUE_TEMPLATE/*`
 - `.github/pull_request_template.md`
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
+- `scripts/sync_github_labels.py`
 - active PRD / decision doc in `docs/`

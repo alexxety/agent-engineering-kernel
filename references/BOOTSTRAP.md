@@ -16,6 +16,8 @@ Write or update:
 - `README.md`
 - `AGENTS.md`
 - `CONTRIBUTING.md`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
 - `.github/ISSUE_TEMPLATE/config.yml`
 - `.github/ISSUE_TEMPLATE/epic.yml`
 - `.github/ISSUE_TEMPLATE/task.yml`
@@ -23,6 +25,7 @@ Write or update:
 - `.github/pull_request_template.md`
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
+- `scripts/sync_github_labels.py`
 - one active PRD / decision doc
 
 ## How to use the templates
@@ -33,7 +36,16 @@ Use the bootstrap script for deterministic materialization:
 python3 scripts/bootstrap_project_kernel.py --target /absolute/path/to/repo --apply
 ```
 
+After bootstrap, sync labels from file instead of hand-editing them in the GitHub UI:
+
+```bash
+python3 scripts/sync_github_labels.py --dry-run
+python3 scripts/sync_github_labels.py --apply
+```
+
 Do not blindly overwrite stronger project-local canon unless the task is an intentional migration.
+
+If the target repository needs a license, choose it intentionally for that project instead of copying a random default.
 
 ## What to tell the user
 

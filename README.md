@@ -9,6 +9,7 @@ This repository is the standalone source-of-truth for:
 - PR verification discipline
 - project bootstrap templates
 - a reusable Codex skill
+- repo-managed GitHub metadata and community-health baseline
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -46,6 +47,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
 
 - [SKILL.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/SKILL.md)
   - reusable skill entrypoint for agents
+- [agents/openai.yaml](/Users/raketa23/Work/Vs/agent-engineering-kernel/agents/openai.yaml)
+  - skill metadata for Codex UI surfaces
 - [ENGINEERING_KERNEL.yaml](/Users/raketa23/Work/Vs/agent-engineering-kernel/ENGINEERING_KERNEL.yaml)
   - machine-readable kernel
 - [references/BOOTSTRAP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BOOTSTRAP.md)
@@ -56,6 +59,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - reusable project-local files
 - [scripts/bootstrap_project_kernel.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/bootstrap_project_kernel.py)
   - deterministic template copier
+- [scripts/sync_github_labels.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/sync_github_labels.py)
+  - repo-managed label sync for the kernel repo itself
 - [docs/agent-engineering-kernel-prd-2026-04-17.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/agent-engineering-kernel-prd-2026-04-17.md)
   - decision record for this repository
 
@@ -77,6 +82,13 @@ Force overwrite existing files:
 
 ```bash
 python3 scripts/bootstrap_project_kernel.py --target /absolute/path/to/repo --apply --force
+```
+
+Sync the kernel repo labels from file to GitHub:
+
+```bash
+python3 scripts/sync_github_labels.py --dry-run
+python3 scripts/sync_github_labels.py --apply
 ```
 
 ## Validate this repository
@@ -104,3 +116,7 @@ This repository also carries the minimum GitHub community-health layer for the k
 - [LICENSE](/Users/raketa23/Work/Vs/agent-engineering-kernel/LICENSE)
 - [CODE_OF_CONDUCT.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/CODE_OF_CONDUCT.md)
 - [SECURITY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/SECURITY.md)
+- [.github/labels.yml](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/labels.yml)
+- [.github/CODEOWNERS](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/CODEOWNERS)
+- [.github/ISSUE_TEMPLATE](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/ISSUE_TEMPLATE)
+- [.github/pull_request_template.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/pull_request_template.md)

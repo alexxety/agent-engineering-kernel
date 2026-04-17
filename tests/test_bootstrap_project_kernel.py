@@ -23,8 +23,11 @@ class BootstrapProjectKernelTests(unittest.TestCase):
         module = load_module()
         files = {str(path.relative_to(module.TEMPLATES_ROOT)) for path in module.iter_template_files()}
         self.assertIn("AGENTS.md", files)
+        self.assertIn("CODE_OF_CONDUCT.md", files)
+        self.assertIn("SECURITY.md", files)
         self.assertIn(".github/ISSUE_TEMPLATE/epic.yml", files)
         self.assertIn(".github/pull_request_template.md", files)
+        self.assertIn("scripts/sync_github_labels.py", files)
         self.assertIn("docs/PRD_TEMPLATE.md", files)
 
     def test_copy_templates_dry_run_skips_existing_without_force(self) -> None:
@@ -46,7 +49,10 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertFalse(skipped)
             self.assertIn("README.md", created)
             self.assertTrue((target / "README.md").exists())
+            self.assertTrue((target / "CODE_OF_CONDUCT.md").exists())
+            self.assertTrue((target / "SECURITY.md").exists())
             self.assertTrue((target / ".github" / "labels.yml").exists())
+            self.assertTrue((target / "scripts" / "sync_github_labels.py").exists())
 
 
 if __name__ == "__main__":
