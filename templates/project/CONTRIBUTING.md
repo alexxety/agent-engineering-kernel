@@ -57,6 +57,12 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - use `--body-file` for issue and PR bodies
 - if needed, create the body file with a single-quoted heredoc such as `<<'EOF'`
 
+## GitHub Projects
+
+- GitHub Projects are optional, not a default requirement
+- add them only when issue-first execution no longer gives enough shared planning surface
+- typical thresholds are shared custom fields, iteration/roadmap views, or cross-repo engineering planning
+
 ## Minimum PR contents
 
 - linked leaf issue

@@ -130,6 +130,18 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("--body-file", content, rel)
             self.assertIn("heredoc", content, rel)
 
+    def test_kernel_docs_and_templates_mention_optional_github_projects(self) -> None:
+        for rel in (
+            "README.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("GitHub Projects", content, rel)
+            self.assertIn("optional", content.lower(), rel)
+
     def test_kernel_docs_and_templates_mention_kernel_sync_review(self) -> None:
         for rel in (
             "README.md",
