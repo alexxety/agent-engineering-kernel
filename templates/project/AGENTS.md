@@ -45,6 +45,8 @@ This repository follows the agent engineering kernel.
   - `Bug`
 - use sub-issues for multi-slice work
 - PR closes the leaf issue only, not the parent epic
+- when invoking `gh issue create`, `gh issue edit`, or `gh pr create` from shell, use `--body-file` instead of inline double-quoted `--body`
+- if a file is inconvenient, write it first with a single-quoted heredoc such as `<<'EOF'`
 
 ## Automatic bug intake canon
 

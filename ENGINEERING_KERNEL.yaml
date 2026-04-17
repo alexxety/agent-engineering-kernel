@@ -150,6 +150,9 @@ github_delivery_flow:
     - merge_only_after_required_checks_and_reviews_are_satisfied
     - prefer_squash_merge_for_single_slice_history_unless_project_canon_overrides_it
     - auto_bug_intake_should_open_or_update_the_bug_issue_before_fix_delivery_begins
+    - when_using_gh_issue_or_pr_commands_from_shell_prefer_body_file_over_inline_body
+    - never_embed_markdown_with_backticks_in_inline_double_quoted_gh_body_arguments
+    - single_quoted_heredoc_is_an_acceptable_fallback_only_when_it_writes_the_body_file_first
 
 pr_verification_contract:
   required_fields:

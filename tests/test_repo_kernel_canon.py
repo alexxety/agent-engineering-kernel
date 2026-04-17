@@ -118,6 +118,18 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("local", content.lower(), rel)
             self.assertIn("GitHub Actions", content, rel)
 
+    def test_kernel_docs_and_templates_mention_shell_safe_gh_delivery(self) -> None:
+        for rel in (
+            "README.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("--body-file", content, rel)
+            self.assertIn("heredoc", content, rel)
+
     def test_kernel_docs_and_templates_mention_kernel_sync_review(self) -> None:
         for rel in (
             "README.md",

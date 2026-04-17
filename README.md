@@ -35,6 +35,7 @@ Shared core:
 - GitHub `Epic / Task / Bug` hierarchy
 - automatic deduplicated `Bug` intake from verifier/watchdog/runtime gates
 - PR closes leaf issue only
+- shell-safe GitHub CLI delivery through `--body-file` or a single-quoted heredoc-generated body file instead of inline markdown bodies
 
 Bug-intake canon:
 

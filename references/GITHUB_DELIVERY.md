@@ -30,7 +30,12 @@ Execution-surface rule:
 - prefer squash merge unless the project canon explicitly chooses another method
 - automatic bug intake opens or updates the `Bug` issue before the fix slice starts
 - repeated incidents should update the existing bug issue for the same fingerprint instead of spawning duplicates
+- when using `gh issue create`, `gh issue edit`, or `gh pr create` from shell, prefer `--body-file` over inline `--body`
+- never embed markdown with backticks or fenced code blocks in inline double-quoted `gh --body` arguments
+- acceptable fallback is a single-quoted heredoc such as `<<'EOF'` that writes the body file first
 
 ## Why this matters
 
 The branch/PR layer is part of the engineering kernel, not a separate afterthought. It prevents code from landing without an issue tree, verification, and an auditable review surface.
+
+It also has to survive the shell. Inline markdown bodies are fragile in `zsh` because backticks trigger command substitution. `--body-file` keeps GitHub delivery deterministic and prevents the shell from executing or corrupting issue/PR body content.

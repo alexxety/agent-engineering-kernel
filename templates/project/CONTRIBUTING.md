@@ -51,6 +51,12 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - use draft PR while scope or verification is still moving
 - prefer squash merge unless project canon says otherwise
 
+## GitHub CLI shell-safety
+
+- do not pass markdown through inline double-quoted `gh ... --body`
+- use `--body-file` for issue and PR bodies
+- if needed, create the body file with a single-quoted heredoc such as `<<'EOF'`
+
 ## Minimum PR contents
 
 - linked leaf issue

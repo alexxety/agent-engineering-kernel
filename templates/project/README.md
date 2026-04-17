@@ -15,6 +15,7 @@ This repository follows the agent engineering kernel.
 - if the project has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
 - PR closes the leaf issue only
+- `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
 
 ## Canon files
 
