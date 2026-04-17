@@ -13,6 +13,12 @@ This repository is the standalone source-of-truth for:
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
+Execution-surface canon:
+
+- ordinary engineering work should default to the local operator machine first
+- self-hosted runners are preferred over paid GitHub-hosted Actions when the repository already has them
+- GitHub Actions remain for repo-native automation, schedules, deploys, and hosted checks that actually belong there
+
 ## Core idea
 
 Use one shared engineering process across agent families.
@@ -63,6 +69,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how to materialize the kernel into a project
 - [references/MODEL_ADAPTERS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/MODEL_ADAPTERS.md)
   - model adapter policy
+- [references/EXECUTION_SURFACES.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/EXECUTION_SURFACES.md)
+  - local-first versus GitHub Actions execution policy
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
   - how branch/PR/merge flow should work end-to-end
 - [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)

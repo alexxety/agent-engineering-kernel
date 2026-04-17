@@ -2,6 +2,12 @@
 
 Use this when the user wants the full branch / PR / merge discipline, not just issue templates.
 
+Execution-surface rule:
+
+- GitHub delivery flow does not mean GitHub-hosted Actions are the default place to do ordinary engineering work
+- local operator execution or self-hosted runners stay primary for normal dev/test/bootstrap work
+- GitHub Actions are for repository-native automation, scheduled/event jobs, deploys, and hosted verification that must live in the platform
+
 ## Canonical sequence
 
 1. Create or update the PRD

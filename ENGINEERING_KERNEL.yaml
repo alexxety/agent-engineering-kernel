@@ -12,6 +12,7 @@ layers:
     - project_local_canon
     - prd_first_execution
     - research_policy
+    - execution_surface_policy
     - github_issue_tree
     - automatic_bug_intake
     - github_delivery_flow
@@ -69,6 +70,23 @@ research_policy:
     - distinguish_verified_facts_from_assumptions
     - if_known_url_exists_fetch_it_directly_instead_of_re-searching_blindly
     - if_primary_tool_is_unavailable_record_the_gap_and_use_the_best_documented_fallback
+
+execution_surface_policy:
+  default_surface:
+    - local_operator_machine
+    - self_hosted_runner_when_project_already_has_one
+  github_actions_are_for:
+    - repository_native_automation
+    - scheduled_workflows
+    - deploy_pipelines
+    - hosted_verification_that_requires_repository_runtime
+    - event_driven_jobs_that_should_run_without_an_operator_terminal
+  rules:
+    - do_not_default_to_paid_github_hosted_actions_for_ordinary_development_work
+    - if_work_can_run_locally_prefer_local_execution_first
+    - detect_local_prerequisites_before_work_starts
+    - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
+    - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
 
 github_issue_tree:
   parent: Epic

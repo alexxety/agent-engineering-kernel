@@ -8,6 +8,7 @@ Use this file when applying the kernel to a new repository.
 2. Decide whether the project already has stronger local rules.
 3. Install the minimal core first.
 4. Document the maximum GitHub layer separately if settings or plan limits block enforcement.
+5. Record the canonical execution surface and local bootstrap path before normal work begins.
 
 ## Minimal bootstrap outputs
 
@@ -27,6 +28,14 @@ Write or update:
 - `.github/labels.yml`
 - `scripts/sync_github_labels.py`
 - one active PRD / decision doc
+
+The bootstrapped canon should also make explicit:
+
+- canonical local bootstrap command
+- canonical local verifier/test commands
+- whether the repo uses self-hosted runners
+- which workflows must stay in GitHub Actions
+- that routine development and verification should not default to paid GitHub-hosted Actions
 
 ## How to use the templates
 
