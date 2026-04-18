@@ -30,6 +30,7 @@ Execution-surface rule:
 - prefer squash merge unless the project canon explicitly chooses another method
 - automatic bug intake opens or updates the `Bug` issue before the fix slice starts
 - repeated incidents should update the existing bug issue for the same fingerprint instead of spawning duplicates
+- if `kernel_upstream_check` reports `update_available`, open or update a project-local `Task` unless the active slice explicitly documents a deferral
 - when using `gh issue create`, `gh issue edit`, or `gh pr create` from shell, prefer `--body-file` over inline `--body`
 - never embed markdown with backticks or fenced code blocks in inline double-quoted `gh --body` arguments
 - acceptable fallback is a single-quoted heredoc such as `<<'EOF'` that writes the body file first

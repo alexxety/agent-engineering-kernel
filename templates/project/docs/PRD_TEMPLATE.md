@@ -20,6 +20,14 @@ What should be true after the change.
 
 Files, workflows, services, or systems expected to change.
 
+## Kernel Upstream Check
+
+Record near slice start.
+
+- protocol: `kernel_upstream_check`
+- status: `current | update_available | not_configured | unknown`
+- action: `none | task_opened_or_updated | explicitly_deferred`
+
 ## Rollout
 
 Phased plan with validation and rollback.

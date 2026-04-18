@@ -39,6 +39,10 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 
 ## Kernel sync review
 
+- every serious slice should begin with `kernel_upstream_check`
+- consumer kernel metadata lives in `.kernel/upstream.json`
+- if upstream kernel drift exists, open or update a project-local `Task` or explicitly defer it in the active PRD/closeout
+- do not auto-apply kernel changes blindly into the project
 - every serious slice must end with `kernel_sync_review`
 - record `Kernel Impact` as:
   - `none`

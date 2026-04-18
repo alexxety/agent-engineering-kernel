@@ -28,6 +28,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
         self.assertIn(".github/ISSUE_TEMPLATE/epic.yml", files)
         self.assertIn(".github/pull_request_template.md", files)
         self.assertIn("scripts/sync_github_labels.py", files)
+        self.assertIn("scripts/check_kernel_upstream.py", files)
+        self.assertIn(".kernel/upstream.json", files)
         self.assertIn("docs/PRD_TEMPLATE.md", files)
 
     def test_copy_templates_dry_run_skips_existing_without_force(self) -> None:
@@ -53,13 +55,19 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertTrue((target / "SECURITY.md").exists())
             self.assertTrue((target / ".github" / "labels.yml").exists())
             self.assertTrue((target / "scripts" / "sync_github_labels.py").exists())
+            self.assertTrue((target / "scripts" / "check_kernel_upstream.py").exists())
+            self.assertTrue((target / ".kernel" / "upstream.json").exists())
             self.assertIn("fingerprint", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("raw logs", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("local operator machine", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("GitHub Actions", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("kernel_sync_review", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("kernel_upstream_check", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("Kernel Impact", (target / "docs" / "PRD_TEMPLATE.md").read_text(encoding="utf-8"))
             self.assertIn("paid GitHub-hosted Actions", (target / "CONTRIBUTING.md").read_text(encoding="utf-8"))
+            metadata = (target / ".kernel" / "upstream.json").read_text(encoding="utf-8")
+            self.assertIn("kernel_upstream_check", metadata)
+            self.assertNotIn("__KERNEL_PINNED_COMMIT__", metadata)
 
 
 if __name__ == "__main__":

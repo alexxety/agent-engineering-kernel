@@ -31,6 +31,10 @@ This repository follows the agent engineering kernel.
 
 ## Kernel sync canon
 
+- every serious slice begins with `kernel_upstream_check`
+- consumer metadata lives in `.kernel/upstream.json`
+- if `kernel_upstream_check` reports `update_available`, open or update a project-local `Task` or explicitly defer adoption in the active PRD/closeout
+- downstream repos do not auto-apply kernel changes blindly
 - every serious slice ends with `kernel_sync_review`
 - record `Kernel Impact` as one of:
   - `none`
@@ -88,9 +92,11 @@ This repository follows the agent engineering kernel.
 - `CONTRIBUTING.md`
 - `CODE_OF_CONDUCT.md`
 - `SECURITY.md`
+- `.kernel/upstream.json`
 - `.github/ISSUE_TEMPLATE/*`
 - `.github/pull_request_template.md`
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
 - `scripts/sync_github_labels.py`
+- `scripts/check_kernel_upstream.py`
 - active PRD / decision doc in `docs/`

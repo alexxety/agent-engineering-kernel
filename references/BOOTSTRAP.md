@@ -27,6 +27,8 @@ Write or update:
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
 - `scripts/sync_github_labels.py`
+- `scripts/check_kernel_upstream.py`
+- `.kernel/upstream.json`
 - one active PRD / decision doc
 
 The bootstrapped canon should also make explicit:
@@ -36,8 +38,10 @@ The bootstrapped canon should also make explicit:
 - whether the repo uses self-hosted runners
 - which workflows must stay in GitHub Actions
 - that routine development and verification should not default to paid GitHub-hosted Actions
+- that each serious slice begins with `kernel_upstream_check`
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision
+- that the consumer project pins the exact kernel commit it bootstrapped from
 
 ## How to use the templates
 
@@ -55,6 +59,8 @@ python3 scripts/sync_github_labels.py --apply
 ```
 
 Do not blindly overwrite stronger project-local canon unless the task is an intentional migration.
+
+Bootstrap should pin the current kernel commit into `.kernel/upstream.json` instead of leaving placeholder or branch-only metadata.
 
 If the target repository needs a license, choose it intentionally for that project instead of copying a random default.
 

@@ -13,6 +13,7 @@ Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user 
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
+Read [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md) when the user asks how consumer projects should notice upstream kernel changes and decide whether to adopt them.
 Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the user asks how branch/PR/merge flow should work end-to-end.
 Read [references/BUG_INTAKE.md](references/BUG_INTAKE.md) when the user asks how runtime failures should become GitHub `Bug` issues without noisy duplication.
 
@@ -32,6 +33,8 @@ The bug-intake rule is explicit:
 - establishing Tavily-first research behavior
 - establishing local-first execution and prerequisite bootstrap
 - establishing kernel sync review and kernel impact discipline
+- establishing kernel upstream awareness and downstream adoption checks
+- running the `kernel_upstream_check` protocol in consumer repositories
 - running the `kernel_sync_review` closure protocol
 - establishing branch / draft PR / merge discipline
 - creating project-local canon files and templates
@@ -58,6 +61,7 @@ The bug-intake rule is explicit:
 - PRD-first execution
 - issue tree
 - local-first execution surface
+- kernel upstream awareness
 - kernel sync review
 - PR verification contract
 - ownership and labels

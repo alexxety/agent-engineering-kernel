@@ -9,6 +9,11 @@ Use this reference when deciding whether a live project learning belongs in the 
 
 Do not split this into a separate skill name when `engineering-kernel` already applies. The safe pattern is one kernel skill with a formal sub-protocol.
 
+This protocol does not replace `kernel_upstream_check`.
+
+- `kernel_upstream_check` asks whether the consumer repository is behind the kernel
+- `kernel_sync_review` asks whether the just-finished slice should update the kernel
+
 ## Allowed `kernel_impact` values
 
 - `none`

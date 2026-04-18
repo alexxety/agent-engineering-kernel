@@ -17,6 +17,11 @@ This repository follows the agent engineering kernel.
 - ordinary development, debugging, and verification should run locally first
 - if the project has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
+- serious slices begin with `kernel_upstream_check`
+- the project pins its upstream kernel commit in `.kernel/upstream.json`
+- kernel updates are adopted explicitly through normal project issues/PRDs, not auto-applied blindly
+- every serious slice ends with `kernel_sync_review`
+- serious closeouts record `Kernel Impact`
 - PR closes the leaf issue only
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
 - GitHub Projects are optional and should be adopted only when issue-first execution needs shared fields/views or cross-repo planning
@@ -28,9 +33,11 @@ This repository follows the agent engineering kernel.
 - `SECURITY.md`
 - `AGENTS.md`
 - `CONTRIBUTING.md`
+- `.kernel/upstream.json`
 - `.github/ISSUE_TEMPLATE/*`
 - `.github/pull_request_template.md`
 - `.github/CODEOWNERS`
 - `.github/labels.yml`
 - `scripts/sync_github_labels.py`
+- `scripts/check_kernel_upstream.py`
 - active PRD in `docs/`

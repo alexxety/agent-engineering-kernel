@@ -12,6 +12,7 @@ This repository is the standalone source-of-truth for:
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
+- kernel upstream awareness so consumer repositories can detect kernel drift explicitly
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -56,6 +57,10 @@ Research canon:
 
 Kernel sync canon:
 
+- every serious consumer-project slice begins with `kernel_upstream_check`
+- consumer repositories carry `.kernel/upstream.json` with an exact pinned kernel commit
+- if upstream differs from the pinned commit, the project records `update_available` and either opens/updates a project-local task or explicitly defers adoption
+- downstream repositories never auto-apply kernel changes blindly
 - every serious slice ends with `kernel_sync_review`
 - `kernel_impact` must be classified as `none`, `project_local_only`, or `promote_to_kernel`
 - active PRDs and serious closeouts carry an explicit `Kernel Impact` decision
@@ -87,6 +92,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - local-first versus GitHub Actions execution policy
 - [references/KERNEL_SYNC_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_SYNC_POLICY.md)
   - how kernel learnings are promoted without polluting the universal core
+- [references/KERNEL_UPSTREAM_AWARENESS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_UPSTREAM_AWARENESS.md)
+  - how consumer repositories notice upstream kernel changes and decide whether to adopt them
 - [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
   - how research works, including the repo-local versus external-contract boundary
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
@@ -99,6 +106,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - deterministic template copier
 - [scripts/sync_github_labels.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/sync_github_labels.py)
   - repo-managed label sync for the kernel repo itself
+- [scripts/check_kernel_upstream.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/check_kernel_upstream.py)
+  - local-first kernel drift check for consumer repositories
 - [docs/agent-engineering-kernel-prd-2026-04-17.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/agent-engineering-kernel-prd-2026-04-17.md)
   - decision record for this repository
 - [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
@@ -129,6 +138,12 @@ Sync the kernel repo labels from file to GitHub:
 ```bash
 python3 scripts/sync_github_labels.py --dry-run
 python3 scripts/sync_github_labels.py --apply
+```
+
+Check whether a consumer project is behind the current kernel:
+
+```bash
+python3 scripts/check_kernel_upstream.py --json
 ```
 
 ## Validate this repository

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "protocol": "kernel_upstream_check",
+  "kernel_repo": "__KERNEL_REPO_URL__",
+  "kernel_default_branch": "main",
+  "pinned_commit": "__KERNEL_PINNED_COMMIT__",
+  "update_policy": {
+    "auto_apply": false,
+    "open_or_update_project_task_when_drift_detected": true
+  }
+}
