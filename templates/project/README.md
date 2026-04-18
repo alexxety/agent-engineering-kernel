@@ -6,6 +6,9 @@ This repository follows the agent engineering kernel.
 
 - non-trivial work is PRD-first
 - non-trivial work starts from a parent GitHub issue
+- each non-trivial slice is classified before edits as `repo_local_slice` or `external_contract_slice`
+- repo-owned slices may proceed from project truth, deterministic verification, and local runtime checks
+- slices that change or claim current external-system behavior require fresh external research before code or docs land
 - GitHub hierarchy:
   - `Epic`
   - `Task`
