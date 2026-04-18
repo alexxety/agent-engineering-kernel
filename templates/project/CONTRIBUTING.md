@@ -8,6 +8,7 @@ This repository uses a PRD-first and issue-first engineering workflow.
 - classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
+- every `external_contract_slice` must record an `external_source_of_truth_matrix` in the active PRD or decision note before implementation lands
 - official docs for external contracts
 - known URLs should be fetched/indexed directly when available
 - verified facts must be separated from assumptions

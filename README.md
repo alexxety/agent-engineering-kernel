@@ -55,6 +55,7 @@ Research canon:
 - classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
+- every `external_contract_slice` records an `external_source_of_truth_matrix` in the active PRD or decision note
 - official docs for external contracts
 - known URLs fetched directly when already available
 
@@ -109,6 +110,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how one operator machine can scan several consumer repos for kernel drift
 - [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
   - how research works, including the repo-local versus external-contract boundary
+- [docs/external-source-of-truth-matrix-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/external-source-of-truth-matrix-prd-2026-04-18.md)
+  - decision record for explicit version/source-of-truth reconciliation inside external-contract slices
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
   - how branch/PR/merge flow should work end-to-end
 - [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)

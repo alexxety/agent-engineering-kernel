@@ -42,6 +42,7 @@ The bootstrapped canon should also make explicit:
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that the consumer project pins the exact kernel commit it bootstrapped from
+- that every `external_contract_slice` records an explicit `external_source_of_truth_matrix` in the active PRD or decision note
 
 ## How to use the templates
 
