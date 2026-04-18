@@ -56,8 +56,17 @@ class RepoKernelCanonTests(unittest.TestCase):
             research_policy["slice_classification"]["allowed_values"],
             ["repo_local_slice", "external_contract_slice"],
         )
+        self.assertIn("external_source_of_truth_matrix", research_policy)
+        self.assertEqual(
+            research_policy["external_source_of_truth_matrix"]["required_for"],
+            ["external_contract_slice"],
+        )
         self.assertIn(
             "external_contract_slice_requires_fresh_external_research_before_code_or_docs_land",
+            research_policy["rules"],
+        )
+        self.assertIn(
+            "every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands",
             research_policy["rules"],
         )
 
@@ -153,6 +162,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("repo_local_slice", content, rel)
             self.assertIn("external_contract_slice", content, rel)
             self.assertIn("fresh external research", content, rel)
+            self.assertIn("external_source_of_truth_matrix", content, rel)
 
     def test_kernel_docs_and_templates_mention_shell_safe_gh_delivery(self) -> None:
         for rel in (
@@ -198,6 +208,19 @@ class RepoKernelCanonTests(unittest.TestCase):
             if rel != "references/KERNEL_UPSTREAM_AWARENESS.md":
                 self.assertIn("kernel_sync_review", content, rel)
                 self.assertIn("Kernel Impact", content, rel)
+
+    def test_kernel_docs_and_templates_mention_external_source_of_truth_matrix(self) -> None:
+        for rel in (
+            "README.md",
+            "references/RESEARCH_POLICY.md",
+            "references/BOOTSTRAP.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("external_source_of_truth_matrix", content, rel)
 
     def test_kernel_docs_mention_kernel_fleet_sweep(self) -> None:
         for rel in (

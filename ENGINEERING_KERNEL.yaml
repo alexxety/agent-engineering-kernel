@@ -81,6 +81,16 @@ research_policy:
       - vendor_or_platform_behavior_claims
       - external_auth_or_api_contract_claims
       - interpreter_or_dependency_compatibility_claims
+  external_source_of_truth_matrix:
+    required_for:
+      - external_contract_slice
+    required_fields:
+      - surface_name
+      - project_local_source_of_truth
+      - upstream_or_vendor_source
+      - exact_version_commit_build_url_or_identifier
+      - local_verification_method
+      - divergence_notes
   rules:
     - research_is_tavily_first
     - classify_each_non_trivial_slice_as_repo_local_or_external_contract_before_edits
@@ -89,6 +99,9 @@ research_policy:
     - use_official_vendor_docs_for_external_contracts
     - distinguish_verified_facts_from_assumptions
     - external_contract_slice_evidence_must_be_recorded_in_the_active_prd_or_decision_note
+    - every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands
+    - reconcile_project_local_pins_vendor_docs_and_live_behavior_inside_the_external_source_of_truth_matrix
+    - if_repo_local_artifacts_conflict_with_fresh_vendor_docs_or_live_verification_the_conflict_must_be_explicitly_recorded_not_implicitly_ignored
     - if_known_url_exists_fetch_it_directly_instead_of_re-searching_blindly
     - if_primary_tool_is_unavailable_record_the_gap_and_use_the_best_documented_fallback
 

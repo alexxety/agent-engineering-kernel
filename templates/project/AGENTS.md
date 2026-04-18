@@ -17,6 +17,7 @@ This repository follows the agent engineering kernel.
 - classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
+- every `external_contract_slice` must record an `external_source_of_truth_matrix` in the active PRD or decision note before implementation lands
 - use official vendor docs to verify external contracts
 - if a known URL already exists, fetch/index it directly instead of re-running broad search
 - distinguish verified facts from assumptions

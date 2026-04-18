@@ -12,6 +12,19 @@ Describe the current gap.
 
 Verified facts only.
 
+## External Source-Of-Truth Matrix
+
+Required for `external_contract_slice`. One entry per external surface in scope.
+
+Canonical field name: `external_source_of_truth_matrix`
+
+- `surface_name`:
+- `project_local_source_of_truth`:
+- `upstream_or_vendor_source`:
+- `exact_version_commit_build_url_or_identifier`:
+- `local_verification_method`:
+- `divergence_notes`:
+
 ## Target State
 
 What should be true after the change.
