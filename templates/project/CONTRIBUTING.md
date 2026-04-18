@@ -66,6 +66,8 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - do not pass markdown through inline double-quoted `gh ... --body`
 - use `--body-file` for issue and PR bodies
 - if needed, create the body file with a single-quoted heredoc such as `<<'EOF'`
+- use `scripts/link_github_sub_issue.py` for CLI sub-issue linkage when starting from normal issue numbers
+- raw REST add-sub-issue calls require the child issue database id in `sub_issue_id`; `#issue_number` is the wrong value
 
 ## GitHub Projects
 

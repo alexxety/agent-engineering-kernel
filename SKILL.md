@@ -42,6 +42,7 @@ The bug-intake rule is explicit:
 - running the `kernel_fleet_sweep` protocol for multiple consumer repositories
 - running the `kernel_sync_review` closure protocol
 - establishing branch / draft PR / merge discipline
+- establishing safe GitHub sub-issue linkage from normal issue numbers
 - creating project-local canon files and templates
 - creating repo-managed GitHub metadata and community-health files
 - auditing an existing repo against the kernel and closing the gaps

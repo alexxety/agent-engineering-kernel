@@ -59,6 +59,8 @@ This repository follows the agent engineering kernel.
 - PR closes the leaf issue only, not the parent epic
 - when invoking `gh issue create`, `gh issue edit`, or `gh pr create` from shell, use `--body-file` instead of inline double-quoted `--body`
 - if a file is inconvenient, write it first with a single-quoted heredoc such as `<<'EOF'`
+- when linking sub-issues from CLI, prefer `scripts/link_github_sub_issue.py` or GraphQL `addSubIssue` after resolving issue node ids
+- if REST is used directly, `sub_issue_id` means child issue database id, not `#issue_number`
 - GitHub Projects are optional and threshold-based, not bootstrap default; adopt them only when engineering planning needs shared custom fields/views or cross-repo coordination
 
 ## Automatic bug intake canon
