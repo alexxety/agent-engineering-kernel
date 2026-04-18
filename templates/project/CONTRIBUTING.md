@@ -41,7 +41,10 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 
 - every serious slice should begin with `kernel_upstream_check`
 - consumer kernel metadata lives in `.kernel/upstream.json`
-- if upstream kernel drift exists, open or update a project-local `Task` or explicitly defer it in the active PRD/closeout
+- if upstream kernel drift exists, open or update a `kernel_adoption_task` or explicitly defer it in the active PRD/closeout
+- the canonical downstream task is `kernel_adoption_task`
+- `kernel_adoption_task` records `adopt_now | defer | not_applicable`
+- `.kernel/upstream.json` advances only after adoption is implemented and verified
 - do not auto-apply kernel changes blindly into the project
 - every serious slice must end with `kernel_sync_review`
 - record `Kernel Impact` as:

@@ -15,6 +15,7 @@ layers:
     - research_policy
     - execution_surface_policy
     - kernel_upstream_awareness_policy
+    - kernel_adoption_task_policy
     - kernel_sync_policy
     - github_issue_tree
     - automatic_bug_intake
@@ -132,6 +133,31 @@ kernel_upstream_awareness_policy:
     - kernel_adoption_remains_a_normal_project_local_slice_with_prd_issue_verification_and_merge
     - urgent_incident_work_may_defer_kernel_adoption_but_must_not_hide_the_drift
     - optional_operator_fleet_checks_may_call_the_same_protocol_across_multiple_repositories_but_are_not_bootstrap_default
+
+kernel_adoption_task_policy:
+  work_item_name: kernel_adoption_task
+  issue_type: Task
+  trigger_status:
+    - update_available
+  canonical_decisions:
+    - adopt_now
+    - defer
+    - not_applicable
+  required_fields:
+    - target_upstream_commit
+    - current_pinned_commit
+    - kernel_delta_reference
+    - decision
+    - local_write_scope
+    - verification_plan
+  rules:
+    - if_kernel_upstream_check_reports_update_available_open_or_update_one_kernel_adoption_task_unless_the_active_slice_explicitly_defers_adoption
+    - kernel_adoption_task_is_the_canonical_downstream_work_item_name_for_kernel_updates
+    - kernel_adoption_task_must_record_a_decision_of_adopt_now_defer_or_not_applicable
+    - kernel_adoption_task_must_capture_target_commit_current_pin_delta_summary_and_verification_plan
+    - advance_dot_kernel_upstream_json_only_after_adoption_is_implemented_and_verified
+    - defer_and_not_applicable_decisions_must_record_why_and_when_to_revisit
+    - do_not_spawn_duplicate_kernel_adoption_tasks_for_the_same_unresolved_kernel_delta
 
 kernel_fleet_sweep_policy:
   protocol_name: kernel_fleet_sweep

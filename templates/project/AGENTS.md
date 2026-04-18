@@ -33,7 +33,12 @@ This repository follows the agent engineering kernel.
 
 - every serious slice begins with `kernel_upstream_check`
 - consumer metadata lives in `.kernel/upstream.json`
-- if `kernel_upstream_check` reports `update_available`, open or update a project-local `Task` or explicitly defer adoption in the active PRD/closeout
+- if `kernel_upstream_check` reports `update_available`, open or update a `kernel_adoption_task` or explicitly defer adoption in the active PRD/closeout
+- `kernel_adoption_task` records one decision:
+  - `adopt_now`
+  - `defer`
+  - `not_applicable`
+- `.kernel/upstream.json` advances only after the adoption slice is implemented and verified
 - downstream repos do not auto-apply kernel changes blindly
 - every serious slice ends with `kernel_sync_review`
 - record `Kernel Impact` as one of:
