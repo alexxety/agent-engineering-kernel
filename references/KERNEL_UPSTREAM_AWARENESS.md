@@ -36,6 +36,7 @@ Do not treat template generation time as implicit truth.
 - downstream projects must not auto-apply kernel changes blindly
 - kernel adoption remains an explicit project-local slice with PRD, issue tree, verification, and merge
 - urgent incident work is not blocked by an available kernel update, but the drift must be recorded or turned into a project-local task
+- the canonical downstream task name is `kernel_adoption_task`
 
 ## Canonical statuses
 
@@ -48,10 +49,16 @@ Do not treat template generation time as implicit truth.
 
 If `kernel_upstream_check` reports `update_available`:
 
-- open or update a project-local `Task` issue to review/adopt the kernel update
+- open or update a `kernel_adoption_task` issue in the consumer repo to review/adopt the kernel update
 - or explicitly defer the adoption in the active PRD/closeout
+- the downstream decision model is:
+  - `adopt_now`
+  - `defer`
+  - `not_applicable`
 
 Do not silently ignore the drift.
+
+See [KERNEL_ADOPTION_TASK.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_ADOPTION_TASK.md) for the exact downstream task shape and decisions.
 
 ## Optional operator layer
 

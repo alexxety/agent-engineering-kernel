@@ -13,6 +13,7 @@ This repository is the standalone source-of-truth for:
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
 - kernel upstream awareness so consumer repositories can detect kernel drift explicitly
+- a canonical `kernel_adoption_task` so downstream repos handle kernel drift deterministically
 - optional kernel fleet sweep so one operator machine can review many consumer repos at once
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
@@ -60,7 +61,12 @@ Kernel sync canon:
 
 - every serious consumer-project slice begins with `kernel_upstream_check`
 - consumer repositories carry `.kernel/upstream.json` with an exact pinned kernel commit
-- if upstream differs from the pinned commit, the project records `update_available` and either opens/updates a project-local task or explicitly defers adoption
+- if upstream differs from the pinned commit, the project records `update_available` and either opens/updates a `kernel_adoption_task` or explicitly defers adoption
+- `kernel_adoption_task` records one decision:
+  - `adopt_now`
+  - `defer`
+  - `not_applicable`
+- `.kernel/upstream.json` only advances after adoption is implemented and verified
 - downstream repositories never auto-apply kernel changes blindly
 - operators may optionally run `kernel_fleet_sweep` locally to scan several consumer repos in one pass without changing bootstrap minimums
 - every serious slice ends with `kernel_sync_review`
@@ -96,6 +102,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how kernel learnings are promoted without polluting the universal core
 - [references/KERNEL_UPSTREAM_AWARENESS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_UPSTREAM_AWARENESS.md)
   - how consumer repositories notice upstream kernel changes and decide whether to adopt them
+- [references/KERNEL_ADOPTION_TASK.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_ADOPTION_TASK.md)
+  - exact downstream `Task` shape for adopting, deferring, or rejecting a kernel update
 - [references/KERNEL_FLEET_SWEEP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_FLEET_SWEEP.md)
   - how one operator machine can scan several consumer repos for kernel drift
 - [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
@@ -118,6 +126,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - decision record for this repository
 - [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
   - decision record for the research-boundary classification rule
+- [docs/kernel-adoption-task-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/kernel-adoption-task-prd-2026-04-18.md)
+  - decision record for the canonical downstream kernel adoption task
 
 ## Bootstrap a project
 

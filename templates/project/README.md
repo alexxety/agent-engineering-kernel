@@ -19,6 +19,12 @@ This repository follows the agent engineering kernel.
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
 - serious slices begin with `kernel_upstream_check`
 - the project pins its upstream kernel commit in `.kernel/upstream.json`
+- if drift exists, open or update a `kernel_adoption_task`
+- `kernel_adoption_task` records one decision:
+  - `adopt_now`
+  - `defer`
+  - `not_applicable`
+- `.kernel/upstream.json` only advances after adoption is implemented and verified
 - kernel updates are adopted explicitly through normal project issues/PRDs, not auto-applied blindly
 - every serious slice ends with `kernel_sync_review`
 - serious closeouts record `Kernel Impact`

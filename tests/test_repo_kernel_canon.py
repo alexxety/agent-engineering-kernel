@@ -27,6 +27,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/KERNEL_FLEET_SWEEP.md",
             "references/KERNEL_SYNC_POLICY.md",
             "references/KERNEL_UPSTREAM_AWARENESS.md",
+            "references/KERNEL_ADOPTION_TASK.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/GITHUB_DELIVERY.md",
@@ -45,6 +46,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("execution_surface_policy", payload)
         self.assertIn("optional_operator_layers", payload)
         self.assertIn("kernel_upstream_awareness_policy", payload)
+        self.assertIn("kernel_adoption_task_policy", payload)
         self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
         research_policy = payload["research_policy"]
@@ -202,6 +204,22 @@ class RepoKernelCanonTests(unittest.TestCase):
         ):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("kernel_fleet_sweep", content, rel)
+
+    def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
+        for rel in (
+            "README.md",
+            "references/KERNEL_UPSTREAM_AWARENESS.md",
+            "references/KERNEL_ADOPTION_TASK.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("kernel_adoption_task", content, rel)
+            self.assertIn("adopt_now", content, rel)
+            self.assertIn("defer", content, rel)
 
 
 if __name__ == "__main__":
