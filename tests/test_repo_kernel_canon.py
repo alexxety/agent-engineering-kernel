@@ -25,9 +25,11 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
             "references/KERNEL_SYNC_POLICY.md",
+            "references/KERNEL_UPSTREAM_AWARENESS.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/GITHUB_DELIVERY.md",
+            "scripts/check_kernel_upstream.py",
         ):
             self.assertTrue((ROOT / rel).exists(), rel)
 
@@ -39,6 +41,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
+        self.assertIn("kernel_upstream_awareness_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
@@ -58,9 +61,11 @@ class RepoKernelCanonTests(unittest.TestCase):
             "templates/project/CONTRIBUTING.md",
             "templates/project/CODE_OF_CONDUCT.md",
             "templates/project/SECURITY.md",
+            "templates/project/.kernel/upstream.json",
             "templates/project/.github/CODEOWNERS",
             "templates/project/.github/labels.yml",
             "templates/project/.github/pull_request_template.md",
+            "templates/project/scripts/check_kernel_upstream.py",
             "templates/project/scripts/sync_github_labels.py",
             "templates/project/docs/PRD_TEMPLATE.md",
         ):
@@ -170,15 +175,19 @@ class RepoKernelCanonTests(unittest.TestCase):
             "README.md",
             "SKILL.md",
             "references/KERNEL_SYNC_POLICY.md",
+            "references/KERNEL_UPSTREAM_AWARENESS.md",
             "references/BOOTSTRAP.md",
             "templates/project/AGENTS.md",
             "templates/project/CONTRIBUTING.md",
+            "templates/project/README.md",
             "templates/project/docs/PRD_TEMPLATE.md",
         ):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("kernel", content.lower(), rel)
-            self.assertIn("kernel_sync_review", content, rel)
-            self.assertIn("Kernel Impact", content, rel)
+            self.assertIn("kernel_upstream_check", content, rel)
+            if rel != "references/KERNEL_UPSTREAM_AWARENESS.md":
+                self.assertIn("kernel_sync_review", content, rel)
+                self.assertIn("Kernel Impact", content, rel)
 
 
 if __name__ == "__main__":

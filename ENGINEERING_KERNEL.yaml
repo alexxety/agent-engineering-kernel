@@ -13,6 +13,7 @@ layers:
     - prd_first_execution
     - research_policy
     - execution_surface_policy
+    - kernel_upstream_awareness_policy
     - kernel_sync_policy
     - github_issue_tree
     - automatic_bug_intake
@@ -106,6 +107,28 @@ execution_surface_policy:
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
     - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
 
+kernel_upstream_awareness_policy:
+  protocol_name: kernel_upstream_check
+  consumer_metadata_file: .kernel/upstream.json
+  canonical_statuses:
+    - current
+    - update_available
+    - not_configured
+    - unknown
+  required_metadata_fields:
+    - kernel_repo
+    - kernel_default_branch
+    - pinned_commit
+  rules:
+    - every_serious_consumer_project_slice_should_begin_with_kernel_upstream_check
+    - downstream_projects_must_record_an_exact_pinned_kernel_commit
+    - kernel_upstream_check_compares_the_pinned_commit_against_upstream_default_branch_head
+    - if_update_is_available_record_it_in_the_active_slice_or_open_or_update_a_project_local_task
+    - kernel_updates_must_not_auto_apply_blindly_to_downstream_projects
+    - kernel_adoption_remains_a_normal_project_local_slice_with_prd_issue_verification_and_merge
+    - urgent_incident_work_may_defer_kernel_adoption_but_must_not_hide_the_drift
+    - optional_operator_fleet_checks_may_call_the_same_protocol_across_multiple_repositories_but_are_not_bootstrap_default
+
 kernel_sync_policy:
   protocol_name: kernel_sync_review
   decision_field: kernel_impact
@@ -121,6 +144,7 @@ kernel_sync_policy:
     - if_kernel_impact_is_promote_to_kernel_open_or_update_work_in_the_kernel_repo
     - if_learning_is_project_specific_keep_it_in_project_local_canon_not_the_universal_kernel
     - kernel_sync_review_happens_after_live_verification_not_before
+    - do_not_use_kernel_sync_review_as_a_substitute_for_kernel_upstream_check
 
 github_issue_tree:
   parent: Epic
