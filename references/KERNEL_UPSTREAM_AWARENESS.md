@@ -55,8 +55,10 @@ Do not silently ignore the drift.
 
 ## Optional operator layer
 
-An operator machine may run a local scheduled sweep across many repositories and call the same checker in each consumer repo.
+An operator machine may run `kernel_fleet_sweep` locally across many repositories and call the same checker contract in each consumer repo.
 
 That fleet sweep is optional.
 
 It is not part of the bootstrap minimum because it depends on the operator's local topology.
+
+See [KERNEL_FLEET_SWEEP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_FLEET_SWEEP.md).

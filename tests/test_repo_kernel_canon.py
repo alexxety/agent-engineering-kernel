@@ -24,12 +24,14 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BOOTSTRAP.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
+            "references/KERNEL_FLEET_SWEEP.md",
             "references/KERNEL_SYNC_POLICY.md",
             "references/KERNEL_UPSTREAM_AWARENESS.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/GITHUB_DELIVERY.md",
             "scripts/check_kernel_upstream.py",
+            "scripts/kernel_fleet_sweep.py",
         ):
             self.assertTrue((ROOT / rel).exists(), rel)
 
@@ -41,7 +43,9 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
+        self.assertIn("optional_operator_layers", payload)
         self.assertIn("kernel_upstream_awareness_policy", payload)
+        self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
@@ -188,6 +192,16 @@ class RepoKernelCanonTests(unittest.TestCase):
             if rel != "references/KERNEL_UPSTREAM_AWARENESS.md":
                 self.assertIn("kernel_sync_review", content, rel)
                 self.assertIn("Kernel Impact", content, rel)
+
+    def test_kernel_docs_mention_kernel_fleet_sweep(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/KERNEL_UPSTREAM_AWARENESS.md",
+            "references/KERNEL_FLEET_SWEEP.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("kernel_fleet_sweep", content, rel)
 
 
 if __name__ == "__main__":
