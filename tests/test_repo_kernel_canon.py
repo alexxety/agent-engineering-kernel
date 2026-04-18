@@ -21,6 +21,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "ENGINEERING_KERNEL.yaml",
             "agents/openai.yaml",
             "scripts/sync_github_labels.py",
+            "scripts/link_github_sub_issue.py",
             "references/BOOTSTRAP.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
@@ -72,6 +73,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "templates/project/.github/labels.yml",
             "templates/project/.github/pull_request_template.md",
             "templates/project/scripts/check_kernel_upstream.py",
+            "templates/project/scripts/link_github_sub_issue.py",
             "templates/project/scripts/sync_github_labels.py",
             "templates/project/docs/PRD_TEMPLATE.md",
         ):
@@ -163,6 +165,8 @@ class RepoKernelCanonTests(unittest.TestCase):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("--body-file", content, rel)
             self.assertIn("heredoc", content, rel)
+            self.assertIn("sub_issue_id", content, rel)
+            self.assertIn("database id", content, rel)
 
     def test_kernel_docs_and_templates_mention_optional_github_projects(self) -> None:
         for rel in (

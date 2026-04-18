@@ -40,6 +40,7 @@ Shared core:
 - automatic deduplicated `Bug` intake from verifier/watchdog/runtime gates
 - PR closes leaf issue only
 - shell-safe GitHub CLI delivery through `--body-file` or a single-quoted heredoc-generated body file instead of inline markdown bodies
+- shell-safe sub-issue linking through `scripts/link_github_sub_issue.py`; if REST is used directly, `sub_issue_id` means child issue database id, not `#issue_number`
 
 Bug-intake canon:
 

@@ -30,6 +30,7 @@ This repository follows the agent engineering kernel.
 - serious closeouts record `Kernel Impact`
 - PR closes the leaf issue only
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
+- for GitHub sub-issues, prefer `scripts/link_github_sub_issue.py`; if you call REST directly, `sub_issue_id` means child issue database id, not `#issue_number`
 - GitHub Projects are optional and should be adopted only when issue-first execution needs shared fields/views or cross-repo planning
 
 ## Canon files
