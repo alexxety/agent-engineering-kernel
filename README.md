@@ -48,6 +48,9 @@ Bug-intake canon:
 Research canon:
 
 - Tavily first
+- classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
+- `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
+- `external_contract_slice` requires fresh external research before code or docs land
 - official docs for external contracts
 - known URLs fetched directly when already available
 
@@ -84,6 +87,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - local-first versus GitHub Actions execution policy
 - [references/KERNEL_SYNC_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_SYNC_POLICY.md)
   - how kernel learnings are promoted without polluting the universal core
+- [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
+  - how research works, including the repo-local versus external-contract boundary
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
   - how branch/PR/merge flow should work end-to-end
 - [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)
@@ -96,6 +101,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - repo-managed label sync for the kernel repo itself
 - [docs/agent-engineering-kernel-prd-2026-04-17.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/agent-engineering-kernel-prd-2026-04-17.md)
   - decision record for this repository
+- [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
+  - decision record for the research-boundary classification rule
 
 ## Bootstrap a project
 

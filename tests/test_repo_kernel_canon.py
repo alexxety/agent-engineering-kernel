@@ -40,6 +40,16 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
+        research_policy = payload["research_policy"]
+        self.assertIn("slice_classification", research_policy)
+        self.assertEqual(
+            research_policy["slice_classification"]["allowed_values"],
+            ["repo_local_slice", "external_contract_slice"],
+        )
+        self.assertIn(
+            "external_contract_slice_requires_fresh_external_research_before_code_or_docs_land",
+            research_policy["rules"],
+        )
 
     def test_project_templates_include_minimal_core(self) -> None:
         for rel in (
@@ -117,6 +127,19 @@ class RepoKernelCanonTests(unittest.TestCase):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("local", content.lower(), rel)
             self.assertIn("GitHub Actions", content, rel)
+
+    def test_kernel_docs_and_templates_mention_research_boundary(self) -> None:
+        for rel in (
+            "README.md",
+            "references/RESEARCH_POLICY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("repo_local_slice", content, rel)
+            self.assertIn("external_contract_slice", content, rel)
+            self.assertIn("fresh external research", content, rel)
 
     def test_kernel_docs_and_templates_mention_shell_safe_gh_delivery(self) -> None:
         for rel in (

@@ -14,6 +14,9 @@ This repository follows the agent engineering kernel.
 ## Research canon
 
 - use Tavily first for research
+- classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
+- `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
+- `external_contract_slice` requires fresh external research before code or docs land
 - use official vendor docs to verify external contracts
 - if a known URL already exists, fetch/index it directly instead of re-running broad search
 - distinguish verified facts from assumptions
