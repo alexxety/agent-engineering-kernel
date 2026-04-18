@@ -13,6 +13,7 @@ This repository is the standalone source-of-truth for:
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
 - kernel upstream awareness so consumer repositories can detect kernel drift explicitly
+- optional kernel fleet sweep so one operator machine can review many consumer repos at once
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -61,6 +62,7 @@ Kernel sync canon:
 - consumer repositories carry `.kernel/upstream.json` with an exact pinned kernel commit
 - if upstream differs from the pinned commit, the project records `update_available` and either opens/updates a project-local task or explicitly defers adoption
 - downstream repositories never auto-apply kernel changes blindly
+- operators may optionally run `kernel_fleet_sweep` locally to scan several consumer repos in one pass without changing bootstrap minimums
 - every serious slice ends with `kernel_sync_review`
 - `kernel_impact` must be classified as `none`, `project_local_only`, or `promote_to_kernel`
 - active PRDs and serious closeouts carry an explicit `Kernel Impact` decision
@@ -94,6 +96,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how kernel learnings are promoted without polluting the universal core
 - [references/KERNEL_UPSTREAM_AWARENESS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_UPSTREAM_AWARENESS.md)
   - how consumer repositories notice upstream kernel changes and decide whether to adopt them
+- [references/KERNEL_FLEET_SWEEP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_FLEET_SWEEP.md)
+  - how one operator machine can scan several consumer repos for kernel drift
 - [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
   - how research works, including the repo-local versus external-contract boundary
 - [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
@@ -108,6 +112,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - repo-managed label sync for the kernel repo itself
 - [scripts/check_kernel_upstream.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/check_kernel_upstream.py)
   - local-first kernel drift check for consumer repositories
+- [scripts/kernel_fleet_sweep.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/kernel_fleet_sweep.py)
+  - optional local multi-repo wrapper around `kernel_upstream_check`
 - [docs/agent-engineering-kernel-prd-2026-04-17.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/agent-engineering-kernel-prd-2026-04-17.md)
   - decision record for this repository
 - [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
@@ -144,6 +150,12 @@ Check whether a consumer project is behind the current kernel:
 
 ```bash
 python3 scripts/check_kernel_upstream.py --json
+```
+
+Optionally scan several consumer repos from one operator machine:
+
+```bash
+python3 scripts/kernel_fleet_sweep.py --json
 ```
 
 ## Validate this repository

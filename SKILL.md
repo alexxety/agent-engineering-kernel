@@ -14,6 +14,7 @@ Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the use
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
 Read [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md) when the user asks how consumer projects should notice upstream kernel changes and decide whether to adopt them.
+Read [references/KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md) when the user asks how one operator machine should check kernel drift across many consumer repositories at once.
 Read [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md) when the user asks how branch/PR/merge flow should work end-to-end.
 Read [references/BUG_INTAKE.md](references/BUG_INTAKE.md) when the user asks how runtime failures should become GitHub `Bug` issues without noisy duplication.
 
@@ -34,7 +35,9 @@ The bug-intake rule is explicit:
 - establishing local-first execution and prerequisite bootstrap
 - establishing kernel sync review and kernel impact discipline
 - establishing kernel upstream awareness and downstream adoption checks
+- establishing optional multi-repo kernel fleet sweep on the operator machine
 - running the `kernel_upstream_check` protocol in consumer repositories
+- running the `kernel_fleet_sweep` protocol for multiple consumer repositories
 - running the `kernel_sync_review` closure protocol
 - establishing branch / draft PR / merge discipline
 - creating project-local canon files and templates

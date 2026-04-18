@@ -6,6 +6,7 @@ purpose:
   - stop serious work from starting as chat-only improvisation
   - preserve PRD-first execution and GitHub issue decomposition across repositories
   - keep the shared process model-agnostic across GPT/Codex and Claude-style agents
+  - allow one operator machine to notice kernel drift across many consumer repos without blind auto-sync
 
 layers:
   minimal_core:
@@ -107,6 +108,9 @@ execution_surface_policy:
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
     - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
 
+optional_operator_layers:
+  - kernel_fleet_sweep_policy
+
 kernel_upstream_awareness_policy:
   protocol_name: kernel_upstream_check
   consumer_metadata_file: .kernel/upstream.json
@@ -128,6 +132,26 @@ kernel_upstream_awareness_policy:
     - kernel_adoption_remains_a_normal_project_local_slice_with_prd_issue_verification_and_merge
     - urgent_incident_work_may_defer_kernel_adoption_but_must_not_hide_the_drift
     - optional_operator_fleet_checks_may_call_the_same_protocol_across_multiple_repositories_but_are_not_bootstrap_default
+
+kernel_fleet_sweep_policy:
+  protocol_name: kernel_fleet_sweep
+  bootstrap_default: false
+  default_config_path: ~/.config/agent-engineering-kernel/fleet-repos.json
+  preferred_inputs:
+    - explicit_repo_paths
+    - operator_local_config_file
+  per_repo_statuses:
+    - current
+    - update_available
+    - not_configured
+    - unknown
+  rules:
+    - kernel_fleet_sweep_is_operator_local_and_optional
+    - prefer_consumer_repo_checker_when_present
+    - fallback_to_kernel_checker_with_consumer_metadata_when_consumer_checker_is_missing
+    - support_cli_repo_paths_and_config_file_repo_paths
+    - never_auto_apply_kernel_updates_from_fleet_sweep
+    - if_attention_is_found_turn_it_into_normal_project_local_adoption_work_or_documented_deferral
 
 kernel_sync_policy:
   protocol_name: kernel_sync_review
