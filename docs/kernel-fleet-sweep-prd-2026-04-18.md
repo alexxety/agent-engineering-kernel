@@ -6,7 +6,7 @@ Status: `completed`
 
 Source evidence:
 
-- [kernel-upstream-awareness-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/kernel-upstream-awareness-prd-2026-04-18.md)
+- [kernel-upstream-awareness-prd-2026-04-18.md](docs/kernel-upstream-awareness-prd-2026-04-18.md)
 
 ## Problem
 

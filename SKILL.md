@@ -103,4 +103,4 @@ Prefer a small durable set of outputs:
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 
-Use the templates in [templates/project](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project) when bootstrapping a repo.
+Use the templates in [templates/project](templates/project) when bootstrapping a repo.

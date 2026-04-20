@@ -32,11 +32,11 @@ This is not universal “always TDD” dogma. It is a narrower goal-driven verif
 
 Update the reusable kernel only:
 
-- [ENGINEERING_KERNEL.yaml](/Users/raketa23/Work/Vs/agent-engineering-kernel/ENGINEERING_KERNEL.yaml)
-- [README.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/README.md)
-- [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
-- [templates/project/AGENTS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project/AGENTS.md)
-- [templates/project/CONTRIBUTING.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project/CONTRIBUTING.md)
+- [ENGINEERING_KERNEL.yaml](ENGINEERING_KERNEL.yaml)
+- [README.md](README.md)
+- [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md)
+- [templates/project/AGENTS.md](templates/project/AGENTS.md)
+- [templates/project/CONTRIBUTING.md](templates/project/CONTRIBUTING.md)
 - kernel tests
 
 ## Acceptance
