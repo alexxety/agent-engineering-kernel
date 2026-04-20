@@ -18,6 +18,23 @@ The engineering kernel is shared. The model adapter is thin.
 - shell/editor constraints
 - verbosity and final report style
 - local skills/plugins/integrations
+- whether a thin behavior-only overlay is materialized in a tool-specific surface
+
+## Behavioral overlay rule
+
+An optional behavior-only layer may exist across tool-specific surfaces such as:
+
+- `CLAUDE.md`
+- Cursor project rules
+- skill/plugin wrappers
+
+But it must stay:
+
+- thin
+- synced from one canonical source
+- lower priority than the repo-local canon and the shared engineering kernel
+
+Do not confuse a behavior overlay with the engineering workflow itself.
 
 ## Hard rule
 

@@ -14,6 +14,7 @@ layers:
     - prd_first_execution
     - research_policy
     - execution_surface_policy
+    - optional_behavioral_overlay_policy
     - kernel_upstream_awareness_policy
     - kernel_adoption_task_policy
     - kernel_sync_policy
@@ -121,6 +122,29 @@ execution_surface_policy:
     - detect_local_prerequisites_before_work_starts
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
     - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
+
+behavioral_overlay_policy:
+  bootstrap_default: false
+  purpose:
+    - allow_an_optional_behavior_only_layer_without_replacing_repo_canon_or_the_engineering_kernel
+    - keep_one_canonical_overlay_source_syncable_across_claude_cursor_skill_and_plugin_surfaces
+  candidate_principles:
+    - explicit_assumptions_and_named_confusion
+    - simplicity_first
+    - surgical_changes
+    - goal_driven_verification
+  allowed_surfaces:
+    - CLAUDE_md_style_root_instruction_file
+    - Cursor_project_rule
+    - skill_or_plugin_surface
+  rules:
+    - behavioral_overlay_is_optional_not_bootstrap_default
+    - behavioral_overlay_must_stay_thin_relative_to_repo_canon_and_the_engineering_kernel
+    - repo_local_canon_remains_higher_priority_than_any_behavioral_overlay
+    - if_multiple_agent_surfaces_are_used_keep_one_canonical_overlay_source_and_sync_the_derived_variants
+    - do_not_let_claude_cursor_skill_or_plugin_variants_drift_semantically
+    - do_not_replace_prd_issue_verification_or_kernel_sync_discipline_with_a_behavior_only_overlay
+    - enable_always_apply_or_auto_apply_only_by_explicit_project_choice_not_as_universal_kernel_default
 
 optional_operator_layers:
   - kernel_fleet_sweep_policy
