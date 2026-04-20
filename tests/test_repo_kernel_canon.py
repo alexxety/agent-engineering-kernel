@@ -23,6 +23,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "scripts/sync_github_labels.py",
             "scripts/link_github_sub_issue.py",
             "references/BOOTSTRAP.md",
+            "references/BEHAVIORAL_OVERLAY.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
             "references/KERNEL_FLEET_SWEEP.md",
@@ -46,6 +47,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
         self.assertIn("optional_operator_layers", payload)
+        self.assertIn("behavioral_overlay_policy", payload)
         self.assertIn("kernel_upstream_awareness_policy", payload)
         self.assertIn("kernel_adoption_task_policy", payload)
         self.assertIn("kernel_fleet_sweep_policy", payload)
@@ -231,6 +233,21 @@ class RepoKernelCanonTests(unittest.TestCase):
         ):
             content = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn("kernel_fleet_sweep", content, rel)
+
+    def test_kernel_docs_and_templates_mention_behavioral_overlay_policy(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/BEHAVIORAL_OVERLAY.md",
+            "references/MODEL_ADAPTERS.md",
+            "references/BOOTSTRAP.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("thin", content.lower(), rel)
+            self.assertIn("Cursor", content, rel)
+            self.assertIn("CLAUDE.md", content, rel)
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (

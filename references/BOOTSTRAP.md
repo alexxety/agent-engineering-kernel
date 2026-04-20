@@ -43,6 +43,7 @@ The bootstrapped canon should also make explicit:
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that the consumer project pins the exact kernel commit it bootstrapped from
 - that every `external_contract_slice` records an explicit `external_source_of_truth_matrix` in the active PRD or decision note
+- that any optional `CLAUDE.md` / Cursor rule / skill-style behavior overlay is thin, subordinate to repo canon, and synced from one canonical overlay source if the project chooses to use it
 
 ## How to use the templates
 
@@ -60,6 +61,8 @@ python3 scripts/sync_github_labels.py --apply
 ```
 
 Do not blindly overwrite stronger project-local canon unless the task is an intentional migration.
+
+Do not treat a compact behavior guideline file as a replacement for the bootstrapped canon. If a project wants that extra layer, add it separately and keep it thin.
 
 Bootstrap should pin the current kernel commit into `.kernel/upstream.json` instead of leaving placeholder or branch-only metadata.
 

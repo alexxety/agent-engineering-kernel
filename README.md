@@ -84,6 +84,13 @@ Model-specific behavior is a thin adapter only:
 - verbosity
 - planning mechanics
 
+Optional behavioral overlays are also allowed, but they stay thin:
+
+- one compact behavior layer may be reused across `CLAUDE.md`, Cursor rules, and skill/plugin surfaces;
+- that layer must remain subordinate to the engineering kernel and the project-local canon;
+- keep one canonical overlay source and sync the derived surfaces instead of letting them drift;
+- `alwaysApply` or implicit auto-apply is a project-level choice, not a universal kernel default.
+
 Do not fork the engineering process by model unless a tool constraint truly forces it.
 
 ## Repository contents
@@ -98,6 +105,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how to materialize the kernel into a project
 - [references/MODEL_ADAPTERS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/MODEL_ADAPTERS.md)
   - model adapter policy
+- [references/BEHAVIORAL_OVERLAY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BEHAVIORAL_OVERLAY.md)
+  - thin behavior-layer policy for `CLAUDE.md` / Cursor / skill/plugin surfaces
 - [references/EXECUTION_SURFACES.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/EXECUTION_SURFACES.md)
   - local-first versus GitHub Actions execution policy
 - [references/KERNEL_SYNC_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_SYNC_POLICY.md)
@@ -130,6 +139,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - decision record for this repository
 - [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
   - decision record for the research-boundary classification rule
+- [docs/behavioral-overlay-policy-prd-2026-04-20.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/behavioral-overlay-policy-prd-2026-04-20.md)
+  - decision record for optional thin behavior-only overlays across `CLAUDE.md` / Cursor / skill-plugin surfaces
 - [docs/kernel-adoption-task-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/kernel-adoption-task-prd-2026-04-18.md)
   - decision record for the canonical downstream kernel adoption task
 

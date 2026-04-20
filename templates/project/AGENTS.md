@@ -93,6 +93,14 @@ This repository follows the agent engineering kernel.
 - live checks when runtime or state changes
 - rollback path
 
+## Optional behavioral overlays
+
+If this repository also uses a thin behavior-only layer such as `CLAUDE.md`, a Cursor project rule, or a skill/plugin wrapper:
+
+- keep it optional and thin;
+- keep one canonical overlay source if several derived variants exist;
+- treat this `AGENTS.md`, the PRD, tests, and repo-local canon as higher priority than that overlay.
+
 ## Canon files
 
 - `README.md`
