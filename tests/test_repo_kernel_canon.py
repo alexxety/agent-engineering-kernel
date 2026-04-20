@@ -52,6 +52,13 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("kernel_adoption_task_policy", payload)
         self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
+        prd_first = payload["prd_first_execution"]
+        self.assertIn("baseline_verification", prd_first["order"])
+        self.assertIn("post_change_verification", prd_first["order"])
+        self.assertIn(
+            "capture_smallest_relevant_baseline_verification_before_edits_when_existing_contract_exists",
+            prd_first["rules"],
+        )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
         self.assertEqual(
@@ -71,6 +78,25 @@ class RepoKernelCanonTests(unittest.TestCase):
             "every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands",
             research_policy["rules"],
         )
+
+    def test_kernel_readme_and_templates_document_pre_change_baseline_rule(self) -> None:
+        readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("baseline verification when an existing contract already exists", readme_text)
+        self.assertIn("post-change verification", readme_text)
+
+        agents_text = (ROOT / "templates" / "project" / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("capture baseline verification when an existing deterministic contract already exists", agents_text)
+        self.assertIn("## Minimum verification contract", agents_text)
+        self.assertIn("bugfixes should prefer a reproducer before the fix", agents_text)
+
+        contributing_text = (ROOT / "templates" / "project" / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        self.assertIn("baseline verification", contributing_text)
+        self.assertIn("Verification timing", contributing_text)
+        self.assertIn("refactors should prefer before/after equivalence checks", contributing_text)
+
+        delivery_text = (ROOT / "references" / "GITHUB_DELIVERY.md").read_text(encoding="utf-8")
+        self.assertIn("Capture baseline verification when an existing deterministic contract already exists", delivery_text)
+        self.assertIn("baseline-before-edits and post-change verification are different moments", delivery_text)
 
     def test_project_templates_include_minimal_core(self) -> None:
         for rel in (

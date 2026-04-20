@@ -55,11 +55,16 @@ prd_first_execution:
     - code_audit
     - reconciliation
     - documentation_first
+    - baseline_verification
     - implementation
-    - verification
+    - post_change_verification
   rules:
     - non_trivial_work_must_not_start_with_code
     - verification_defined_before_edits
+    - capture_smallest_relevant_baseline_verification_before_edits_when_existing_contract_exists
+    - bugfix_slices_prefer_reproducer_before_fix
+    - refactor_slices_prefer_before_and_after_equivalence_checks
+    - docs_only_canon_only_or_greenfield_slices_may_skip_pre_change_baseline_if_no_existing_contract_exists
     - docs_and_prd_are_part_of_the_slice
 
 research_policy:
@@ -266,9 +271,10 @@ github_delivery_flow:
     - open_parent_issue_if_needed
     - create_leaf_issue
     - create_branch_from_leaf_issue
+    - capture_baseline_verification_when_relevant
     - implement_in_small_slice
     - open_or_update_draft_pr
-    - run_verification
+    - run_post_change_verification
     - mark_pr_ready
     - squash_merge
     - delete_head_branch
@@ -292,9 +298,11 @@ pr_verification_contract:
     - linked_leaf_issue
     - parent_context
     - scope
+    - baseline_verification
     - verification
     - rollback_path
   minimum_checks:
+    - pre_change_baseline_when_existing_contract_exists
     - code_path_tests
     - build_or_runtime_checks
     - source_of_truth_or_sync_checks

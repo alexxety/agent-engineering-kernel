@@ -81,8 +81,18 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - linked leaf issue
 - parent context
 - write scope
+- baseline verification
 - verification
 - rollback path
+
+## Verification timing
+
+- define verification before edits
+- when an existing deterministic contract already exists, capture the smallest relevant baseline before implementation begins
+- bugfixes should prefer a reproducer before the fix
+- refactors should prefer before/after equivalence checks
+- docs-only, canon-only, or greenfield slices may skip pre-change baseline only when no existing deterministic contract exists
+- post-change verification before merge remains mandatory
 
 ## Repo-managed metadata
 

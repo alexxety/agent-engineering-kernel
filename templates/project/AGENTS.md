@@ -8,8 +8,9 @@ This repository follows the agent engineering kernel.
 2. Code audit
 3. Reconciliation
 4. Documentation first
-5. Implementation
-6. Verification
+5. Baseline verification when an existing deterministic contract already exists
+6. Implementation
+7. Post-change verification
 
 ## Research canon
 
@@ -78,20 +79,28 @@ This repository follows the agent engineering kernel.
 2. open parent issue if needed
 3. create executable leaf issue
 4. create branch from the leaf issue
-5. implement in a small slice
-6. open or update draft PR
-7. run verification
-8. mark PR ready
-9. merge
-10. delete head branch
+5. capture baseline verification when an existing deterministic contract already exists
+6. implement in a small slice
+7. open or update draft PR
+8. run post-change verification
+9. mark PR ready
+10. merge
+11. delete head branch
 
 ## Minimum verification contract
 
+- pre-change baseline when an existing deterministic contract already exists
 - code-path tests
 - build/runtime checks
 - source-of-truth / sync checks
 - live checks when runtime or state changes
 - rollback path
+
+Rules:
+
+- bugfixes should prefer a reproducer before the fix;
+- refactors should prefer before/after equivalence checks;
+- docs-only, canon-only, or greenfield slices may skip pre-change baseline only when no existing deterministic contract exists.
 
 ## Optional behavioral overlays
 
