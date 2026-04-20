@@ -105,53 +105,53 @@ Do not fork the engineering process by model unless a tool constraint truly forc
 
 ## Repository contents
 
-- [SKILL.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/SKILL.md)
+- [SKILL.md](SKILL.md)
   - reusable skill entrypoint for agents
-- [agents/openai.yaml](/Users/raketa23/Work/Vs/agent-engineering-kernel/agents/openai.yaml)
+- [agents/openai.yaml](agents/openai.yaml)
   - skill metadata for Codex UI surfaces
-- [ENGINEERING_KERNEL.yaml](/Users/raketa23/Work/Vs/agent-engineering-kernel/ENGINEERING_KERNEL.yaml)
+- [ENGINEERING_KERNEL.yaml](ENGINEERING_KERNEL.yaml)
   - machine-readable kernel
-- [references/BOOTSTRAP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BOOTSTRAP.md)
+- [references/BOOTSTRAP.md](references/BOOTSTRAP.md)
   - how to materialize the kernel into a project
-- [references/MODEL_ADAPTERS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/MODEL_ADAPTERS.md)
+- [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md)
   - model adapter policy
-- [references/BEHAVIORAL_OVERLAY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BEHAVIORAL_OVERLAY.md)
+- [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md)
   - thin behavior-layer policy for `CLAUDE.md` / Cursor / skill/plugin surfaces
-- [references/EXECUTION_SURFACES.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/EXECUTION_SURFACES.md)
+- [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)
   - local-first versus GitHub Actions execution policy
-- [references/KERNEL_SYNC_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_SYNC_POLICY.md)
+- [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md)
   - how kernel learnings are promoted without polluting the universal core
-- [references/KERNEL_UPSTREAM_AWARENESS.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_UPSTREAM_AWARENESS.md)
+- [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md)
   - how consumer repositories notice upstream kernel changes and decide whether to adopt them
-- [references/KERNEL_ADOPTION_TASK.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_ADOPTION_TASK.md)
+- [references/KERNEL_ADOPTION_TASK.md](references/KERNEL_ADOPTION_TASK.md)
   - exact downstream `Task` shape for adopting, deferring, or rejecting a kernel update
-- [references/KERNEL_FLEET_SWEEP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_FLEET_SWEEP.md)
+- [references/KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md)
   - how one operator machine can scan several consumer repos for kernel drift
-- [references/RESEARCH_POLICY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/RESEARCH_POLICY.md)
+- [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md)
   - how research works, including the repo-local versus external-contract boundary
-- [docs/external-source-of-truth-matrix-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/external-source-of-truth-matrix-prd-2026-04-18.md)
+- [docs/external-source-of-truth-matrix-prd-2026-04-18.md](docs/external-source-of-truth-matrix-prd-2026-04-18.md)
   - decision record for explicit version/source-of-truth reconciliation inside external-contract slices
-- [references/GITHUB_DELIVERY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/GITHUB_DELIVERY.md)
+- [references/GITHUB_DELIVERY.md](references/GITHUB_DELIVERY.md)
   - how branch/PR/merge flow should work end-to-end
-- [references/BUG_INTAKE.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/BUG_INTAKE.md)
+- [references/BUG_INTAKE.md](references/BUG_INTAKE.md)
   - how runtime incidents become deduplicated GitHub `Bug` issues
-- [templates/project](/Users/raketa23/Work/Vs/agent-engineering-kernel/templates/project)
+- [templates/project](templates/project)
   - reusable project-local files
-- [scripts/bootstrap_project_kernel.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/bootstrap_project_kernel.py)
+- [scripts/bootstrap_project_kernel.py](scripts/bootstrap_project_kernel.py)
   - deterministic template copier
-- [scripts/sync_github_labels.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/sync_github_labels.py)
+- [scripts/sync_github_labels.py](scripts/sync_github_labels.py)
   - repo-managed label sync for the kernel repo itself
-- [scripts/check_kernel_upstream.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/check_kernel_upstream.py)
+- [scripts/check_kernel_upstream.py](scripts/check_kernel_upstream.py)
   - local-first kernel drift check for consumer repositories
-- [scripts/kernel_fleet_sweep.py](/Users/raketa23/Work/Vs/agent-engineering-kernel/scripts/kernel_fleet_sweep.py)
+- [scripts/kernel_fleet_sweep.py](scripts/kernel_fleet_sweep.py)
   - optional local multi-repo wrapper around `kernel_upstream_check`
-- [docs/agent-engineering-kernel-prd-2026-04-17.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/agent-engineering-kernel-prd-2026-04-17.md)
+- [docs/agent-engineering-kernel-prd-2026-04-17.md](docs/agent-engineering-kernel-prd-2026-04-17.md)
   - decision record for this repository
-- [docs/research-boundary-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/research-boundary-prd-2026-04-18.md)
+- [docs/research-boundary-prd-2026-04-18.md](docs/research-boundary-prd-2026-04-18.md)
   - decision record for the research-boundary classification rule
-- [docs/behavioral-overlay-policy-prd-2026-04-20.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/behavioral-overlay-policy-prd-2026-04-20.md)
+- [docs/behavioral-overlay-policy-prd-2026-04-20.md](docs/behavioral-overlay-policy-prd-2026-04-20.md)
   - decision record for optional thin behavior-only overlays across `CLAUDE.md` / Cursor / skill-plugin surfaces
-- [docs/kernel-adoption-task-prd-2026-04-18.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/docs/kernel-adoption-task-prd-2026-04-18.md)
+- [docs/kernel-adoption-task-prd-2026-04-18.md](docs/kernel-adoption-task-prd-2026-04-18.md)
   - decision record for the canonical downstream kernel adoption task
 
 ## Bootstrap a project
@@ -206,7 +206,7 @@ python3 -m venv .venv
 The repository root is also the skill root. A Codex installation can expose it globally via symlink:
 
 ```bash
-ln -s /Users/raketa23/Work/Vs/agent-engineering-kernel /Users/raketa23/.codex/skills/engineering-kernel
+ln -s ~/Work/Vs/agent-engineering-kernel ~/.codex/skills/engineering-kernel
 ```
 
 After that, agents can use the `engineering-kernel` skill as the reusable source for project bootstrap and workflow canon.
@@ -215,10 +215,10 @@ After that, agents can use the `engineering-kernel` skill as the reusable source
 
 This repository also carries the minimum GitHub community-health layer for the kernel itself:
 
-- [LICENSE](/Users/raketa23/Work/Vs/agent-engineering-kernel/LICENSE)
-- [CODE_OF_CONDUCT.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/CODE_OF_CONDUCT.md)
-- [SECURITY.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/SECURITY.md)
-- [.github/labels.yml](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/labels.yml)
-- [.github/CODEOWNERS](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/CODEOWNERS)
-- [.github/ISSUE_TEMPLATE](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/ISSUE_TEMPLATE)
-- [.github/pull_request_template.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/.github/pull_request_template.md)
+- [LICENSE](LICENSE)
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
+- [.github/labels.yml](.github/labels.yml)
+- [.github/CODEOWNERS](.github/CODEOWNERS)
+- [.github/ISSUE_TEMPLATE](.github/ISSUE_TEMPLATE)
+- [.github/pull_request_template.md](.github/pull_request_template.md)

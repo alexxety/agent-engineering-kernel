@@ -58,7 +58,7 @@ If `kernel_upstream_check` reports `update_available`:
 
 Do not silently ignore the drift.
 
-See [KERNEL_ADOPTION_TASK.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_ADOPTION_TASK.md) for the exact downstream task shape and decisions.
+See [KERNEL_ADOPTION_TASK.md](references/KERNEL_ADOPTION_TASK.md) for the exact downstream task shape and decisions.
 
 ## Optional operator layer
 
@@ -68,4 +68,4 @@ That fleet sweep is optional.
 
 It is not part of the bootstrap minimum because it depends on the operator's local topology.
 
-See [KERNEL_FLEET_SWEEP.md](/Users/raketa23/Work/Vs/agent-engineering-kernel/references/KERNEL_FLEET_SWEEP.md).
+See [KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md).
