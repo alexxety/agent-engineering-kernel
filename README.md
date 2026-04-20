@@ -1,6 +1,13 @@
 # Agent Engineering Kernel
 
+[![License: MIT](https://img.shields.io/github/license/alexxety/agent-engineering-kernel)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/alexxety/agent-engineering-kernel?include_prereleases&sort=semver)](https://github.com/alexxety/agent-engineering-kernel/releases)
+[![Tests](https://github.com/alexxety/agent-engineering-kernel/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/alexxety/agent-engineering-kernel/actions/workflows/tests.yml)
+[![Stars](https://img.shields.io/github/stars/alexxety/agent-engineering-kernel?style=social)](https://github.com/alexxety/agent-engineering-kernel/stargazers)
+
 Universal engineering kernel for agent-led software work.
+
+**Homepage:** [hq.dudarik.com/projects/agent-engineering-kernel](https://hq.dudarik.com/projects/agent-engineering-kernel/)
 
 This repository is the standalone source-of-truth for:
 
@@ -217,8 +224,23 @@ This repository also carries the minimum GitHub community-health layer for the k
 
 - [LICENSE](LICENSE)
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)
 - [SECURITY.md](SECURITY.md)
+- [CHANGELOG.md](CHANGELOG.md)
 - [.github/labels.yml](.github/labels.yml)
 - [.github/CODEOWNERS](.github/CODEOWNERS)
 - [.github/ISSUE_TEMPLATE](.github/ISSUE_TEMPLATE)
 - [.github/pull_request_template.md](.github/pull_request_template.md)
+- [.github/workflows/tests.yml](.github/workflows/tests.yml)
+
+## Contact and community
+
+- **Issues:** [github.com/alexxety/agent-engineering-kernel/issues](https://github.com/alexxety/agent-engineering-kernel/issues) — bugs, feature requests, questions
+- **Pull Requests:** see [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution flow
+- **Direct message (Telegram):** [@Shiva_Mart](https://t.me/Shiva_Mart) — private conversation if you don't want to use public tracker
+- **Telegram channel:** [@alexeydudarik](https://t.me/alexeydudarik) — updates and devlog
+- **Blog:** [dudarik.com](https://dudarik.com)
+
+## License
+
+MIT — see [LICENSE](LICENSE).
