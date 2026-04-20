@@ -14,17 +14,19 @@ Execution-surface rule:
 2. Open the parent `Epic` if the work is non-trivial
 3. Create the executable leaf issue (`Task` or `Bug`)
 4. Create the branch from the leaf issue
-5. Implement in a small slice
-6. Open or update a draft PR
-7. Run verification
-8. Mark the PR ready
-9. Merge
-10. Delete the head branch
+5. Capture baseline verification when an existing deterministic contract already exists
+6. Implement in a small slice
+7. Open or update a draft PR
+8. Run post-change verification
+9. Mark the PR ready
+10. Merge
+11. Delete the head branch
 
 ## Rules
 
 - PR closes the leaf issue only
 - parent epic stays open until all required leaf issues and acceptance checks are complete
+- baseline-before-edits and post-change verification are different moments; keep both explicit when an existing contract already exists
 - keep the PR description aligned with the real scope and verification
 - use draft PR while the scope or verification is still moving
 - prefer squash merge unless the project canon explicitly chooses another method

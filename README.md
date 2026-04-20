@@ -34,8 +34,9 @@ Shared core:
 - code audit
 - reconciliation
 - documentation first
+- baseline verification when an existing contract already exists
 - implementation
-- verification
+- post-change verification
 - GitHub `Epic / Task / Bug` hierarchy
 - automatic deduplicated `Bug` intake from verifier/watchdog/runtime gates
 - PR closes leaf issue only
@@ -58,6 +59,15 @@ Research canon:
 - every `external_contract_slice` records an `external_source_of_truth_matrix` in the active PRD or decision note
 - official docs for external contracts
 - known URLs fetched directly when already available
+
+Verification canon:
+
+- define verification before edits
+- when a deterministic contract already exists, capture the smallest relevant baseline before editing
+- for bugfixes, prefer a reproducer first
+- for refactors, prefer before/after equivalence checks
+- for docs-only, canon-only, or greenfield slices without an existing contract, do not invent a fake pre-change baseline
+- post-change verification before publish remains mandatory
 
 Kernel sync canon:
 
