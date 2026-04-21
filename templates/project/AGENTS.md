@@ -94,6 +94,7 @@ This repository follows the agent engineering kernel.
 - build/runtime checks
 - source-of-truth / sync checks
 - live checks when runtime or state changes
+- sandbox identity guardrails for live external writes
 - rollback path
 
 Rules:
@@ -101,6 +102,7 @@ Rules:
 - bugfixes should prefer a reproducer before the fix;
 - refactors should prefer before/after equivalence checks;
 - docs-only, canon-only, or greenfield slices may skip pre-change baseline only when no existing deterministic contract exists.
+- live verification that can write to an external service must use explicitly designated sandbox identities, never operator or production identities.
 
 ## Optional behavioral overlays
 

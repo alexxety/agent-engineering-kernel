@@ -83,6 +83,7 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - write scope
 - baseline verification
 - verification
+- sandbox identity confirmation for live external writes
 - rollback path
 
 ## Verification timing
@@ -93,6 +94,7 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - refactors should prefer before/after equivalence checks
 - docs-only, canon-only, or greenfield slices may skip pre-change baseline only when no existing deterministic contract exists
 - post-change verification before merge remains mandatory
+- live verification that can write to an external service must use explicitly designated sandbox identities, never operator or production identities
 
 ## Repo-managed metadata
 
