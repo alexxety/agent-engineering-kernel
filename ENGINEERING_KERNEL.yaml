@@ -307,6 +307,12 @@ pr_verification_contract:
     - build_or_runtime_checks
     - source_of_truth_or_sync_checks
     - live_checks_when_runtime_or_state_is_touched
+    - sandbox_identity_for_live_external_writes
+  live_external_identity_rules:
+    - if_live_verification_can_write_to_external_state_use_explicit_sandbox_identity
+    - never_use_operator_or_production_identities_as_test_identities
+    - if_more_identities_are_needed_provision_and_record_more_sandboxes_before_testing
+    - fail_closed_when_required_sandbox_identity_or_resource_ids_are_not_configured
 
 ownership_and_metadata:
   required_files:

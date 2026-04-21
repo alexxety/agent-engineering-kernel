@@ -74,6 +74,7 @@ Verification canon:
 - for bugfixes, prefer a reproducer first
 - for refactors, prefer before/after equivalence checks
 - for docs-only, canon-only, or greenfield slices without an existing contract, do not invent a fake pre-change baseline
+- live verification that can write to an external service must use explicitly designated sandbox identities, never operator or production identities
 - post-change verification before publish remains mandatory
 
 Kernel sync canon:
