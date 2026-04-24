@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Research policy is now explicitly Tavily Search-first, not Tavily Research-first. Tavily Research is reserved for explicitly justified expensive broad deep-sweeps after search, known official docs, and manual synthesis are insufficient.
+
 ## [0.1.0] - 2026-04-20
 
 First public release. Kernel is functional and self-consuming (dog-fooded on its own development), but API surface (policy names, YAML keys, script flags) is not frozen — expect breaking changes on minor bumps until `1.0.0`.

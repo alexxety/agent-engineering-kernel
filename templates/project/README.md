@@ -9,6 +9,7 @@ This repository follows the agent engineering kernel.
 - each non-trivial slice is classified before edits as `repo_local_slice` or `external_contract_slice`
 - repo-owned slices may proceed from project truth, deterministic verification, and local runtime checks
 - slices that change or claim current external-system behavior require fresh external research before code or docs land
+- external research is Tavily Search-first; Tavily Research is only an explicitly justified expensive fallback for broad deep-sweeps
 - every `external_contract_slice` records an `external_source_of_truth_matrix` so project pins, vendor docs, exact versions, and live verification are reconciled explicitly
 - GitHub hierarchy:
   - `Epic`

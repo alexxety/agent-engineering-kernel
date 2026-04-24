@@ -14,9 +14,11 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 
 ## Research policy
 
-- Tavily first
+- Tavily Search first, not Tavily Research first
 - official docs for external contracts
 - known URLs fetched directly when already available
+- manual source reading, comparison, and synthesis before escalation
+- Tavily Research only as an explicitly justified expensive fallback for broad deep-sweeps
 - verified facts separated from assumptions
 
 ## PR rule

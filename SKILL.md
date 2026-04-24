@@ -33,7 +33,7 @@ The bug-intake rule is explicit:
 - establishing PRD-first execution
 - establishing GitHub `Epic / Task / Bug` workflow
 - establishing automatic deduplicated GitHub bug intake
-- establishing Tavily-first research behavior
+- establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
 - establishing local-first execution and prerequisite bootstrap
 - establishing kernel sync review and kernel impact discipline
 - establishing kernel upstream awareness and downstream adoption checks

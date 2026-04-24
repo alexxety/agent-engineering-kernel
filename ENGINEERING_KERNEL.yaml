@@ -71,7 +71,9 @@ research_policy:
   preferred_stack:
     discovery_and_research:
       - Tavily search
-      - Tavily research
+      - direct fetch or index of known official URLs
+      - manual source reading and synthesis by the agent
+      - Tavily research only as an explicitly justified expensive fallback for broad deep sweeps
     known_urls_or_known_docs:
       - fetch_or_index_the_known_url
   slice_classification:
@@ -98,10 +100,12 @@ research_policy:
       - local_verification_method
       - divergence_notes
   rules:
-    - research_is_tavily_first
+    - research_is_tavily_search_first_not_tavily_research_first
     - classify_each_non_trivial_slice_as_repo_local_or_external_contract_before_edits
     - repo_local_slice_may_proceed_from_project_truth_deterministic_verification_and_local_runtime_checks
     - external_contract_slice_requires_fresh_external_research_before_code_or_docs_land
+    - use_tavily_research_only_when_tavily_search_known_docs_and_manual_synthesis_are_insufficient
+    - if_tavily_research_is_used_record_why_lower_cost_search_and_manual_synthesis_were_insufficient
     - use_official_vendor_docs_for_external_contracts
     - distinguish_verified_facts_from_assumptions
     - external_contract_slice_evidence_must_be_recorded_in_the_active_prd_or_decision_note

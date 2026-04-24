@@ -4,13 +4,15 @@ This repository uses a PRD-first and issue-first engineering workflow.
 
 ## Research policy
 
-- Tavily first
+- Tavily Search first, not Tavily Research first
+- known official URLs should be fetched/indexed directly when available
+- agents should do manual source reading, comparison, and synthesis before escalation
+- Tavily Research is only an explicitly justified expensive fallback for broad deep-sweeps
 - classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
 - every `external_contract_slice` must record an `external_source_of_truth_matrix` in the active PRD or decision note before implementation lands
 - official docs for external contracts
-- known URLs should be fetched/indexed directly when available
 - verified facts must be separated from assumptions
 
 ## Execution surface policy

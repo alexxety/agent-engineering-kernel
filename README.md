@@ -59,13 +59,15 @@ Bug-intake canon:
 
 Research canon:
 
-- Tavily first
+- Tavily Search first, not Tavily Research first
+- known official URLs are fetched directly when already available
+- agents do manual source reading, comparison, and synthesis before escalating
+- Tavily Research is an explicitly justified expensive fallback for broad deep-sweeps, not the default
 - classify each non-trivial slice before edits as `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
 - every `external_contract_slice` records an `external_source_of_truth_matrix` in the active PRD or decision note
 - official docs for external contracts
-- known URLs fetched directly when already available
 
 Verification canon:
 

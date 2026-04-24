@@ -5,16 +5,19 @@ The kernel is research-first, not guess-first.
 ## Preferred stack
 
 1. Tavily search
-2. Tavily research for deeper topic sweeps
-3. direct fetch/index of already-known URLs or docs
+2. direct fetch/index of already-known official URLs or docs
+3. manual source reading, comparison, and synthesis by the agent
+4. Tavily research only as an explicitly justified expensive fallback for broad deep-sweeps
 
 ## Rules
 
-- research is Tavily-first
+- research is Tavily Search-first, not Tavily Research-first
 - classify each non-trivial slice before edits as either `repo_local_slice` or `external_contract_slice`
 - `repo_local_slice` may proceed from project truth, deterministic verification, and local runtime checks when only repo-owned behavior is changing
 - `external_contract_slice` requires fresh external research before code or docs land
 - for vendor/platform/API behavior, verify the external contract from official docs
+- use Tavily Research only when Tavily Search, known official docs, and manual synthesis are insufficient
+- if Tavily Research is used, record why lower-cost search/direct docs/manual synthesis were insufficient
 - separate verified facts from assumptions
 - record external-contract evidence in the active PRD or decision note instead of leaving it only in chat
 - every `external_contract_slice` must record an `external_source_of_truth_matrix` before implementation lands

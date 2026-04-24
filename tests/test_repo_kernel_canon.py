@@ -75,6 +75,14 @@ class RepoKernelCanonTests(unittest.TestCase):
             research_policy["rules"],
         )
         self.assertIn(
+            "research_is_tavily_search_first_not_tavily_research_first",
+            research_policy["rules"],
+        )
+        self.assertIn(
+            "use_tavily_research_only_when_tavily_search_known_docs_and_manual_synthesis_are_insufficient",
+            research_policy["rules"],
+        )
+        self.assertIn(
             "every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands",
             research_policy["rules"],
         )
@@ -190,6 +198,8 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("repo_local_slice", content, rel)
             self.assertIn("external_contract_slice", content, rel)
             self.assertIn("fresh external research", content, rel)
+            self.assertIn("Tavily Search", content, rel)
+            self.assertIn("Tavily Research", content, rel)
             self.assertIn("external_source_of_truth_matrix", content, rel)
 
     def test_kernel_docs_and_templates_mention_shell_safe_gh_delivery(self) -> None:
