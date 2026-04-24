@@ -28,7 +28,10 @@ The goal is simple: a new agent in a new repository should not need the workflow
 Execution-surface canon:
 
 - ordinary engineering work should default to the local operator machine first
-- self-hosted runners are preferred over paid GitHub-hosted Actions when the repository already has them
+- GitHub coordinates repository workflow: issues, PRs, check status, schedules, and deploy triggers
+- owned compute executes routine work by default: local machine first, then self-hosted runners for recurring checks
+- self-hosted runners are preferred over paid GitHub-hosted Actions when the repository already has them or can reasonably provide them
+- paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage are explicit exceptions for private repositories, not defaults
 - GitHub Actions remain for repo-native automation, schedules, deploys, and hosted checks that actually belong there
 
 ## Core idea

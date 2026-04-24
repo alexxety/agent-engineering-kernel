@@ -18,9 +18,12 @@ This repository uses a PRD-first and issue-first engineering workflow.
 ## Execution surface policy
 
 - use the local machine first for ordinary development, debugging, research, and verification
-- if the repository already has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
+- GitHub coordinates issues, PRs, check status, schedules, and deploy triggers; owned compute should execute routine work by default
+- if the repository already has self-hosted runners or can reasonably provide them, prefer them over paid GitHub-hosted Actions for recurring work
+- document the self-hosted runner label(s) before enabling recurring GitHub checks
 - check or bootstrap local prerequisites before assuming CI is the right place to run the work
 - keep GitHub Actions for repository-native automation, schedules, deploys, and hosted checks that genuinely need the platform
+- do not enable paid GitHub-hosted runners, dependency cache uploads, or long-lived artifact storage without an explicit PRD/decision note
 
 ## Start from the correct issue
 

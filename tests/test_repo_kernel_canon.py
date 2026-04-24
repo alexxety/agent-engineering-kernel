@@ -186,6 +186,30 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("local", content.lower(), rel)
             self.assertIn("GitHub Actions", content, rel)
 
+    def test_kernel_docs_and_templates_treat_github_as_coordinator_not_default_compute(self) -> None:
+        for rel in (
+            "README.md",
+            "references/EXECUTION_SURFACES.md",
+            "references/BOOTSTRAP.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("GitHub coordinates", content, rel)
+            self.assertIn("owned compute", content, rel)
+            self.assertIn("paid GitHub-hosted", content, rel)
+            self.assertIn("dependency cache", content, rel)
+
+    def test_kernel_workflow_uses_owned_compute_runner(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "tests.yml").read_text(encoding="utf-8")
+        self.assertIn("runs-on: [self-hosted, agent-kernel-ci]", workflow)
+        self.assertIn('python: ["python3.11", "python3.12"]', workflow)
+        self.assertNotIn("ubuntu-latest", workflow)
+        self.assertNotIn("actions/setup-python", workflow)
+        self.assertNotIn("cache: pip", workflow)
+
     def test_kernel_docs_and_templates_mention_research_boundary(self) -> None:
         for rel in (
             "README.md",

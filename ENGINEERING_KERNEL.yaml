@@ -119,6 +119,7 @@ execution_surface_policy:
   default_surface:
     - local_operator_machine
     - self_hosted_runner_when_project_already_has_one
+    - self_hosted_runner_when_project_can_reasonably_provide_one
   github_actions_are_for:
     - repository_native_automation
     - scheduled_workflows
@@ -126,7 +127,10 @@ execution_surface_policy:
     - hosted_verification_that_requires_repository_runtime
     - event_driven_jobs_that_should_run_without_an_operator_terminal
   rules:
+    - github_coordinates_repository_workflow_owned_compute_executes_routine_work_by_default
     - do_not_default_to_paid_github_hosted_actions_for_ordinary_development_work
+    - paid_github_hosted_runners_dependency_cache_uploads_and_long_lived_artifacts_require_explicit_prd_or_decision_note
+    - document_self_hosted_runner_labels_before_enabling_recurring_github_checks
     - if_work_can_run_locally_prefer_local_execution_first
     - detect_local_prerequisites_before_work_starts
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it

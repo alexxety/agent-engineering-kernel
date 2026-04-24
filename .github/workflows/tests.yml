@@ -17,28 +17,28 @@ permissions:
 jobs:
   test:
     name: unittest
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, agent-kernel-ci]
     timeout-minutes: 5
 
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        python: ["python3.11", "python3.12"]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: requirements-dev.txt
+      - name: Check Python
+        run: ${{ matrix.python }} --version
 
       - name: Install dev dependencies
         run: |
+          ${{ matrix.python }} -m venv .venv-${{ matrix.python }}
+          . .venv-${{ matrix.python }}/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
       - name: Run unittests
-        run: python -m unittest discover -s tests -v
+        run: |
+          . .venv-${{ matrix.python }}/bin/activate
+          python -m unittest discover -s tests -v
