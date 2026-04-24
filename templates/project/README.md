@@ -17,8 +17,11 @@ This repository follows the agent engineering kernel.
   - `Bug`
 - runtime bugs come from verifier/watchdog/runtime-gate fingerprints, not raw logs or chat alerts
 - ordinary development, debugging, and verification should run locally first
-- if the project has self-hosted runners, prefer them over paid GitHub-hosted Actions for recurring work
+- GitHub coordinates issues, PRs, check status, schedules, and deploy triggers; owned compute should execute routine work by default
+- if the project has self-hosted runners or can reasonably provide them, prefer them over paid GitHub-hosted Actions for recurring work
+- document self-hosted runner labels before enabling recurring GitHub checks
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
+- paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage require an explicit PRD/decision note
 - serious slices begin with `kernel_upstream_check`
 - the project pins its upstream kernel commit in `.kernel/upstream.json`
 - if drift exists, open or update a `kernel_adoption_task`

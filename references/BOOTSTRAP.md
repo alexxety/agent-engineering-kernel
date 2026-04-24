@@ -36,8 +36,10 @@ The bootstrapped canon should also make explicit:
 - canonical local bootstrap command
 - canonical local verifier/test commands
 - whether the repo uses self-hosted runners
+- the self-hosted runner label(s) if recurring GitHub checks are required
 - which workflows must stay in GitHub Actions
-- that routine development and verification should not default to paid GitHub-hosted Actions
+- that GitHub coordinates repository workflow but owned compute executes routine development and verification by default
+- that routine development and verification should not default to paid GitHub-hosted Actions, dependency cache uploads, or long-lived artifact storage
 - that each serious slice begins with `kernel_upstream_check`
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision

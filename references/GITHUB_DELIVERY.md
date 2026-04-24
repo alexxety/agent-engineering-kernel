@@ -5,8 +5,10 @@ Use this when the user wants the full branch / PR / merge discipline, not just i
 Execution-surface rule:
 
 - GitHub delivery flow does not mean GitHub-hosted Actions are the default place to do ordinary engineering work
+- GitHub coordinates issues, PRs, check status, schedules, and deploy triggers; owned compute executes routine work by default
 - local operator execution or self-hosted runners stay primary for normal dev/test/bootstrap work
 - GitHub Actions are for repository-native automation, scheduled/event jobs, deploys, and hosted verification that must live in the platform
+- paid GitHub-hosted runners, dependency caches, and long-lived artifacts in private repositories require an explicit PRD/decision note that accepts the paid surface
 
 ## Canonical sequence
 
