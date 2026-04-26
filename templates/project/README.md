@@ -7,6 +7,9 @@ This repository follows the agent engineering kernel.
 - non-trivial work is PRD-first
 - Superpowers or equivalent process skills are used as tactical workflow aids when available, without replacing project canon
 - non-trivial work starts from a parent GitHub issue
+- MCP or App connector tooling is preferred for supported structured external-service operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- GitHub App repository access and permissions are configured in GitHub Installed Apps, not in repo files or local `gh` token settings
 - each non-trivial slice is classified before edits as `repo_local_slice` or `external_contract_slice`
 - repo-owned slices may proceed from project truth, deterministic verification, and local runtime checks
 - slices that change or claim current external-system behavior require fresh external research before code or docs land
@@ -37,6 +40,7 @@ This repository follows the agent engineering kernel.
 - PR closes the leaf issue only
 - agents should read or invoke relevant Superpowers skills before acting: `using-superpowers` / `brainstorming` for new behavior, `writing-plans` for multi-step work, `test-driven-development` for implementation, `systematic-debugging` for bugs, and `verification-before-completion` before success claims
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
+- shell-safe `gh` is the fallback when MCP/App connector tooling is missing, stale, or blocked
 - for GitHub sub-issues, prefer `scripts/link_github_sub_issue.py`; if you call REST directly, `sub_issue_id` means child issue database id, not `#issue_number`
 - GitHub Projects are optional and should be adopted only when issue-first execution needs shared fields/views or cross-repo planning
 - any optional `CLAUDE.md` / Cursor / skill-style behavior overlay must stay thin and subordinate to the repo-local canon

@@ -45,6 +45,10 @@ The bootstrapped canon should also make explicit:
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that Superpowers or equivalent process skills are tactical workflow aids, subordinate to repo canon, and should be read or invoked before acting when relevant and available
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
+- that MCP or App connector tooling is preferred for supported structured external-service operations when available and authorized
+- that local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- that GitHub App repository access and permissions are configured in GitHub Installed Apps, not by storing or editing tokens in project files
+- that shell-safe `gh` fallback remains canonical when an App connector is missing, stale, or blocked
 - that the consumer project pins the exact kernel commit it bootstrapped from
 - that every `external_contract_slice` records an explicit `external_source_of_truth_matrix` in the active PRD or decision note
 - that any optional `CLAUDE.md` / Cursor rule / skill-style behavior overlay is thin, subordinate to repo canon, and synced from one canonical overlay source if the project chooses to use it
@@ -69,6 +73,8 @@ Do not blindly overwrite stronger project-local canon unless the task is an inte
 Do not treat a compact behavior guideline file as a replacement for the bootstrapped canon. If a project wants that extra layer, add it separately and keep it thin.
 
 Do not treat Superpowers or another process-skill pack as a replacement for the bootstrapped canon. Skills help the agent choose the right workflow; the project canon remains the source of truth.
+
+Do not treat MCP or App connector access as the same thing as local `gh` access. They are different identities. If a GitHub App connector fails with a permissions error, fix the installed GitHub App repository access and permissions before refreshing local CLI auth.
 
 Bootstrap should pin the current kernel commit into `.kernel/upstream.json` instead of leaving placeholder or branch-only metadata.
 

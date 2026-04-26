@@ -16,6 +16,14 @@ If Superpowers or an equivalent process-skill pack is available, agents should r
 
 Skills are tactical workflow aids. This project canon, the active PRD, tests, and explicit user instructions stay higher priority.
 
+## MCP/App connector policy
+
+- use MCP or App connector tooling for supported structured external-service operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- configure GitHub App repository access and permissions in GitHub Installed Apps, not by storing tokens in repo files
+- if an App connector fails with a permission error, check repository access and App permissions before refreshing local `gh` auth
+- use the canonical shell-safe `gh` fallback when connector tooling is missing, stale, or blocked
+
 ## Research policy
 
 - Tavily Search first, not Tavily Research first

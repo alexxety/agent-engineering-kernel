@@ -25,6 +25,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BOOTSTRAP.md",
             "references/BEHAVIORAL_OVERLAY.md",
             "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
+            "references/MCP_TOOLING.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
             "references/KERNEL_FLEET_SWEEP.md",
@@ -44,6 +45,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("layers", payload)
         self.assertIn("model_adapter_policy", payload)
         self.assertIn("agent_skill_orchestration_policy", payload)
+        self.assertIn("mcp_tooling_policy", payload)
         self.assertIn("research_policy", payload)
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
@@ -98,6 +100,17 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands",
             research_policy["rules"],
+        )
+        mcp_policy = payload["mcp_tooling_policy"]
+        self.assertIn("structured_external_service_interface", mcp_policy["role"])
+        self.assertIn("github_app_installation_token", mcp_policy["identity_boundaries"])
+        self.assertIn(
+            "prefer_mcp_or_app_connector_for_supported_structured_external_service_operations",
+            mcp_policy["rules"],
+        )
+        self.assertIn(
+            "local_cli_tokens_and_mcp_connector_tokens_are_different_identities",
+            mcp_policy["rules"],
         )
 
     def test_kernel_readme_and_templates_document_pre_change_baseline_rule(self) -> None:
@@ -252,6 +265,26 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("heredoc", content, rel)
             self.assertIn("sub_issue_id", content, rel)
             self.assertIn("database id", content, rel)
+
+    def test_kernel_docs_and_templates_mention_mcp_tooling_policy(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/MCP_TOOLING.md",
+            "references/GITHUB_DELIVERY.md",
+            "references/BOOTSTRAP.md",
+            "references/MODEL_ADAPTERS.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("MCP", content, rel)
+            self.assertIn("App connector", content, rel)
+            self.assertIn("GitHub App", content, rel)
+            self.assertIn("gh", content, rel)
+            self.assertIn("different identities", content, rel)
 
     def test_kernel_docs_and_templates_mention_optional_github_projects(self) -> None:
         for rel in (

@@ -10,6 +10,13 @@ Execution-surface rule:
 - GitHub Actions are for repository-native automation, scheduled/event jobs, deploys, and hosted verification that must live in the platform
 - paid GitHub-hosted runners, dependency caches, and long-lived artifacts in private repositories require an explicit PRD/decision note that accepts the paid surface
 
+Tooling rule:
+
+- use MCP or App connector tooling for supported structured GitHub issue, pull request, review, and metadata operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- if the App connector returns `Resource not accessible by integration`, check the installed GitHub App repository access and permissions before refreshing the local `gh` token
+- when the connector is unavailable, stale, or missing a needed operation, use the shell-safe `gh` fallback below
+
 ## Canonical sequence
 
 1. Create or update the PRD
@@ -40,6 +47,8 @@ Execution-surface rule:
   - `defer`
   - `not_applicable`
 - when using `gh issue create`, `gh issue edit`, or `gh pr create` from shell, prefer `--body-file` over inline `--body`
+- when MCP or an App connector can do the structured write, prefer it over shelling out, then verify the connector path itself
+- do not treat a working local `gh` token as proof that the GitHub App connector has repository access or write permissions
 - never embed markdown with backticks or fenced code blocks in inline double-quoted `gh --body` arguments
 - acceptable fallback is a single-quoted heredoc such as `<<'EOF'` that writes the body file first
 - when linking GitHub sub-issues from the CLI, prefer `scripts/link_github_sub_issue.py` or GraphQL `addSubIssue` after resolving issue node ids
@@ -53,3 +62,5 @@ Execution-surface rule:
 The branch/PR layer is part of the engineering kernel, not a separate afterthought. It prevents code from landing without an issue tree, verification, and an auditable review surface.
 
 It also has to survive the shell. Inline markdown bodies are fragile in `zsh` because backticks trigger command substitution. `--body-file` keeps GitHub delivery deterministic and prevents the shell from executing or corrupting issue/PR body content.
+
+It also has to survive multiple identities. MCP-backed App connector tokens, GitHub App installation tokens, and local `gh` tokens are different identities; diagnose permission failures on the identity that actually made the failed request.

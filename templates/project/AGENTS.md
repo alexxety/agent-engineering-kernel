@@ -60,6 +60,15 @@ Rules:
 - if a known URL already exists, fetch/index it directly instead of re-running broad search
 - distinguish verified facts from assumptions
 
+## MCP/App connector canon
+
+- use MCP or App connector tooling for supported structured external-service operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- configure GitHub App repository access and permissions in GitHub Installed Apps, not by storing or editing tokens in repo files
+- if an App connector returns a permission error, check its repository access and permissions before refreshing local `gh` auth
+- use shell-safe `gh` fallback when connector tooling is unavailable, stale, or missing the needed operation
+- do not paste or record tokens in PRDs, issues, PR bodies, or project docs
+
 ## Execution surface canon
 
 - prefer the local operator machine first for ordinary development, debugging, research, and verification
@@ -100,6 +109,7 @@ Rules:
 - use sub-issues for multi-slice work
 - PR closes the leaf issue only, not the parent epic
 - when invoking `gh issue create`, `gh issue edit`, or `gh pr create` from shell, use `--body-file` instead of inline double-quoted `--body`
+- prefer MCP or App connector writes for GitHub issue/PR operations when the connector has the needed GitHub App permissions
 - if a file is inconvenient, write it first with a single-quoted heredoc such as `<<'EOF'`
 - when linking sub-issues from CLI, prefer `scripts/link_github_sub_issue.py` or GraphQL `addSubIssue` after resolving issue node ids
 - if REST is used directly, `sub_issue_id` means child issue database id, not `#issue_number`

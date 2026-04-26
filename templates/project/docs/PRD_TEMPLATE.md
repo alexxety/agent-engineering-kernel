@@ -47,6 +47,17 @@ Record relevant Superpowers or equivalent process skills for this slice.
   - `verification-before-completion`
 - exceptions or conflicts with project canon: `none | describe`
 
+## MCP / App Connector Surface
+
+Record external-service tooling and identity boundaries when the slice uses GitHub, vendor APIs, or other live services.
+
+- MCP or App connector in scope: `none | name`
+- GitHub App repository access checked: `n/a | yes | no`
+- required App connector permissions: `n/a | issues:write | pull_requests:write | contents:write | workflows:write | describe`
+- local `gh` fallback required: `no | yes, reason`
+- identity note: `MCP/App connector and local gh are different identities`
+- token handling: `no tokens recorded`
+
 ## Kernel Upstream Check
 
 Record near slice start.

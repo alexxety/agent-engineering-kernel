@@ -11,7 +11,7 @@ Status: `active`
 
 ## Problem
 
-The kernel already defines PRD-first, issue-first, verification-first engineering workflow, but it does not explicitly tell agents how to use Superpowers skills when they are available. That leaves a gap: a consumer project can have both the engineering kernel and Superpowers installed, yet the agent may treat them as unrelated systems.
+The kernel already defines PRD-first, issue-first, verification-first engineering workflow, but it does not explicitly tell agents how to use Superpowers skills when they are available. It also does not define how MCP/App connector tooling relates to local CLI fallback. That leaves a gap: a consumer project can have the engineering kernel, Superpowers, an MCP-backed App connector, and a local `gh` token, yet the agent may treat them as unrelated or interchangeable systems.
 
 ## Current State
 
@@ -21,6 +21,7 @@ Verified facts:
 - Project templates materialize `AGENTS.md`, `README.md`, `CONTRIBUTING.md`, PRD templates, GitHub metadata, and sync scripts.
 - Superpowers skills installed locally include `using-superpowers`, `brainstorming`, `writing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review`, `using-git-worktrees`, `dispatching-parallel-agents`, `subagent-driven-development`, `executing-plans`, `finishing-a-development-branch`, and `writing-skills`.
 - No current kernel reference maps those skills into kernel priority, PRD-first execution, or project bootstrap.
+- Live GitHub verification showed that GitHub App connector access and local `gh` access are different identities with separate permissions.
 
 ## Target State
 
@@ -32,6 +33,14 @@ The kernel treats Superpowers as a tactical process-skill layer:
 - subagent and parallel workflows require platform support and user or project permission;
 - consumer project templates inherit the rule without copying full vendor skill text.
 
+The kernel also treats MCP and App connector tooling as the preferred structured interface for supported external-service operations:
+
+- agents prefer MCP/App connector calls when available and authorized;
+- GitHub App repository access and permissions are checked in GitHub Installed Apps;
+- local `gh` auth and GitHub App connector auth are documented as different identities;
+- shell-safe `gh` fallback remains canonical when the connector is missing, stale, or blocked;
+- tokens are never recorded in repo docs, PRDs, issues, or PR bodies.
+
 ## Write Scope
 
 - `ENGINEERING_KERNEL.yaml`
@@ -39,6 +48,7 @@ The kernel treats Superpowers as a tactical process-skill layer:
 - `SKILL.md`
 - `CHANGELOG.md`
 - `references/SUPERPOWERS_SKILL_ORCHESTRATION.md`
+- `references/MCP_TOOLING.md`
 - `references/BOOTSTRAP.md`
 - `references/MODEL_ADAPTERS.md`
 - `references/BEHAVIORAL_OVERLAY.md`
@@ -74,16 +84,17 @@ This change updates the kernel itself, not a downstream consumer repository.
 
 1. Add machine-readable `agent_skill_orchestration_policy`.
 2. Add a durable reference document.
-3. Update README, skill entrypoint, model adapter, bootstrap, behavioral overlay, and project templates.
-4. Add tests that pin the new canon across YAML, docs, and templates.
-5. Run the local unittest suite.
+3. Add machine-readable `mcp_tooling_policy` and a durable MCP/App connector reference.
+4. Update README, skill entrypoint, model adapter, bootstrap, behavioral overlay, GitHub delivery, and project templates.
+5. Add tests that pin the new canon across YAML, docs, and templates.
+6. Run the local unittest suite.
 
 ## Verification Matrix
 
 - code-path tests: `.venv/bin/python -m unittest discover -s tests`
 - build/runtime checks: YAML parsing through existing tests
 - source-of-truth / sync checks: tests assert new reference and template coverage
-- live checks: not required; docs and tests only
+- live checks: GitHub connector issue creation was verified against `alexxety/agent-engineering-kernel` and the temporary issue was closed
 - rollback validation: revert the docs/templates/YAML/test changes as one slice if needed
 
 ## Kernel Impact
@@ -96,4 +107,4 @@ Choose one:
 
 Why:
 
-This slice adds a reusable process rule for every consumer project that combines the engineering kernel with Superpowers or another process-skill pack.
+This slice adds reusable process rules for every consumer project that combines the engineering kernel with Superpowers, MCP/App connector tooling, or local `gh` fallback.

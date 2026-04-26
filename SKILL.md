@@ -12,6 +12,7 @@ Read [references/BOOTSTRAP.md](references/BOOTSTRAP.md) when you need to materia
 Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user asks how the kernel should map across GPT/Codex and Claude-style agents.
 Read [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md) when the user asks whether a thin behavior-only guideline layer should exist across `CLAUDE.md`, Cursor rules, or skill/plugin surfaces.
 Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md) when the user asks how Superpowers or another process-skill pack should be used with the kernel.
+Read [references/MCP_TOOLING.md](references/MCP_TOOLING.md) when the user asks how MCP servers, App connector tooling, GitHub App permissions, or local `gh` fallback should be used.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
@@ -34,12 +35,20 @@ The minimum Superpowers mapping is explicit:
 - `test-driven-development` and `systematic-debugging` for implementation and bugs
 - `verification-before-completion` before success or PR-ready claims
 
+The MCP tooling rule is explicit:
+
+- prefer MCP or App connector tooling for supported structured external-service operations
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- GitHub App repository access and permissions live in GitHub Installed Apps, not in the local `gh` token
+- use shell-safe `gh` fallback when the connector is missing or blocked
+
 ## Use this skill for
 
 - creating a reusable engineering kernel for future projects
 - bootstrapping a new repository so agents stop depending on chat memory
 - establishing PRD-first execution
 - establishing Superpowers-compatible process-skill orchestration
+- establishing MCP/App connector tooling boundaries and GitHub App permission checks
 - establishing GitHub `Epic / Task / Bug` workflow
 - establishing automatic deduplicated GitHub bug intake
 - establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
@@ -78,6 +87,7 @@ The minimum Superpowers mapping is explicit:
 - Superpowers-compatible skill orchestration when process skills are available
 - issue tree
 - local-first execution surface
+- MCP/App connector tooling policy
 - kernel upstream awareness
 - kernel sync review
 - PR verification contract
@@ -113,5 +123,6 @@ Prefer a small durable set of outputs:
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 - explicit process-skill policy for Superpowers or equivalent skills
+- explicit MCP/App connector policy with local `gh` fallback boundaries
 
 Use the templates in [templates/project](templates/project) when bootstrapping a repo.
