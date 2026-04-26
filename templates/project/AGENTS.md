@@ -12,6 +12,40 @@ This repository follows the agent engineering kernel.
 6. Implementation
 7. Post-change verification
 
+## Skill-assisted execution canon
+
+If Superpowers or an equivalent process-skill pack is available, agents must read or invoke the relevant skill before acting.
+
+Priority order:
+
+1. Direct user instruction
+2. This project-local canon and the active PRD
+3. The engineering kernel
+4. Applicable Superpowers or equivalent process skill
+5. Model default behavior
+
+Canonical mapping:
+
+- new behavior, feature design, UI, workflow, or architecture: `using-superpowers`, then `brainstorming`
+- approved spec or multi-step requirements: `writing-plans`
+- implementation or bugfix: `test-driven-development`
+- bug, failed test, build failure, regression, or unexpected behavior: `systematic-debugging`
+- isolated branch or plan execution workspace: `using-git-worktrees`
+- independent parallel problem domains: `dispatching-parallel-agents`
+- implementation plan with permitted subagents: `subagent-driven-development`
+- implementation plan without subagents: `executing-plans`
+- code review request or review response: `requesting-code-review`, `receiving-code-review`
+- success, fixed, passing, done, commit-ready, or PR-ready claim: `verification-before-completion`
+- verified branch completion: `finishing-a-development-branch`
+
+Rules:
+
+- Superpowers skills are tactical workflow aids, not a replacement for PRD-first, issue-first, verification, or kernel-sync discipline.
+- The project canon remains the source of truth for requirements, scope, and verification.
+- If a skill default conflicts with this canon, the active PRD, tests, or an explicit user instruction, follow the higher-priority source and record the exception when it affects the slice.
+- If skill tooling is unavailable, apply the same principles manually and record the gap only when it changes the work or verification.
+- Do not run subagent or parallel workflows unless the platform supports them and user or project policy permits them.
+
 ## Research canon
 
 - use Tavily Search first, not Tavily Research first
@@ -117,6 +151,7 @@ If this repository also uses a thin behavior-only layer such as `CLAUDE.md`, a C
 - keep it optional and thin;
 - keep one canonical overlay source if several derived variants exist;
 - treat this `AGENTS.md`, the PRD, tests, and repo-local canon as higher priority than that overlay.
+- treat process-skill packs such as Superpowers as workflow aids, not as replacements for this canon.
 
 ## Canon files
 

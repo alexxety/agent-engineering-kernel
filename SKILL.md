@@ -11,6 +11,7 @@ Read [ENGINEERING_KERNEL.yaml](ENGINEERING_KERNEL.yaml) for the machine-readable
 Read [references/BOOTSTRAP.md](references/BOOTSTRAP.md) when you need to materialize the kernel into a project.
 Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user asks how the kernel should map across GPT/Codex and Claude-style agents.
 Read [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md) when the user asks whether a thin behavior-only guideline layer should exist across `CLAUDE.md`, Cursor rules, or skill/plugin surfaces.
+Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md) when the user asks how Superpowers or another process-skill pack should be used with the kernel.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
@@ -26,11 +27,19 @@ The bug-intake rule is explicit:
 - use one stable fingerprint per bug class
 - update the existing open bug issue when the fingerprint matches
 
+The minimum Superpowers mapping is explicit:
+
+- `using-superpowers` and `brainstorming` for new behavior
+- `writing-plans` for approved multi-step work
+- `test-driven-development` and `systematic-debugging` for implementation and bugs
+- `verification-before-completion` before success or PR-ready claims
+
 ## Use this skill for
 
 - creating a reusable engineering kernel for future projects
 - bootstrapping a new repository so agents stop depending on chat memory
 - establishing PRD-first execution
+- establishing Superpowers-compatible process-skill orchestration
 - establishing GitHub `Epic / Task / Bug` workflow
 - establishing automatic deduplicated GitHub bug intake
 - establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
@@ -66,6 +75,7 @@ The bug-intake rule is explicit:
 2. Apply the minimal core before discussing maximum enforcement.
 - project canon
 - PRD-first execution
+- Superpowers-compatible skill orchestration when process skills are available
 - issue tree
 - local-first execution surface
 - kernel upstream awareness
@@ -102,5 +112,6 @@ Prefer a small durable set of outputs:
 - explicit bug-intake policy for verifier/watchdog/runtime incidents
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
+- explicit process-skill policy for Superpowers or equivalent skills
 
 Use the templates in [templates/project](templates/project) when bootstrapping a repo.

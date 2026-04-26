@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added Superpowers-compatible process-skill orchestration to the kernel canon and project templates.
 - Research policy is now explicitly Tavily Search-first, not Tavily Research-first. Tavily Research is reserved for explicitly justified expensive broad deep-sweeps after search, known official docs, and manual synthesis are insufficient.
 
 ## [0.1.0] - 2026-04-20

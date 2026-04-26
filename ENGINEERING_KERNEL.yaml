@@ -12,6 +12,7 @@ layers:
   minimal_core:
     - project_local_canon
     - prd_first_execution
+    - agent_skill_orchestration_policy
     - research_policy
     - execution_surface_policy
     - optional_behavioral_overlay_policy
@@ -66,6 +67,55 @@ prd_first_execution:
     - refactor_slices_prefer_before_and_after_equivalence_checks
     - docs_only_canon_only_or_greenfield_slices_may_skip_pre_change_baseline_if_no_existing_contract_exists
     - docs_and_prd_are_part_of_the_slice
+
+agent_skill_orchestration_policy:
+  preferred_skill_pack: Superpowers
+  role:
+    - tactical_agent_process_layer
+    - not_the_source_of_truth_for_project_requirements_or_repo_canon
+  priority_order:
+    - direct_user_instruction
+    - project_local_canon_and_active_prd
+    - engineering_kernel
+    - applicable_superpowers_or_equivalent_process_skill
+    - model_default_behavior
+  canonical_skill_triggers:
+    project_or_feature_design:
+      - using-superpowers
+      - brainstorming
+    approved_spec_or_multi_step_requirements:
+      - writing-plans
+    implementation_or_bugfix:
+      - test-driven-development
+    bug_failure_or_unexpected_behavior:
+      - systematic-debugging
+    isolated_branch_work:
+      - using-git-worktrees
+    independent_parallel_work:
+      - dispatching-parallel-agents
+    plan_execution_with_subagents:
+      - subagent-driven-development
+    plan_execution_without_subagents:
+      - executing-plans
+    code_review_request_or_response:
+      - requesting-code-review
+      - receiving-code-review
+    completion_claim_or_pr_ready:
+      - verification-before-completion
+      - finishing-a-development-branch
+    skill_authoring:
+      - writing-skills
+  rules:
+    - when_a_relevant_superpowers_skill_or_equivalent_process_skill_is_available_the_agent_must_read_or_invoke_it_before_acting
+    - superpowers_skills_shape_how_the_agent_works_but_do_not_replace_prd_first_issue_first_or_verification_contracts
+    - project_local_canon_active_prd_and_explicit_user_instructions_override_skill_defaults
+    - prefer_skill_backed_brainstorming_for_new_behavior_before_writing_code
+    - prefer_skill_backed_planning_for_multi_step_work_before_touching_code
+    - bugfixes_use_systematic_debugging_before_fixes_and_tdd_for_regression_protection
+    - completion_claims_require_fresh_verification_evidence
+    - subagent_or_parallel_skill_work_requires_platform_support_and_user_or_project_permission
+    - if_skill_tooling_is_unavailable_apply_the_same_principles_manually_and_record_the_gap_when_it_affects_the_slice
+    - do_not_copy_vendor_skill_text_into_project_canon_when_a_small_mapping_or_reference_is_sufficient
 
 research_policy:
   preferred_stack:
@@ -352,6 +402,7 @@ community_health:
 model_adapter_policy:
   shared_core_must_match:
     - prd_first_execution
+    - agent_skill_orchestration_policy
     - github_issue_tree
     - verification_contract
     - documentation_discipline

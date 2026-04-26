@@ -33,6 +33,20 @@ What should be true after the change.
 
 Files, workflows, services, or systems expected to change.
 
+## Process Skills
+
+Record relevant Superpowers or equivalent process skills for this slice.
+
+- available skill pack: `Superpowers | other | unavailable`
+- relevant skills:
+  - `using-superpowers`
+  - `brainstorming`
+  - `writing-plans`
+  - `test-driven-development`
+  - `systematic-debugging`
+  - `verification-before-completion`
+- exceptions or conflicts with project canon: `none | describe`
+
 ## Kernel Upstream Check
 
 Record near slice start.

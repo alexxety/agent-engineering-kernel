@@ -5,6 +5,7 @@ This repository follows the agent engineering kernel.
 ## Engineering canon
 
 - non-trivial work is PRD-first
+- Superpowers or equivalent process skills are used as tactical workflow aids when available, without replacing project canon
 - non-trivial work starts from a parent GitHub issue
 - each non-trivial slice is classified before edits as `repo_local_slice` or `external_contract_slice`
 - repo-owned slices may proceed from project truth, deterministic verification, and local runtime checks
@@ -34,6 +35,7 @@ This repository follows the agent engineering kernel.
 - every serious slice ends with `kernel_sync_review`
 - serious closeouts record `Kernel Impact`
 - PR closes the leaf issue only
+- agents should read or invoke relevant Superpowers skills before acting: `using-superpowers` / `brainstorming` for new behavior, `writing-plans` for multi-step work, `test-driven-development` for implementation, `systematic-debugging` for bugs, and `verification-before-completion` before success claims
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
 - for GitHub sub-issues, prefer `scripts/link_github_sub_issue.py`; if you call REST directly, `sub_issue_id` means child issue database id, not `#issue_number`
 - GitHub Projects are optional and should be adopted only when issue-first execution needs shared fields/views or cross-repo planning

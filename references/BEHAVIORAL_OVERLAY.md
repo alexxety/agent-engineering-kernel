@@ -32,6 +32,8 @@ They must not replace:
 - `kernel_sync_review`
 - research classification
 
+Process-skill packs such as Superpowers are not merely behavioral overlays. They can provide task-specific workflows for brainstorming, planning, TDD, debugging, review, and verification. They still remain subordinate to project canon and must not replace the engineering kernel.
+
 ## Multi-surface sync rule
 
 If a project uses several agent surfaces, keep one canonical behavioral-overlay source and derive the rest from it.
