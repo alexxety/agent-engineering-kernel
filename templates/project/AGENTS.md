@@ -80,6 +80,20 @@ Rules:
 - use GitHub Actions for repository-native automation, schedules, deploys, and hosted verification that genuinely belongs there
 - do not enable paid GitHub-hosted runners, dependency cache uploads, or long-lived artifact storage without an explicit PRD/decision note
 
+## Environment promotion canon
+
+- production-bound projects should use one codebase with separate `local`, disposable `verify`, `staging`, and `production` environments
+- `local` is for developer/operator iteration and must not be treated as production data
+- disposable `verify` owns mutating automated tests
+- `staging` is production-like and uses sandbox or non-production provider identities
+- `production` contains real users, real customer data, and production provider identities
+- production secrets and production database URLs must not be copied into local config or local tests
+- mutating automated tests must not run against production
+- schema and deploy changes move through the repository's auditable delivery path
+- project canon must document the production-safe migration/deploy command before production use
+- project canon must document backup or restore-point path, staging smoke checks, production smoke checks, and rollback
+- production data may move down to staging only through documented backup/restore and sanitization; local or staging data must not move up to production
+
 ## Kernel sync canon
 
 - every serious slice begins with `kernel_upstream_check`

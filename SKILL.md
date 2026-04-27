@@ -15,6 +15,7 @@ Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKIL
 Read [references/MCP_TOOLING.md](references/MCP_TOOLING.md) when the user asks how MCP servers, App connector tooling, GitHub App permissions, or local `gh` fallback should be used.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
+Read [references/ENVIRONMENT_PROMOTION.md](references/ENVIRONMENT_PROMOTION.md) when the user asks how local, verify, staging, and production environments should be separated and promoted safely.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
 Read [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md) when the user asks how consumer projects should notice upstream kernel changes and decide whether to adopt them.
 Read [references/KERNEL_ADOPTION_TASK.md](references/KERNEL_ADOPTION_TASK.md) when the user asks what exact downstream `Task` should be opened or updated after `kernel_upstream_check` reports drift.
@@ -42,6 +43,11 @@ The MCP tooling rule is explicit:
 - GitHub App repository access and permissions live in GitHub Installed Apps, not in the local `gh` token
 - use shell-safe `gh` fallback when the connector is missing or blocked
 
+The environment-promotion rule is explicit:
+
+- production secrets and production database URLs must not be used in local config or local tests
+- mutating automated tests must not run against production
+
 ## Use this skill for
 
 - creating a reusable engineering kernel for future projects
@@ -53,6 +59,7 @@ The MCP tooling rule is explicit:
 - establishing automatic deduplicated GitHub bug intake
 - establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
 - establishing local-first execution and prerequisite bootstrap
+- establishing environment promotion and production safety rules
 - establishing kernel sync review and kernel impact discipline
 - establishing kernel upstream awareness and downstream adoption checks
 - establishing the canonical `kernel_adoption_task` work item for downstream kernel updates
@@ -88,6 +95,7 @@ The MCP tooling rule is explicit:
 - issue tree
 - local-first execution surface
 - MCP/App connector tooling policy
+- environment promotion surface
 - kernel upstream awareness
 - kernel sync review
 - PR verification contract
@@ -120,6 +128,7 @@ Prefer a small durable set of outputs:
 - `CODEOWNERS`
 - active PRD / decision record
 - explicit bug-intake policy for verifier/watchdog/runtime incidents
+- explicit environment-promotion policy for local, verify, staging, and production
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 - explicit process-skill policy for Superpowers or equivalent skills

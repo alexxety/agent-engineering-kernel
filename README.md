@@ -24,6 +24,7 @@ This repository is the standalone source-of-truth for:
 - kernel upstream awareness so consumer repositories can detect kernel drift explicitly
 - a canonical `kernel_adoption_task` so downstream repos handle kernel drift deterministically
 - optional kernel fleet sweep so one operator machine can review many consumer repos at once
+- environment promotion canon for local, disposable verify, staging, and production boundaries
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -35,6 +36,7 @@ Execution-surface canon:
 - self-hosted runners are preferred over paid GitHub-hosted Actions when the repository already has them or can reasonably provide them
 - paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage are explicit exceptions for private repositories, not defaults
 - GitHub Actions remain for repo-native automation, schedules, deploys, and hosted checks that actually belong there
+- production-bound work should document local, disposable verify, staging, and production boundaries before launch hardening
 
 ## Core idea
 
@@ -84,7 +86,16 @@ Verification canon:
 - for refactors, prefer before/after equivalence checks
 - for docs-only, canon-only, or greenfield slices without an existing contract, do not invent a fake pre-change baseline
 - live verification that can write to an external service must use explicitly designated sandbox identities, never operator or production identities
+- production secrets and production database URLs must not be used in local verification
+- mutating automated tests must not run against production data or production provider identities
 - post-change verification before publish remains mandatory
+
+Environment-promotion canon:
+
+- use one codebase with multiple deploy environments, not copied projects that drift
+- `local` is for iteration, `verify` is disposable for automated mutating tests, `staging` is production-like with sandbox identities, and `production` is real users/data
+- each project must document production-safe deploy or migration commands, backup/restore-point path, staging smoke checks, production smoke checks, and rollback before production use
+- production data may move down to staging only through documented backup/restore and sanitization; local or staging data must not move up to production
 
 Skill-assisted execution canon:
 
@@ -160,6 +171,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how MCP and App connector tooling should be used with GitHub App permissions and `gh` fallback boundaries
 - [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)
   - local-first versus GitHub Actions execution policy
+- [references/ENVIRONMENT_PROMOTION.md](references/ENVIRONMENT_PROMOTION.md)
+  - local, verify, staging, and production promotion policy
 - [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md)
   - how kernel learnings are promoted without polluting the universal core
 - [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md)
@@ -194,6 +207,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - decision record for optional thin behavior-only overlays across `CLAUDE.md` / Cursor / skill-plugin surfaces
 - [docs/kernel-adoption-task-prd-2026-04-18.md](docs/kernel-adoption-task-prd-2026-04-18.md)
   - decision record for the canonical downstream kernel adoption task
+- [docs/environment-promotion-canon-prd-2026-04-26.md](docs/environment-promotion-canon-prd-2026-04-26.md)
+  - decision record for environment promotion canon
 
 ## Bootstrap a project
 

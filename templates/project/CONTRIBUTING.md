@@ -47,6 +47,17 @@ Skills are tactical workflow aids. This project canon, the active PRD, tests, an
 - keep GitHub Actions for repository-native automation, schedules, deploys, and hosted checks that genuinely need the platform
 - do not enable paid GitHub-hosted runners, dependency cache uploads, or long-lived artifact storage without an explicit PRD/decision note
 
+## Environment promotion policy
+
+- Production-bound projects should use one codebase with separate `local`, disposable `verify`, `staging`, and `production` environments.
+- Local development can use local throwaway data and local-only secrets.
+- Disposable verification owns mutating automated tests.
+- Staging should be production-like and use sandbox or non-production provider identities.
+- Production contains real users, real customer data, and production provider identities.
+- Do not place production secrets or production database URLs in local config.
+- Do not run mutating automated tests against production.
+- Document the production-safe migration/deploy command, backup or restore-point path, smoke checks, and rollback before production use.
+
 ## Start from the correct issue
 
 Use:

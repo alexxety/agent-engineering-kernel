@@ -26,6 +26,10 @@ This repository follows the agent engineering kernel.
 - document self-hosted runner labels before enabling recurring GitHub checks
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
 - paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage require an explicit PRD/decision note
+- production-bound work documents `local`, disposable `verify`, `staging`, and `production` boundaries before launch hardening
+- production secrets and production database URLs must not be used in local verification
+- mutating automated tests must not run against production
+- production-safe migration/deploy command, backup or restore-point path, smoke checks, and rollback must be project-local canon
 - serious slices begin with `kernel_upstream_check`
 - the project pins its upstream kernel commit in `.kernel/upstream.json`
 - if drift exists, open or update a `kernel_adoption_task`
