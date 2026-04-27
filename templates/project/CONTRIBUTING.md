@@ -2,6 +2,28 @@
 
 This repository uses a PRD-first and issue-first engineering workflow.
 
+## Process skill policy
+
+If Superpowers or an equivalent process-skill pack is available, agents should read or invoke the relevant skill before acting:
+
+- `using-superpowers` and `brainstorming` for new behavior or design work
+- `writing-plans` for approved multi-step work
+- `test-driven-development` for implementation and bugfixes
+- `systematic-debugging` for bugs, failed tests, build failures, regressions, or unexpected behavior
+- `verification-before-completion` before any success, fixed, passing, done, commit-ready, or PR-ready claim
+- `requesting-code-review` and `receiving-code-review` around review
+- `using-git-worktrees`, `dispatching-parallel-agents`, `subagent-driven-development`, or `executing-plans` only when the project, platform, and work shape allow them
+
+Skills are tactical workflow aids. This project canon, the active PRD, tests, and explicit user instructions stay higher priority.
+
+## MCP/App connector policy
+
+- use MCP or App connector tooling for supported structured external-service operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- configure GitHub App repository access and permissions in GitHub Installed Apps, not by storing tokens in repo files
+- if an App connector fails with a permission error, check repository access and App permissions before refreshing local `gh` auth
+- use the canonical shell-safe `gh` fallback when connector tooling is missing, stale, or blocked
+
 ## Research policy
 
 - Tavily Search first, not Tavily Research first

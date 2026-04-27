@@ -24,6 +24,8 @@ class RepoKernelCanonTests(unittest.TestCase):
             "scripts/link_github_sub_issue.py",
             "references/BOOTSTRAP.md",
             "references/BEHAVIORAL_OVERLAY.md",
+            "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
+            "references/MCP_TOOLING.md",
             "references/BUG_INTAKE.md",
             "references/EXECUTION_SURFACES.md",
             "references/KERNEL_FLEET_SWEEP.md",
@@ -42,6 +44,8 @@ class RepoKernelCanonTests(unittest.TestCase):
         payload = yaml.safe_load((ROOT / "ENGINEERING_KERNEL.yaml").read_text(encoding="utf-8"))
         self.assertIn("layers", payload)
         self.assertIn("model_adapter_policy", payload)
+        self.assertIn("agent_skill_orchestration_policy", payload)
+        self.assertIn("mcp_tooling_policy", payload)
         self.assertIn("research_policy", payload)
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
@@ -58,6 +62,17 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "capture_smallest_relevant_baseline_verification_before_edits_when_existing_contract_exists",
             prd_first["rules"],
+        )
+        skill_policy = payload["agent_skill_orchestration_policy"]
+        self.assertEqual(skill_policy["preferred_skill_pack"], "Superpowers")
+        self.assertIn("using-superpowers", skill_policy["canonical_skill_triggers"]["project_or_feature_design"])
+        self.assertIn(
+            "verification-before-completion",
+            skill_policy["canonical_skill_triggers"]["completion_claim_or_pr_ready"],
+        )
+        self.assertIn(
+            "project_local_canon_active_prd_and_explicit_user_instructions_override_skill_defaults",
+            skill_policy["rules"],
         )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
@@ -85,6 +100,17 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "every_external_contract_slice_must_record_an_external_source_of_truth_matrix_before_implementation_lands",
             research_policy["rules"],
+        )
+        mcp_policy = payload["mcp_tooling_policy"]
+        self.assertIn("structured_external_service_interface", mcp_policy["role"])
+        self.assertIn("github_app_installation_token", mcp_policy["identity_boundaries"])
+        self.assertIn(
+            "prefer_mcp_or_app_connector_for_supported_structured_external_service_operations",
+            mcp_policy["rules"],
+        )
+        self.assertIn(
+            "local_cli_tokens_and_mcp_connector_tokens_are_different_identities",
+            mcp_policy["rules"],
         )
 
     def test_kernel_readme_and_templates_document_pre_change_baseline_rule(self) -> None:
@@ -240,6 +266,26 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("sub_issue_id", content, rel)
             self.assertIn("database id", content, rel)
 
+    def test_kernel_docs_and_templates_mention_mcp_tooling_policy(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/MCP_TOOLING.md",
+            "references/GITHUB_DELIVERY.md",
+            "references/BOOTSTRAP.md",
+            "references/MODEL_ADAPTERS.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("MCP", content, rel)
+            self.assertIn("App connector", content, rel)
+            self.assertIn("GitHub App", content, rel)
+            self.assertIn("gh", content, rel)
+            self.assertIn("different identities", content, rel)
+
     def test_kernel_docs_and_templates_mention_optional_github_projects(self) -> None:
         for rel in (
             "README.md",
@@ -308,6 +354,24 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("thin", content.lower(), rel)
             self.assertIn("Cursor", content, rel)
             self.assertIn("CLAUDE.md", content, rel)
+
+    def test_kernel_docs_and_templates_mention_superpowers_skill_orchestration(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
+            "references/BOOTSTRAP.md",
+            "references/MODEL_ADAPTERS.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("Superpowers", content, rel)
+            self.assertIn("using-superpowers", content, rel)
+            self.assertIn("verification-before-completion", content, rel)
+            self.assertIn("project canon", content, rel)
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (

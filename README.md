@@ -12,6 +12,8 @@ Universal engineering kernel for agent-led software work.
 This repository is the standalone source-of-truth for:
 
 - PRD-first execution
+- Superpowers-compatible process-skill orchestration
+- MCP and App connector tooling policy
 - GitHub issue decomposition
 - PR verification discipline
 - project bootstrap templates
@@ -43,11 +45,13 @@ Shared core:
 - research
 - code audit
 - reconciliation
+- process-skill selection when Superpowers or an equivalent skill pack is available
 - documentation first
 - baseline verification when an existing contract already exists
 - implementation
 - post-change verification
 - GitHub `Epic / Task / Bug` hierarchy
+- MCP or App connector use for supported structured external-service operations, with local `gh` fallback treated as a different identity
 - automatic deduplicated `Bug` intake from verifier/watchdog/runtime gates
 - PR closes leaf issue only
 - shell-safe GitHub CLI delivery through `--body-file` or a single-quoted heredoc-generated body file instead of inline markdown bodies
@@ -81,6 +85,26 @@ Verification canon:
 - for docs-only, canon-only, or greenfield slices without an existing contract, do not invent a fake pre-change baseline
 - live verification that can write to an external service must use explicitly designated sandbox identities, never operator or production identities
 - post-change verification before publish remains mandatory
+
+Skill-assisted execution canon:
+
+- Superpowers skills are a tactical process layer, not a replacement for project canon
+- project-local `AGENTS.md`, the active PRD, explicit user instructions, tests, and the engineering kernel outrank skill defaults
+- when a relevant Superpowers skill is available, agents should read or invoke it before acting
+- map new behavior to `using-superpowers` and `brainstorming`
+- map approved multi-step work to `writing-plans`
+- map implementation and bugfixes to `test-driven-development`
+- map bugs, failed tests, and unexpected behavior to `systematic-debugging`
+- map completion claims to `verification-before-completion`
+- use `subagent-driven-development`, `dispatching-parallel-agents`, or `executing-plans` only when the platform, independence, and user or project policy allow it
+
+MCP tooling canon:
+
+- use MCP or App connector tooling for supported structured external-service operations when available and authorized
+- local `gh` auth and GitHub App connector auth are different identities with separate permissions
+- configure GitHub App repository access and permissions in GitHub Installed Apps, not by changing the local `gh` token
+- never record tokens in repo docs, PRDs, issues, or PR bodies
+- if the App connector is blocked or missing, use the canonical shell-safe `gh` fallback and record the gap when it affects the slice
 
 Kernel sync canon:
 
@@ -130,6 +154,10 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - model adapter policy
 - [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md)
   - thin behavior-layer policy for `CLAUDE.md` / Cursor / skill/plugin surfaces
+- [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md)
+  - how Superpowers and equivalent process skills should be used without replacing the kernel
+- [references/MCP_TOOLING.md](references/MCP_TOOLING.md)
+  - how MCP and App connector tooling should be used with GitHub App permissions and `gh` fallback boundaries
 - [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)
   - local-first versus GitHub Actions execution policy
 - [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md)

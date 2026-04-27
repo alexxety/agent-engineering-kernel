@@ -12,6 +12,8 @@ layers:
   minimal_core:
     - project_local_canon
     - prd_first_execution
+    - agent_skill_orchestration_policy
+    - mcp_tooling_policy
     - research_policy
     - execution_surface_policy
     - optional_behavioral_overlay_policy
@@ -66,6 +68,82 @@ prd_first_execution:
     - refactor_slices_prefer_before_and_after_equivalence_checks
     - docs_only_canon_only_or_greenfield_slices_may_skip_pre_change_baseline_if_no_existing_contract_exists
     - docs_and_prd_are_part_of_the_slice
+
+agent_skill_orchestration_policy:
+  preferred_skill_pack: Superpowers
+  role:
+    - tactical_agent_process_layer
+    - not_the_source_of_truth_for_project_requirements_or_repo_canon
+  priority_order:
+    - direct_user_instruction
+    - project_local_canon_and_active_prd
+    - engineering_kernel
+    - applicable_superpowers_or_equivalent_process_skill
+    - model_default_behavior
+  canonical_skill_triggers:
+    project_or_feature_design:
+      - using-superpowers
+      - brainstorming
+    approved_spec_or_multi_step_requirements:
+      - writing-plans
+    implementation_or_bugfix:
+      - test-driven-development
+    bug_failure_or_unexpected_behavior:
+      - systematic-debugging
+    isolated_branch_work:
+      - using-git-worktrees
+    independent_parallel_work:
+      - dispatching-parallel-agents
+    plan_execution_with_subagents:
+      - subagent-driven-development
+    plan_execution_without_subagents:
+      - executing-plans
+    code_review_request_or_response:
+      - requesting-code-review
+      - receiving-code-review
+    completion_claim_or_pr_ready:
+      - verification-before-completion
+      - finishing-a-development-branch
+    skill_authoring:
+      - writing-skills
+  rules:
+    - when_a_relevant_superpowers_skill_or_equivalent_process_skill_is_available_the_agent_must_read_or_invoke_it_before_acting
+    - superpowers_skills_shape_how_the_agent_works_but_do_not_replace_prd_first_issue_first_or_verification_contracts
+    - project_local_canon_active_prd_and_explicit_user_instructions_override_skill_defaults
+    - prefer_skill_backed_brainstorming_for_new_behavior_before_writing_code
+    - prefer_skill_backed_planning_for_multi_step_work_before_touching_code
+    - bugfixes_use_systematic_debugging_before_fixes_and_tdd_for_regression_protection
+    - completion_claims_require_fresh_verification_evidence
+    - subagent_or_parallel_skill_work_requires_platform_support_and_user_or_project_permission
+    - if_skill_tooling_is_unavailable_apply_the_same_principles_manually_and_record_the_gap_when_it_affects_the_slice
+    - do_not_copy_vendor_skill_text_into_project_canon_when_a_small_mapping_or_reference_is_sufficient
+
+mcp_tooling_policy:
+  preferred_interface: MCP_or_App_connector_when_available
+  role:
+    - structured_external_service_interface
+    - not_a_place_to_store_or_copy_tokens
+    - subordinate_to_project_canon_active_prd_and_verification_contracts
+  identity_boundaries:
+    - github_app_installation_token
+    - local_gh_cli_token
+    - personal_access_token
+    - service_account_or_sandbox_identity
+  github_connector_minimum_permissions:
+    - repository_access_to_target_repo
+    - contents_read_write_when_code_branches_or_files_are_changed
+    - issues_read_write_when_issues_are_created_or_updated
+    - pull_requests_read_write_when_prs_are_created_or_updated
+    - actions_or_workflows_read_write_only_when_workflow_files_or_action_state_are_in_scope
+  rules:
+    - prefer_mcp_or_app_connector_for_supported_structured_external_service_operations
+    - local_cli_tokens_and_mcp_connector_tokens_are_different_identities
+    - github_app_installation_permissions_are_configured_in_github_installed_apps_not_in_the_local_gh_token
+    - do_not_paste_or_record_tokens_in_repo_docs_prds_or_issue_bodies
+    - if_connector_write_fails_check_repository_access_and_app_permissions_before_refreshing_local_cli_auth
+    - when_connector_tooling_is_missing_or_blocked_use_the_canonical_cli_fallback_and_record_the_gap_when_it_affects_the_slice
+    - github_cli_fallbacks_must_follow_shell_safe_body_file_and_sub_issue_rules
+    - verify_live_external_writes_with_a_sandbox_or_low_impact_identity_before_claiming_connector_access_works
 
 research_policy:
   preferred_stack:
@@ -293,6 +371,9 @@ github_delivery_flow:
     - prefer_squash_merge_for_single_slice_history_unless_project_canon_overrides_it
     - auto_bug_intake_should_open_or_update_the_bug_issue_before_fix_delivery_begins
     - when_using_gh_issue_or_pr_commands_from_shell_prefer_body_file_over_inline_body
+    - prefer_mcp_or_app_connector_for_structured_github_issue_pr_and_metadata_operations_when_available_and_authorized
+    - local_gh_auth_and_github_app_connector_auth_are_different_identities_with_separate_permissions
+    - if_github_connector_returns_resource_not_accessible_by_integration_check_installed_github_app_repository_access_and_permissions
     - never_embed_markdown_with_backticks_in_inline_double_quoted_gh_body_arguments
     - single_quoted_heredoc_is_an_acceptable_fallback_only_when_it_writes_the_body_file_first
     - when_linking_sub_issues_from_cli_prefer_the_kernel_helper_or_graphql_addSubIssue_after_resolving_issue_node_ids
@@ -352,6 +433,8 @@ community_health:
 model_adapter_policy:
   shared_core_must_match:
     - prd_first_execution
+    - agent_skill_orchestration_policy
+    - mcp_tooling_policy
     - github_issue_tree
     - verification_contract
     - documentation_discipline
