@@ -214,6 +214,28 @@ execution_surface_policy:
     - if_repo_defines_a_local_bootstrap_path_run_it_or_repair_it
     - use_github_actions_only_when_local_or_self_hosted_execution_is_not_the_right_surface
 
+environment_promotion_policy:
+  default_environment_classes:
+    - local
+    - verify
+    - staging
+    - production
+  rules:
+    - use_one_codebase_with_multiple_deploy_environments_not_copied_projects
+    - document_local_verify_staging_and_production_boundaries_before_launch_hardening
+    - local_is_for_developer_or_operator_iteration_and_must_not_be_treated_as_production_data
+    - disposable_verify_owns_mutating_automated_tests
+    - staging_is_production_like_and_uses_sandbox_or_non_production_provider_identities
+    - production_contains_real_users_real_customer_data_and_production_provider_identities
+    - production_secrets_and_production_database_urls_must_not_be_used_in_local_config_or_local_tests
+    - mutating_automated_tests_must_not_run_against_production
+    - schema_and_deploy_changes_move_through_the_repository_auditable_delivery_path
+    - project_canon_must_document_the_production_safe_migration_or_deploy_command_before_production_use
+    - project_canon_must_document_backup_or_restore_point_path_before_production_migrations
+    - production_smoke_checks_should_be_read_safe_unless_a_prd_or_decision_note_approves_the_write_and_rollback_path
+    - production_data_may_move_down_to_staging_only_through_documented_backup_restore_and_sanitization
+    - local_or_staging_data_must_not_move_up_to_production
+
 behavioral_overlay_policy:
   bootstrap_default: false
   purpose:

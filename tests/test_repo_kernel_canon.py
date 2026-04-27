@@ -27,6 +27,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
             "references/MCP_TOOLING.md",
             "references/BUG_INTAKE.md",
+            "references/ENVIRONMENT_PROMOTION.md",
             "references/EXECUTION_SURFACES.md",
             "references/KERNEL_FLEET_SWEEP.md",
             "references/KERNEL_SYNC_POLICY.md",
@@ -50,6 +51,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("github_delivery_flow", payload)
         self.assertIn("automatic_bug_intake", payload)
         self.assertIn("execution_surface_policy", payload)
+        self.assertIn("environment_promotion_policy", payload)
         self.assertIn("optional_operator_layers", payload)
         self.assertIn("behavioral_overlay_policy", payload)
         self.assertIn("kernel_upstream_awareness_policy", payload)
@@ -111,6 +113,19 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "local_cli_tokens_and_mcp_connector_tokens_are_different_identities",
             mcp_policy["rules"],
+        )
+        environment_promotion_policy = payload["environment_promotion_policy"]
+        self.assertEqual(
+            environment_promotion_policy["default_environment_classes"],
+            ["local", "verify", "staging", "production"],
+        )
+        self.assertIn(
+            "mutating_automated_tests_must_not_run_against_production",
+            environment_promotion_policy["rules"],
+        )
+        self.assertIn(
+            "project_canon_must_document_the_production_safe_migration_or_deploy_command_before_production_use",
+            environment_promotion_policy["rules"],
         )
 
     def test_kernel_readme_and_templates_document_pre_change_baseline_rule(self) -> None:
@@ -227,6 +242,28 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("owned compute", content, rel)
             self.assertIn("paid GitHub-hosted", content, rel)
             self.assertIn("dependency cache", content, rel)
+
+    def test_kernel_docs_and_templates_mention_environment_promotion(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/ENVIRONMENT_PROMOTION.md",
+            "references/EXECUTION_SURFACES.md",
+            "references/BOOTSTRAP.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("local", content.lower(), rel)
+            self.assertIn("verify", content.lower(), rel)
+            self.assertIn("staging", content.lower(), rel)
+            self.assertIn("production", content.lower(), rel)
+            if rel != "references/GITHUB_DELIVERY.md":
+                self.assertIn("production secrets", content.lower(), rel)
+                self.assertIn("mutating", content.lower(), rel)
 
     def test_kernel_workflow_uses_owned_compute_runner(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "tests.yml").read_text(encoding="utf-8")

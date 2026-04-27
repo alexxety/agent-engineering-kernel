@@ -49,6 +49,25 @@ Use GitHub Actions when the value is specifically repository-native automation:
 - hosted verification that must execute inside GitHub
 - branch/merge policy checks that belong to the repository platform
 
+## Environment Promotion
+
+Execution surfaces answer where work runs. Environment promotion answers how code,
+config, secrets, schema, and data move toward production.
+
+Production-bound projects should document:
+
+- `local` for development and operator iteration
+- disposable `verify` for mutating automated tests
+- `staging` for production-like acceptance with sandbox identities
+- `production` for real users, customer data, and provider identities
+
+Production secrets and production database URLs must not be used in local config
+or local tests. Mutating automated tests must not run against production.
+
+Projects should document the production-safe migration/deploy command, backup or
+restore-point path, staging smoke checks, production smoke checks, and rollback
+before production use.
+
 ## Why this matters
 
 For private repositories, GitHub-hosted Actions consume billed/included runner
@@ -74,6 +93,8 @@ Project-local canon should state:
 - whether the project has self-hosted runners
 - the self-hosted runner label(s) for recurring repository checks
 - which workflows must remain in GitHub Actions
+- the environment promotion path from local to verify to staging to production
+- the production-safe migration/deploy command and backup or restore-point path
 - that agents should not route routine dev/test work to paid hosted Actions by
   default
 - that dependency cache uploads and artifact retention are disabled or bounded

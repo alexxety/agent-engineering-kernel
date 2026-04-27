@@ -31,12 +31,18 @@ Tooling rule:
 10. Merge
 11. Delete the head branch
 
+For production-bound work, the project-specific rollout should continue after
+merge from local verification through disposable verify, staging deploy, staging
+smoke checks, manual production approval, production backup or restore point,
+production deploy, read-safe production smoke checks, and monitoring.
+
 ## Rules
 
 - PR closes the leaf issue only
 - parent epic stays open until all required leaf issues and acceptance checks are complete
 - baseline-before-edits and post-change verification are different moments; keep both explicit when an existing contract already exists
 - keep the PR description aligned with the real scope and verification
+- production-bound PRs should name the staging and production promotion gates or link the decision note that owns them
 - use draft PR while the scope or verification is still moving
 - prefer squash merge unless the project canon explicitly chooses another method
 - automatic bug intake opens or updates the `Bug` issue before the fix slice starts

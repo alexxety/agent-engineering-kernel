@@ -40,6 +40,10 @@ The bootstrapped canon should also make explicit:
 - which workflows must stay in GitHub Actions
 - that GitHub coordinates repository workflow but owned compute executes routine development and verification by default
 - that routine development and verification should not default to paid GitHub-hosted Actions, dependency cache uploads, or long-lived artifact storage
+- that production-bound projects document `local`, disposable `verify`, `staging`, and `production` environment boundaries before launch hardening
+- that production secrets and production database URLs must not be used in local config or local tests
+- that mutating automated tests must not run against production
+- that production-safe migration/deploy command, backup/restore-point path, smoke checks, and rollback are project-local canon
 - that each serious slice begins with `kernel_upstream_check`
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision

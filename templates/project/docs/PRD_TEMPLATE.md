@@ -72,6 +72,19 @@ Record near slice start.
 
 Phased plan with validation and rollback.
 
+For production-bound work, record:
+
+- local verification path;
+- disposable verify environment;
+- staging deploy and smoke checks;
+- production approval gate;
+- production backup or restore point;
+- production deploy or migration command;
+- read-safe production smoke checks;
+- rollback path.
+
+Production-bound work must also confirm that production secrets and production database URLs are not used in local config or local tests, and that mutating automated tests do not run against production.
+
 ## Verification Matrix
 
 - code-path tests
