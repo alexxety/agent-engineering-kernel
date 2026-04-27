@@ -46,6 +46,45 @@ Rules:
 - If skill tooling is unavailable, apply the same principles manually and record the gap only when it changes the work or verification.
 - Do not run subagent or parallel workflows unless the platform supports them and user or project policy permits them.
 
+## Agentic coding orchestration canon
+
+When this repository uses orchestrated agentic coding, one primary orchestrator remains accountable for:
+
+- scope and task boundaries;
+- research and source-of-truth reconciliation;
+- worker write-set isolation;
+- review decisions;
+- tests and verification;
+- documentation and handoff;
+- git commits, PRs, merges, deploy checks, and rollback notes.
+
+Worker agents are coding hands. They must receive a narrow task, explicit allowed write paths, forbidden paths/actions, verification commands, and a required return format.
+
+Default concurrency:
+
+- one worker agent at a time;
+- at most two worker agents in parallel, only when write sets and runtime resources are disjoint;
+- at most one reviewer agent at a time unless review questions are independent;
+- at most three open subagent threads total;
+- close completed or errored agents immediately after recording their result.
+
+While worker agents are active:
+
+- avoid parallel shell/tool calls;
+- avoid broad repeated file scans unless needed;
+- do not busy-poll agents;
+- do not launch background services unless the task requires them.
+
+If the executor reports resource failures such as `Too many open files`, stream disconnects, or failed process creation:
+
+1. stop spawning agents;
+2. stop parallel shell/tool calls;
+3. close completed or errored agent threads;
+4. recover with sequential `true`, `git status --short --branch`, and `git diff --check`;
+5. do not edit runtime code or claim verification until shell health is restored.
+
+Project-local rules may make these limits stricter, especially for live production surfaces.
+
 ## Research canon
 
 - use Tavily Search first, not Tavily Research first

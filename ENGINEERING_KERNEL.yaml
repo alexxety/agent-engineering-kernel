@@ -13,6 +13,7 @@ layers:
     - project_local_canon
     - prd_first_execution
     - agent_skill_orchestration_policy
+    - agentic_coding_orchestration_policy
     - mcp_tooling_policy
     - research_policy
     - execution_surface_policy
@@ -117,6 +118,68 @@ agent_skill_orchestration_policy:
     - subagent_or_parallel_skill_work_requires_platform_support_and_user_or_project_permission
     - if_skill_tooling_is_unavailable_apply_the_same_principles_manually_and_record_the_gap_when_it_affects_the_slice
     - do_not_copy_vendor_skill_text_into_project_canon_when_a_small_mapping_or_reference_is_sufficient
+
+agentic_coding_orchestration_policy:
+  default_roles:
+    orchestrator:
+      - owns_scope_research_task_boundaries_review_verification_docs_commits_and_runtime_checks
+      - does_not_delegate_the_immediate_blocker_when_the_next_local_decision_depends_on_it
+    worker_agent:
+      - coding_hands_with_narrow_task_and_explicit_write_set
+      - no_deploy_no_live_sends_no_secrets_no_pii_no_reverts_no_scope_expansion
+    reviewer_agent:
+      - optional_targeted_review_for_security_db_runtime_deploy_privacy_production_or_broad_changes
+      - not_a_replacement_for_orchestrator_judgment
+  concurrency_defaults:
+    max_worker_agents_default: 1
+    max_worker_agents_parallel: 2
+    max_reviewer_agents_default: 1
+    max_open_subagent_threads: 3
+  parallel_worker_allowed_only_when:
+    - write_sets_are_disjoint
+    - tests_and_runtime_resources_are_disjoint
+    - workers_do_not_touch_shared_deploy_scripts_shared_fixtures_generated_files_live_state_or_same_plan_doc_section
+    - orchestrator_can_review_and_integrate_without_guessing
+    - local_executor_health_is_normal
+  prompt_contract_required_fields:
+    - repository_or_worktree_path
+    - branch_name
+    - task_goal
+    - exact_allowed_write_paths
+    - forbidden_paths_or_actions
+    - live_system_access_rule
+    - secret_and_privacy_rules
+    - verification_commands
+    - return_format
+  tool_load_rules:
+    - avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active
+    - prefer_sequential_shell_commands_while_worker_agents_are_active
+    - avoid_broad_repeated_file_scans_unless_needed
+    - do_not_busy_poll_agents
+    - close_completed_or_abandoned_agent_threads_immediately_after_recording_result
+  recovery_triggers:
+    - too_many_open_files
+    - stream_disconnected_before_completion
+    - failed_to_create_process
+  recovery_rules:
+    - stop_spawning_agents
+    - stop_parallel_shell_and_tool_calls
+    - close_completed_or_errored_agent_threads
+    - recover_with_minimal_sequential_commands
+    - do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run
+  integration_rules:
+    - verify_changed_files_stay_within_allowed_write_set
+    - verify_no_secrets_or_raw_customer_data_were_introduced
+    - require_git_diff_check_before_accepting_worker_patch
+    - require_focused_tests_or_documented_expected_red_state
+    - commit_after_each_accepted_slice_when_feasible
+  review_rules:
+    - distinguish_spec_compliance_review_from_code_quality_review
+    - evaluate_external_reviewer_feedback_technically_not_blindly
+    - expected_tdd_red_state_is_not_a_bug_when_documented
+  project_override_rule:
+    - project_local_agents_md_may_impose_stricter_limits
+    - live_production_projects_should_default_to_one_worker_staging_first_no_worker_deploys_and_orchestrator_only_runtime_verification
 
 mcp_tooling_policy:
   preferred_interface: MCP_or_App_connector_when_available

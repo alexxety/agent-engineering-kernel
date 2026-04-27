@@ -43,6 +43,7 @@ This repository follows the agent engineering kernel.
 - serious closeouts record `Kernel Impact`
 - PR closes the leaf issue only
 - agents should read or invoke relevant Superpowers skills before acting: `using-superpowers` / `brainstorming` for new behavior, `writing-plans` for multi-step work, `test-driven-development` for implementation, `systematic-debugging` for bugs, and `verification-before-completion` before success claims
+- orchestrated agentic coding keeps one accountable orchestrator, defaults to one worker agent, permits at most two parallel workers only with disjoint write sets, uses targeted reviewer agents, and stops spawning agents after executor/resource failures such as `Too many open files`
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
 - shell-safe `gh` is the fallback when MCP/App connector tooling is missing, stale, or blocked
 - for GitHub sub-issues, prefer `scripts/link_github_sub_issue.py`; if you call REST directly, `sub_issue_id` means child issue database id, not `#issue_number`

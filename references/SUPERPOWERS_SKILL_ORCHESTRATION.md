@@ -49,9 +49,9 @@ Use `systematic-debugging` for bugs, failed tests, build failures, regressions, 
 
 Use `using-git-worktrees` when the work needs branch isolation or when executing an implementation plan. Project branch/worktree policy remains higher priority.
 
-Use `dispatching-parallel-agents` only for independent problem domains with no shared write scope.
+Use `dispatching-parallel-agents` only for independent problem domains with no shared write scope and after applying the concurrency limits in `references/AGENTIC_CODING_ORCHESTRATION.md`.
 
-Use `subagent-driven-development` for independent plan tasks only when the platform supports subagents and the user or project policy permits them. Otherwise use `executing-plans`.
+Use `subagent-driven-development` for independent plan tasks only when the platform supports subagents, the user or project policy permits them, executor health is normal, and the orchestrator can keep worker/reviewer threads within the project or kernel limits. Otherwise use `executing-plans`.
 
 Use `requesting-code-review` before merge or after major tasks, and `receiving-code-review` before implementing review feedback.
 
@@ -74,4 +74,4 @@ Do not let a skill pack bypass:
 - external-contract research requirements
 - the project verification matrix
 
-Do not run subagent or parallel workflows merely because a skill mentions them. They require platform support, clear independence, and user or project permission.
+Do not run subagent or parallel workflows merely because a skill mentions them. They require platform support, clear independence, user or project permission, disjoint write sets, and healthy local executor state.

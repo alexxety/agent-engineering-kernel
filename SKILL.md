@@ -12,6 +12,7 @@ Read [references/BOOTSTRAP.md](references/BOOTSTRAP.md) when you need to materia
 Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user asks how the kernel should map across GPT/Codex and Claude-style agents.
 Read [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md) when the user asks whether a thin behavior-only guideline layer should exist across `CLAUDE.md`, Cursor rules, or skill/plugin surfaces.
 Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md) when the user asks how Superpowers or another process-skill pack should be used with the kernel.
+Read [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md) when the user asks how orchestrator/worker/reviewer agentic coding should be structured, limited, reviewed, and recovered after resource failures.
 Read [references/MCP_TOOLING.md](references/MCP_TOOLING.md) when the user asks how MCP servers, App connector tooling, GitHub App permissions, or local `gh` fallback should be used.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
@@ -36,6 +37,16 @@ The minimum Superpowers mapping is explicit:
 - `test-driven-development` and `systematic-debugging` for implementation and bugs
 - `verification-before-completion` before success or PR-ready claims
 
+The agentic coding orchestration rule is explicit:
+
+- one orchestrator remains accountable for scope, verification, docs, commits, and runtime checks
+- default to one worker agent at a time
+- use at most two parallel worker agents only with disjoint write sets and healthy local executor state
+- close completed subagent threads promptly
+- avoid parallel shell/tool calls while worker agents are active
+- stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files`
+- resume only after `git status --short --branch` and `git diff --check` can run
+
 The MCP tooling rule is explicit:
 
 - prefer MCP or App connector tooling for supported structured external-service operations
@@ -54,6 +65,7 @@ The environment-promotion rule is explicit:
 - bootstrapping a new repository so agents stop depending on chat memory
 - establishing PRD-first execution
 - establishing Superpowers-compatible process-skill orchestration
+- establishing orchestrator / worker / reviewer agentic coding limits and recovery protocol
 - establishing MCP/App connector tooling boundaries and GitHub App permission checks
 - establishing GitHub `Epic / Task / Bug` workflow
 - establishing automatic deduplicated GitHub bug intake
@@ -132,6 +144,7 @@ Prefer a small durable set of outputs:
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 - explicit process-skill policy for Superpowers or equivalent skills
+- explicit agentic coding orchestration policy for worker/reviewer concurrency and resource recovery
 - explicit MCP/App connector policy with local `gh` fallback boundaries
 
 Use the templates in [templates/project](templates/project) when bootstrapping a repo.

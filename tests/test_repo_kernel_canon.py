@@ -24,6 +24,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "scripts/link_github_sub_issue.py",
             "references/BOOTSTRAP.md",
             "references/BEHAVIORAL_OVERLAY.md",
+            "references/AGENTIC_CODING_ORCHESTRATION.md",
             "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
             "references/MCP_TOOLING.md",
             "references/BUG_INTAKE.md",
@@ -46,6 +47,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("layers", payload)
         self.assertIn("model_adapter_policy", payload)
         self.assertIn("agent_skill_orchestration_policy", payload)
+        self.assertIn("agentic_coding_orchestration_policy", payload)
         self.assertIn("mcp_tooling_policy", payload)
         self.assertIn("research_policy", payload)
         self.assertIn("github_delivery_flow", payload)
@@ -75,6 +77,19 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "project_local_canon_active_prd_and_explicit_user_instructions_override_skill_defaults",
             skill_policy["rules"],
+        )
+        agentic_policy = payload["agentic_coding_orchestration_policy"]
+        self.assertEqual(agentic_policy["concurrency_defaults"]["max_worker_agents_default"], 1)
+        self.assertEqual(agentic_policy["concurrency_defaults"]["max_worker_agents_parallel"], 2)
+        self.assertEqual(agentic_policy["concurrency_defaults"]["max_open_subagent_threads"], 3)
+        self.assertIn(
+            "avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active",
+            agentic_policy["tool_load_rules"],
+        )
+        self.assertIn("too_many_open_files", agentic_policy["recovery_triggers"])
+        self.assertIn(
+            "do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run",
+            agentic_policy["recovery_rules"],
         )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
@@ -409,6 +424,21 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("using-superpowers", content, rel)
             self.assertIn("verification-before-completion", content, rel)
             self.assertIn("project canon", content, rel)
+
+    def test_kernel_docs_and_templates_mention_agentic_coding_orchestration(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "templates/project/AGENTS.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("orchestrator", content.lower(), rel)
+            self.assertIn("worker", content.lower(), rel)
+            self.assertIn("reviewer", content.lower(), rel)
+            self.assertIn("Too many open files", content, rel)
+            self.assertIn("git status --short --branch", content, rel)
+            self.assertIn("parallel", content.lower(), rel)
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (

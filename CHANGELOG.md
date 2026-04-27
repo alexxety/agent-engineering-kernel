@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added agentic coding orchestration canon: orchestrator/worker/reviewer roles, subagent concurrency limits, prompt write-set contract, review boundaries, and recovery protocol for executor resource failures.
 - Added Superpowers-compatible process-skill orchestration to the kernel canon and project templates.
 - Added MCP/App connector tooling policy, including GitHub App permission checks, different identities for connector versus local `gh`, and shell-safe fallback behavior.
 - Research policy is now explicitly Tavily Search-first, not Tavily Research-first. Tavily Research is reserved for explicitly justified expensive broad deep-sweeps after search, known official docs, and manual synthesis are insufficient.

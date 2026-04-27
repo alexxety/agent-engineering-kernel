@@ -49,6 +49,7 @@ The bootstrapped canon should also make explicit:
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that Superpowers or equivalent process skills are tactical workflow aids, subordinate to repo canon, and should be read or invoked before acting when relevant and available
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
+- that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, and a recovery protocol for executor/resource failures such as `Too many open files`
 - that MCP or App connector tooling is preferred for supported structured external-service operations when available and authorized
 - that local `gh` auth and GitHub App connector auth are different identities with separate permissions
 - that GitHub App repository access and permissions are configured in GitHub Installed Apps, not by storing or editing tokens in project files
@@ -77,6 +78,8 @@ Do not blindly overwrite stronger project-local canon unless the task is an inte
 Do not treat a compact behavior guideline file as a replacement for the bootstrapped canon. If a project wants that extra layer, add it separately and keep it thin.
 
 Do not treat Superpowers or another process-skill pack as a replacement for the bootstrapped canon. Skills help the agent choose the right workflow; the project canon remains the source of truth.
+
+Do not treat subagent fan-out as automatically better. Use the orchestrator/worker/reviewer limits in `references/AGENTIC_CODING_ORCHESTRATION.md`; prefer one worker at a time unless independence and executor health are clear.
 
 Do not treat MCP or App connector access as the same thing as local `gh` access. They are different identities. If a GitHub App connector fails with a permissions error, fix the installed GitHub App repository access and permissions before refreshing local CLI auth.
 

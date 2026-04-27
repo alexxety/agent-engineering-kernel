@@ -18,6 +18,7 @@ This repository is the standalone source-of-truth for:
 - PR verification discipline
 - project bootstrap templates
 - a reusable Codex skill
+- agentic coding orchestration with explicit worker/reviewer limits and recovery rules
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
@@ -109,6 +110,18 @@ Skill-assisted execution canon:
 - map completion claims to `verification-before-completion`
 - use `subagent-driven-development`, `dispatching-parallel-agents`, or `executing-plans` only when the platform, independence, and user or project policy allow it
 
+Agentic coding orchestration canon:
+
+- one orchestrator stays accountable for scope, research, write-set boundaries, verification, docs, commits, and runtime checks
+- default to one worker agent at a time
+- run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
+- run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes
+- keep at most three subagent threads open and close completed threads immediately
+- avoid parallel shell/tool calls while worker agents are active
+- stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files` or stream disconnects
+- resume only after `git status --short --branch` and `git diff --check` can run
+- project-local `AGENTS.md` may impose stricter lower limits
+
 MCP tooling canon:
 
 - use MCP or App connector tooling for supported structured external-service operations when available and authorized
@@ -167,6 +180,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - thin behavior-layer policy for `CLAUDE.md` / Cursor / skill/plugin surfaces
 - [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md)
   - how Superpowers and equivalent process skills should be used without replacing the kernel
+- [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md)
+  - how an orchestrator should dispatch, limit, review, and recover worker/reviewer agents
 - [references/MCP_TOOLING.md](references/MCP_TOOLING.md)
   - how MCP and App connector tooling should be used with GitHub App permissions and `gh` fallback boundaries
 - [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)
@@ -209,6 +224,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - decision record for the canonical downstream kernel adoption task
 - [docs/environment-promotion-canon-prd-2026-04-26.md](docs/environment-promotion-canon-prd-2026-04-26.md)
   - decision record for environment promotion canon
+- [docs/agentic-coding-orchestration-prd-2026-04-27.md](docs/agentic-coding-orchestration-prd-2026-04-27.md)
+  - decision record for orchestrated agentic coding limits and recovery protocol
 
 ## Bootstrap a project
 
