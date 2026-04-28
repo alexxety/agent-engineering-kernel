@@ -198,6 +198,32 @@ The project-local worker should include only durable project rules:
 Do not put secrets, host credentials, token values, customer identifiers, or
 temporary chat-memory-only details in the worker config.
 
+Keep the worker config small. It is the worker's durable role and guardrail, not
+the whole project manual.
+
+Use this knowledge ladder:
+
+1. Worker TOML: role, MCP policy, hard prohibitions, privacy rules, and where
+   to find project truth.
+2. `AGENTS.md`: project canon, workflow order, live-system rules, verification
+   expectations, and source-of-truth priority.
+3. Repo-local skills, runbooks, handoffs, and README files: domain knowledge
+   for a specific subsystem.
+4. Active PRD/plan: current slice truth.
+5. Orchestrator prompt: exact write set, forbidden paths/actions, checks, and
+   return format.
+
+The project worker may contain short domain pointers such as:
+
+```text
+Use repo-local skills/runbooks/README files when the task names that subsystem.
+If the task references billing, read docs/billing/README.md.
+If the task references deploy scripts, read docs/deploy/RUNBOOK.md.
+```
+
+Avoid copying long runbooks into the worker config. Put long-lived domain
+knowledge in project docs or skills, then point the worker at those files.
+
 ## Selection Rules
 
 The orchestrator chooses workers explicitly:
@@ -220,6 +246,7 @@ Even with a project-local worker, every dispatch prompt still includes:
 - repository/worktree path;
 - branch name;
 - active plan/PRD path;
+- task-specific project docs, skills, runbooks, or handoff files to read;
 - exact allowed write paths;
 - exact forbidden paths/actions;
 - live-system access rule;

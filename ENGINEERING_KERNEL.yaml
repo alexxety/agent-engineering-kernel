@@ -213,6 +213,8 @@ project_local_worker_policy:
   worker_content_rules:
     - include_only_durable_project_rules_not_chat_memory_or_secrets
     - include_project_canon_path_live_access_policy_forbidden_actions_privacy_rules_allowed_local_checks_and_needs_context_rule
+    - keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge
+    - dispatch_prompt_names_task_specific_docs_skills_runbooks_or_handoffs_to_read
     - disable_known_external_mcp_servers_in_worker_config
     - keep_task_specific_write_sets_and_verification_commands_in_the_dispatch_prompt
   worker_mcp_disabled_examples:

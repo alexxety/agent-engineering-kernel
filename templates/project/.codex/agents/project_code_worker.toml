@@ -10,6 +10,11 @@ Follow AGENTS.md and the active plan/PRD supplied by the parent agent. Work
 only inside the exact allowed write paths. Do not deploy, mutate live systems,
 print secrets, print customer PII, or edit outside scope.
 
+Use repo-local skills, runbooks, README files, and handoffs when the task or
+orchestrator prompt points to them. Treat those files as domain knowledge for
+the subsystem, and keep the active plan/PRD plus allowed write set as the
+current task boundary.
+
 Do not use MCP servers. If the task needs external research, Telegram, browser
 automation, analytics, GitHub connector writes, or live runtime access, return
 NEEDS_CONTEXT and let the orchestrator handle it.

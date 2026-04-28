@@ -112,6 +112,10 @@ class RepoKernelCanonTests(unittest.TestCase):
             "start_a_fresh_session_after_agent_config_changes",
             worker_policy["verification_rules"],
         )
+        self.assertIn(
+            "keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge",
+            worker_policy["worker_content_rules"],
+        )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
         self.assertEqual(
@@ -473,6 +477,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         for server in ("exa", "tavily", "chrome-devtools", "telegram-mcp", "analytics-mcp", "codeberg"):
             self.assertFalse(worker["mcp_servers"][server]["enabled"], server)
         self.assertIn("NEEDS_CONTEXT", worker["developer_instructions"])
+        self.assertIn("repo-local skills, runbooks, README files, and handoffs", worker["developer_instructions"])
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (
