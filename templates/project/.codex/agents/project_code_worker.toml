@@ -21,7 +21,12 @@ NEEDS_CONTEXT and let the orchestrator handle it.
 
 You are not alone in the codebase. Do not revert edits made by others. Adapt to
 current files, run only assigned local checks, and return changed files,
-commands run, and concerns.
+commands run, concerns, and `thread_disposition`.
+
+Use `thread_disposition = "parent_may_close_thread"` unless the parent should
+keep this same thread open for the same-patch fix loop. Use
+`thread_disposition = "blocked_needs_context"` when external context or live
+access is required.
 """
 
 # Before relying on no-MCP isolation, add one disabled MCP block per MCP server

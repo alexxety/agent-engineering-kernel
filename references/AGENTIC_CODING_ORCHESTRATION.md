@@ -104,6 +104,44 @@ Keep at most three subagent threads open:
 
 Close completed or abandoned agents immediately after recording their result.
 
+## Thread Lifecycle Rules
+
+Do not keep subagent threads open for memory. Keep them open only while the
+same bounded task still needs the same thread.
+
+Implementation workers may stay open through their own review/fix loop:
+
+- worker returns a patch or red-state report;
+- orchestrator inspects the diff and runs the required post-worker checks;
+- optional reviewer finds a concrete issue in that same patch;
+- orchestrator asks the same worker to fix the issue only if the write set,
+  task boundary, and file state are still the same.
+
+Close an implementation worker immediately after any of these happen:
+
+- the patch is accepted or rejected;
+- the orchestrator takes over the fix locally;
+- the next task has a different write set or different PRD slice;
+- the worker returns `NEEDS_CONTEXT` or `BLOCKED` and the answer was recorded;
+- executor health degrades and recovery mode begins.
+
+Reviewer, explorer, and docs-specialist threads are single-use by default.
+Record their result, then close the thread. After a fix, spawn a fresh reviewer
+with the current diff and context instead of preserving the old reviewer
+thread.
+
+Every subagent final response should include thread disposition:
+
+```text
+thread_disposition:
+- parent_may_close_thread
+- keep_open_for_same_patch_fix_loop
+- blocked_needs_context
+```
+
+If the disposition is not explicitly `keep_open_for_same_patch_fix_loop`, the
+orchestrator should close the thread after recording the result.
+
 ## Tool And Shell Load Rules
 
 While any worker agent is active:
@@ -187,6 +225,7 @@ Return:
 - changed files
 - commands run
 - concerns
+- thread_disposition: parent_may_close_thread / keep_open_for_same_patch_fix_loop / blocked_needs_context
 ```
 
 ## Integration Rules

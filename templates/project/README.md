@@ -43,7 +43,7 @@ This repository follows the agent engineering kernel.
 - serious closeouts record `Kernel Impact`
 - PR closes the leaf issue only
 - agents should read or invoke relevant Superpowers skills before acting: `using-superpowers` / `brainstorming` for new behavior, `writing-plans` for multi-step work, `test-driven-development` for implementation, `systematic-debugging` for bugs, and `verification-before-completion` before success claims
-- orchestrated agentic coding keeps one accountable orchestrator, defaults to one worker agent, permits at most two parallel workers only with disjoint write sets, uses targeted reviewer agents, and stops spawning agents after executor/resource failures such as `Too many open files`
+- orchestrated agentic coding keeps one accountable orchestrator, defaults to one worker agent, permits at most two parallel workers only with disjoint write sets, uses targeted one-shot reviewer agents, keeps implementation workers open only for the same-patch review/fix loop, requires `thread_disposition`, and stops spawning agents after executor/resource failures such as `Too many open files`
 - rich-MCP orchestrators use project-local no-MCP coding workers from `.codex/agents/` so implementation workers do not inherit external MCP servers
 - `gh issue create` and `gh pr create` should use `--body-file` or a single-quoted heredoc-generated file, not inline markdown bodies
 - shell-safe `gh` is the fallback when MCP/App connector tooling is missing, stale, or blocked

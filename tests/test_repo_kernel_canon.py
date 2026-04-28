@@ -101,6 +101,15 @@ class RepoKernelCanonTests(unittest.TestCase):
             "avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active",
             agentic_policy["tool_load_rules"],
         )
+        self.assertIn(
+            "implementation_worker_thread_is_kept_open_only_for_same_patch_review_fix_loop",
+            agentic_policy["thread_lifecycle_rules"],
+        )
+        self.assertIn(
+            "reviewer_explorer_and_docs_specialist_threads_are_single_use_by_default",
+            agentic_policy["thread_lifecycle_rules"],
+        )
+        self.assertIn("parent_may_close_thread", agentic_policy["thread_disposition_values"])
         self.assertIn("too_many_open_files", agentic_policy["recovery_triggers"])
         self.assertIn(
             "do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run",
@@ -129,6 +138,10 @@ class RepoKernelCanonTests(unittest.TestCase):
         )
         self.assertIn(
             "keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge",
+            worker_policy["worker_content_rules"],
+        )
+        self.assertIn(
+            "require_thread_disposition_in_worker_final_response",
             worker_policy["worker_content_rules"],
         )
         self.assertIn(
@@ -504,6 +517,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertNotIn("/Users/", worker_content)
         self.assertIn("NEEDS_CONTEXT", worker["developer_instructions"])
         self.assertIn("repo-local skills, runbooks, README files, and handoffs", worker["developer_instructions"])
+        self.assertIn("thread_disposition", worker["developer_instructions"])
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (
