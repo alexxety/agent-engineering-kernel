@@ -139,6 +139,10 @@ secrets, or change files outside the assigned write set.
 Do not use MCP servers. If a task needs external research, live service access,
 messaging, browser automation, analytics, GitHub connector writes, or another
 external tool, return NEEDS_CONTEXT.
+
+In the final response, include `thread_disposition`. Use
+`parent_may_close_thread` unless the parent explicitly needs this same thread
+for the same-patch fix loop.
 """
 
 # Add one [mcp_servers."<server_id_from_your_config>"] block for each MCP
@@ -203,7 +207,14 @@ NEEDS_CONTEXT and let the orchestrator handle it.
 
 You are not alone in the codebase. Do not revert edits made by others. Adapt to
 current files, run only assigned local checks, and return changed files,
-commands run, and concerns.
+commands run, concerns, and `thread_disposition`.
+
+Set `thread_disposition` to:
+- `parent_may_close_thread` when the assigned task is done, blocked, or handed
+  back to the parent;
+- `keep_open_for_same_patch_fix_loop` only when you expect the parent to send a
+  follow-up fix request for this same patch and write set;
+- `blocked_needs_context` when external context or live access is required.
 """
 
 # Add one [mcp_servers."<server_id_from_your_config>"] block for each MCP
@@ -259,6 +270,24 @@ Avoid these default roles:
 
 Those surfaces stay with the orchestrator unless a project explicitly designs a
 separate audited, read-only, sandboxed role for one narrow operation.
+
+## Thread Lifecycle
+
+Project-local worker threads are disposable execution contexts, not durable
+memory stores. The durable memory is the repo: PRDs, plans, handoffs, commits,
+tests, and review notes.
+
+Keep an implementation worker open only while it is in the same-patch
+review/fix loop. Close it after the patch is accepted, rejected, taken over by
+the orchestrator, blocked, or moved to a new write set.
+
+Reviewer and explorer threads are one-shot by default. Close them immediately
+after recording their findings, and use a fresh reviewer for re-review after
+fixes.
+
+Every project worker and specialist should end with a `thread_disposition`
+field so the orchestrator does not have to remember whether the thread can be
+closed.
 
 ## What To Put In The Project Worker
 

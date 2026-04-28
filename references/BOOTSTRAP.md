@@ -49,7 +49,7 @@ The bootstrapped canon should also make explicit:
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that Superpowers or equivalent process skills are tactical workflow aids, subordinate to repo canon, and should be read or invoked before acting when relevant and available
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
-- that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, and a recovery protocol for executor/resource failures such as `Too many open files`
+- that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, same-patch worker thread lifecycle, one-shot reviewers, `thread_disposition`, and a recovery protocol for executor/resource failures such as `Too many open files`
 - that rich-MCP orchestrators should dispatch project-local no-MCP coding workers when custom agents are available, with the global `code_worker_no_mcp` only as fallback
 - that MCP or App connector tooling is preferred for supported structured external-service operations when available and authorized
 - that local `gh` auth and GitHub App connector auth are different identities with separate permissions

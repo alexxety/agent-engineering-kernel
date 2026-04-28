@@ -89,6 +89,14 @@ Default concurrency:
 - at most three open subagent threads total;
 - close completed or errored agents immediately after recording their result.
 
+Thread lifecycle:
+
+- implementation workers may stay open only through the same-patch review/fix loop;
+- close an implementation worker after its patch is accepted, rejected, blocked, taken over locally, or moved to a different write set;
+- reviewer, explorer, and docs-specialist threads are one-shot by default; close them after recording the result;
+- use a fresh reviewer for re-review after fixes;
+- every subagent final response should include `thread_disposition`: `parent_may_close_thread`, `keep_open_for_same_patch_fix_loop`, or `blocked_needs_context`.
+
 While worker agents are active:
 
 - avoid parallel shell/tool calls;

@@ -46,6 +46,9 @@ The agentic coding orchestration rule is explicit:
 - default to one worker agent at a time
 - use at most two parallel worker agents only with disjoint write sets and healthy local executor state
 - close completed subagent threads promptly
+- keep implementation workers open only for the same-patch review/fix loop
+- treat reviewer/explorer/docs-specialist threads as one-shot and use fresh reviewers for re-review
+- require subagent final responses to include `thread_disposition`
 - avoid parallel shell/tool calls while worker agents are active
 - stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files`
 - resume only after `git status --short --branch` and `git diff --check` can run

@@ -121,6 +121,7 @@ Agentic coding orchestration canon:
 - run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
 - run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes
 - keep at most three subagent threads open and close completed threads immediately
+- keep implementation workers open only for the same-patch review/fix loop; treat reviewers as one-shot and require `thread_disposition` in subagent final responses
 - avoid parallel shell/tool calls while worker agents are active
 - stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files` or stream disconnects
 - resume only after `git status --short --branch` and `git diff --check` can run

@@ -173,6 +173,17 @@ agentic_coding_orchestration_policy:
     - avoid_broad_repeated_file_scans_unless_needed
     - do_not_busy_poll_agents
     - close_completed_or_abandoned_agent_threads_immediately_after_recording_result
+  thread_lifecycle_rules:
+    - implementation_worker_thread_is_kept_open_only_for_same_patch_review_fix_loop
+    - close_implementation_worker_after_patch_accepted_rejected_blocked_or_orchestrator_takes_over
+    - close_worker_when_next_task_has_different_write_set_or_prd_slice
+    - reviewer_explorer_and_docs_specialist_threads_are_single_use_by_default
+    - use_fresh_reviewer_for_re_review_after_fixes
+    - every_subagent_final_response_includes_thread_disposition
+  thread_disposition_values:
+    - parent_may_close_thread
+    - keep_open_for_same_patch_fix_loop
+    - blocked_needs_context
   recovery_triggers:
     - too_many_open_files
     - stream_disconnected_before_completion
@@ -220,6 +231,7 @@ project_local_worker_policy:
     - include_only_durable_project_rules_not_chat_memory_or_secrets
     - include_project_canon_path_live_access_policy_forbidden_actions_privacy_rules_allowed_local_checks_and_needs_context_rule
     - keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge
+    - require_thread_disposition_in_worker_final_response
     - dispatch_prompt_names_task_specific_docs_skills_runbooks_or_handoffs_to_read
     - disable_current_project_or_operator_mcp_server_ids_in_worker_config
     - disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors
