@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -25,6 +26,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BOOTSTRAP.md",
             "references/BEHAVIORAL_OVERLAY.md",
             "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "references/PROJECT_LOCAL_WORKERS.md",
             "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
             "references/MCP_TOOLING.md",
             "references/BUG_INTAKE.md",
@@ -48,6 +50,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("model_adapter_policy", payload)
         self.assertIn("agent_skill_orchestration_policy", payload)
         self.assertIn("agentic_coding_orchestration_policy", payload)
+        self.assertIn("project_local_worker_policy", payload)
         self.assertIn("mcp_tooling_policy", payload)
         self.assertIn("research_policy", payload)
         self.assertIn("github_delivery_flow", payload)
@@ -83,6 +86,14 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertEqual(agentic_policy["concurrency_defaults"]["max_worker_agents_parallel"], 2)
         self.assertEqual(agentic_policy["concurrency_defaults"]["max_open_subagent_threads"], 3)
         self.assertIn(
+            "project_local_code_worker_for_project_implementation_and_docs_changes",
+            agentic_policy["worker_selection_order"],
+        )
+        self.assertIn(
+            "do_not_rely_on_task_prompt_to_disable_mcp_startup",
+            agentic_policy["worker_mcp_rules"],
+        )
+        self.assertIn(
             "avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active",
             agentic_policy["tool_load_rules"],
         )
@@ -90,6 +101,16 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run",
             agentic_policy["recovery_rules"],
+        )
+        worker_policy = payload["project_local_worker_policy"]
+        self.assertEqual(
+            worker_policy["preferred_files"]["project_worker"],
+            ".codex/agents/<project_slug>_code_worker.toml",
+        )
+        self.assertIn("tavily", worker_policy["worker_mcp_disabled_examples"])
+        self.assertIn(
+            "start_a_fresh_session_after_agent_config_changes",
+            worker_policy["verification_rules"],
         )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
@@ -430,6 +451,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "README.md",
             "SKILL.md",
             "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "references/PROJECT_LOCAL_WORKERS.md",
             "templates/project/AGENTS.md",
         ):
             content = (ROOT / rel).read_text(encoding="utf-8")
@@ -439,6 +461,18 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Too many open files", content, rel)
             self.assertIn("git status --short --branch", content, rel)
             self.assertIn("parallel", content.lower(), rel)
+
+    def test_project_local_worker_templates_parse_and_disable_mcp(self) -> None:
+        config = tomllib.loads((ROOT / "templates/project/.codex/config.toml").read_text(encoding="utf-8"))
+        self.assertIn("project_code_worker", config["agents"])
+
+        worker = tomllib.loads(
+            (ROOT / "templates/project/.codex/agents/project_code_worker.toml").read_text(encoding="utf-8")
+        )
+        self.assertEqual(worker["name"], "project_code_worker")
+        for server in ("exa", "tavily", "chrome-devtools", "telegram-mcp", "analytics-mcp", "codeberg"):
+            self.assertFalse(worker["mcp_servers"][server]["enabled"], server)
+        self.assertIn("NEEDS_CONTEXT", worker["developer_instructions"])
 
     def test_kernel_docs_and_templates_mention_kernel_adoption_task(self) -> None:
         for rel in (

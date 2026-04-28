@@ -8,6 +8,11 @@ MCP and App connector tooling is the preferred structured interface for supporte
 
 The connector is not the project canon, not a secret store, and not a reason to skip PRD-first or verification-first work.
 
+For orchestrated coding, keep MCP on the orchestrator or a dedicated read-only
+research agent. Do not pass rich MCP tool surfaces to implementation workers by
+default. Use project-local no-MCP workers as described in
+`references/PROJECT_LOCAL_WORKERS.md`.
+
 ## Identity Boundaries
 
 Treat these as different identities:

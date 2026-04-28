@@ -19,6 +19,7 @@ This repository is the standalone source-of-truth for:
 - project bootstrap templates
 - a reusable Codex skill
 - agentic coding orchestration with explicit worker/reviewer limits and recovery rules
+- project-local no-MCP coding workers with global fallback worker guidance
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
@@ -113,6 +114,8 @@ Skill-assisted execution canon:
 Agentic coding orchestration canon:
 
 - one orchestrator stays accountable for scope, research, write-set boundaries, verification, docs, commits, and runtime checks
+- rich-MCP orchestrators dispatch project-local no-MCP coding workers when custom agents are available
+- project-local workers are preferred over the global `code_worker_no_mcp` fallback for implementation inside a repo
 - default to one worker agent at a time
 - run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
 - run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes
@@ -182,6 +185,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how Superpowers and equivalent process skills should be used without replacing the kernel
 - [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md)
   - how an orchestrator should dispatch, limit, review, and recover worker/reviewer agents
+- [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md)
+  - how to create project-local no-MCP coding workers, global fallback workers, and worker selection rules
 - [references/MCP_TOOLING.md](references/MCP_TOOLING.md)
   - how MCP and App connector tooling should be used with GitHub App permissions and `gh` fallback boundaries
 - [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)

@@ -21,6 +21,10 @@ Checked on 2026-04-27:
 - Tool/function calling guidance recommends keeping the active tool surface
   small and disabling parallel calls when deterministic behavior matters:
   https://platform.openai.com/docs/guides/function-calling
+- Codex custom subagents can be defined in `.codex/agents/*.toml`, and MCP
+  servers can be disabled per config with `enabled = false`:
+  https://developers.openai.com/codex/subagents
+  https://developers.openai.com/codex/mcp
 
 ## Roles
 
@@ -41,6 +45,24 @@ The orchestrator owns:
 Worker agents are coding hands. They receive a narrow task and an explicit
 write set. They must not deploy, run production sends, print secrets or PII,
 edit outside scope, revert others' changes, or silently expand scope.
+
+Coding workers should be project-local no-MCP workers whenever the platform
+supports custom agents. A rich orchestrator may use MCP/App connectors for
+research, GitHub, browser, analytics, Telegram, or other external operations,
+but implementation workers should not inherit that tool surface by default.
+
+Use this role order:
+
+1. Project-local worker, such as `<project_slug>_code_worker`, for project
+   implementation and documentation changes.
+2. Global fallback worker, such as `code_worker_no_mcp`, only when the
+   project-local worker is unavailable or the task is truly project-agnostic.
+3. Built-in generic workers only when no no-MCP worker exists or when the
+   orchestrator is already running in a deliberately lightweight session.
+
+Project-local workers live in `.codex/agents/*.toml` and should explicitly set
+known external MCP servers to `enabled = false`. See
+`references/PROJECT_LOCAL_WORKERS.md` for the full setup pattern.
 
 Reviewer agents are optional and targeted. Use them for security-sensitive code,
 database migrations, runtime/deploy scripts, privacy/logging changes, production
@@ -84,6 +106,16 @@ While any worker agent is active:
 - avoid broad repeated file scans unless needed;
 - do not launch background services unless required;
 - do not busy-poll agents.
+
+Worker MCP policy:
+
+- do not rely on the task prompt to disable MCP; MCP startup happens before the
+  worker can follow prompt instructions;
+- disable MCP at the worker config layer for coding workers;
+- if a coding worker needs external research or a live service, it returns
+  `NEEDS_CONTEXT` and the orchestrator performs that step;
+- keep rich-MCP sessions for orchestrators and read-only research agents, not
+  implementation workers.
 
 Before spawning a worker:
 

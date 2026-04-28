@@ -60,6 +60,25 @@ When this repository uses orchestrated agentic coding, one primary orchestrator 
 
 Worker agents are coding hands. They must receive a narrow task, explicit allowed write paths, forbidden paths/actions, verification commands, and a required return format.
 
+When custom agents are available, implementation workers should be project-local
+no-MCP workers. A rich orchestrator may use MCP/App connectors for research,
+GitHub, browser, analytics, Telegram, or other external operations, but coding
+workers must not inherit that external tool surface.
+
+Project-local worker files:
+
+```text
+.codex/config.toml
+.codex/agents/project_code_worker.toml
+```
+
+Selection rules:
+
+- use `project_code_worker` for implementation and docs changes in this repository
+- use the global `code_worker_no_mcp` only as a fallback when the project-local worker is unavailable or the task is truly project-agnostic
+- do not use built-in generic workers from a rich-MCP orchestrator session when a project-local no-MCP worker exists
+- if a worker needs external research or live service access, it returns `NEEDS_CONTEXT` and the orchestrator performs that step
+
 Default concurrency:
 
 - one worker agent at a time;
