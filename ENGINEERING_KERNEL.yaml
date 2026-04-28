@@ -216,6 +216,7 @@ project_local_worker_policy:
     - keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge
     - dispatch_prompt_names_task_specific_docs_skills_runbooks_or_handoffs_to_read
     - disable_known_external_mcp_servers_in_worker_config
+    - disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors
     - keep_task_specific_write_sets_and_verification_commands_in_the_dispatch_prompt
   worker_mcp_disabled_examples:
     - exa

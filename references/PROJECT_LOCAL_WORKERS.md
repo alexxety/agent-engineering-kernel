@@ -96,27 +96,40 @@ external tool, return NEEDS_CONTEXT.
 """
 
 [mcp_servers.exa]
+command = "npx"
+args = ["-y", "exa-mcp-server"]
 enabled = false
 
 [mcp_servers.tavily]
+command = "node"
+args = ["/Users/raketa23/Work/Vs/reserch/tavily-rotator/dist/index.js"]
 enabled = false
 
 [mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222", "--no-usage-statistics"]
 enabled = false
 
 [mcp_servers.telegram-mcp]
+command = "/Users/raketa23/.codex/bin/start-telegram-mcp.sh"
 enabled = false
 
 [mcp_servers."analytics-mcp"]
+command = "/Users/raketa23/.local/bin/analytics-mcp"
 enabled = false
 
 [mcp_servers.codeberg]
+command = "/Users/raketa23/.codex/bin/start-codeberg-mcp.sh"
 enabled = false
 ```
 
 Add additional known MCP server ids used on the operator machine. Unknown MCP
 servers cannot be disabled by a worker config until their ids are known, so keep
 the list current when new MCP servers are installed.
+
+Each disabled MCP entry still needs a valid transport definition (`command` for
+stdio or `url` for HTTP). Do not write only `enabled = false`; Codex may reject
+the custom agent file as `invalid transport`.
 
 ## Project-Local Worker
 
@@ -152,21 +165,30 @@ commands run, and concerns.
 """
 
 [mcp_servers.exa]
+command = "npx"
+args = ["-y", "exa-mcp-server"]
 enabled = false
 
 [mcp_servers.tavily]
+command = "node"
+args = ["/Users/raketa23/Work/Vs/reserch/tavily-rotator/dist/index.js"]
 enabled = false
 
 [mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222", "--no-usage-statistics"]
 enabled = false
 
 [mcp_servers.telegram-mcp]
+command = "/Users/raketa23/.codex/bin/start-telegram-mcp.sh"
 enabled = false
 
 [mcp_servers."analytics-mcp"]
+command = "/Users/raketa23/.local/bin/analytics-mcp"
 enabled = false
 
 [mcp_servers.codeberg]
+command = "/Users/raketa23/.codex/bin/start-codeberg-mcp.sh"
 enabled = false
 ```
 

@@ -116,6 +116,10 @@ class RepoKernelCanonTests(unittest.TestCase):
             "keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge",
             worker_policy["worker_content_rules"],
         )
+        self.assertIn(
+            "disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors",
+            worker_policy["worker_content_rules"],
+        )
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
         self.assertEqual(
@@ -476,6 +480,10 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertEqual(worker["name"], "project_code_worker")
         for server in ("exa", "tavily", "chrome-devtools", "telegram-mcp", "analytics-mcp", "codeberg"):
             self.assertFalse(worker["mcp_servers"][server]["enabled"], server)
+            self.assertTrue(
+                "command" in worker["mcp_servers"][server] or "url" in worker["mcp_servers"][server],
+                server,
+            )
         self.assertIn("NEEDS_CONTEXT", worker["developer_instructions"])
         self.assertIn("repo-local skills, runbooks, README files, and handoffs", worker["developer_instructions"])
 
