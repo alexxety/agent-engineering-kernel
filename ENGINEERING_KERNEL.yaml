@@ -141,8 +141,9 @@ agentic_coding_orchestration_policy:
     - .codex/config.toml
     - .codex/agents/<project_slug>_code_worker.toml
   worker_mcp_rules:
-    - rich_mcp_orchestrators_may_use_mcp_for_research_connectors_browser_analytics_or_telegram
-    - coding_workers_disable_known_external_mcp_servers_in_agent_config
+    - rich_mcp_orchestrators_may_use_mcp_for_research_connectors_browser_analytics_messaging_or_other_external_operations
+    - coding_workers_disable_project_or_operator_mcp_server_ids_in_agent_config
+    - kernel_does_not_prescribe_a_fixed_mcp_server_id_list
     - do_not_rely_on_task_prompt_to_disable_mcp_startup
     - worker_that_needs_external_context_returns_needs_context_for_orchestrator
   concurrency_defaults:
@@ -205,9 +206,14 @@ project_local_worker_policy:
     global_fallback_worker: ~/.codex/agents/code_worker_no_mcp.toml
     project_config: .codex/config.toml
     project_worker: .codex/agents/<project_slug>_code_worker.toml
+    optional_project_reviewer: .codex/agents/<project_slug>_reviewer.toml
+    optional_project_docs_worker: .codex/agents/<project_slug>_docs_worker.toml
     project_canon: AGENTS.md
   selection_rules:
     - orchestrator_explicitly_selects_project_local_worker_for_project_implementation_and_docs_changes
+    - add_project_local_specialist_roles_only_after_repeated_need_proves_a_clear_boundary
+    - project_local_reviewer_is_read_only_for_diff_spec_safety_privacy_runtime_and_test_gap_review
+    - project_local_docs_worker_writes_docs_only_from_orchestrator_evidence_and_project_docs
     - global_code_worker_no_mcp_is_fallback_only_when_project_local_worker_is_missing_or_task_is_project_agnostic
     - built_in_generic_workers_are_not_used_from_rich_mcp_sessions_when_no_mcp_project_worker_exists
   worker_content_rules:
@@ -215,16 +221,16 @@ project_local_worker_policy:
     - include_project_canon_path_live_access_policy_forbidden_actions_privacy_rules_allowed_local_checks_and_needs_context_rule
     - keep_worker_config_small_and_use_project_docs_skills_runbooks_handoffs_for_domain_knowledge
     - dispatch_prompt_names_task_specific_docs_skills_runbooks_or_handoffs_to_read
-    - disable_known_external_mcp_servers_in_worker_config
+    - disable_current_project_or_operator_mcp_server_ids_in_worker_config
     - disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors
+    - do_not_copy_project_specific_mcp_ids_or_local_paths_from_another_project
     - keep_task_specific_write_sets_and_verification_commands_in_the_dispatch_prompt
-  worker_mcp_disabled_examples:
-    - exa
-    - tavily
-    - chrome-devtools
-    - telegram-mcp
-    - analytics-mcp
-    - codeberg
+  worker_mcp_inventory_rules:
+    - inspect_current_orchestrator_mcp_server_ids_before_creating_worker_config
+    - disable_only_mcp_servers_that_exist_in_the_operator_or_project_environment
+    - each_project_owns_its_mcp_disable_list
+    - copy_real_transport_fields_from_the_local_mcp_config_or_applicable_project_config
+    - leave_project_specific_mcp_names_in_project_config_not_the_universal_kernel
   verification_rules:
     - parse_global_and_project_worker_toml_before_use
     - start_a_fresh_session_after_agent_config_changes

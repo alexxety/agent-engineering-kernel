@@ -94,6 +94,10 @@ class RepoKernelCanonTests(unittest.TestCase):
             agentic_policy["worker_mcp_rules"],
         )
         self.assertIn(
+            "kernel_does_not_prescribe_a_fixed_mcp_server_id_list",
+            agentic_policy["worker_mcp_rules"],
+        )
+        self.assertIn(
             "avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active",
             agentic_policy["tool_load_rules"],
         )
@@ -107,7 +111,18 @@ class RepoKernelCanonTests(unittest.TestCase):
             worker_policy["preferred_files"]["project_worker"],
             ".codex/agents/<project_slug>_code_worker.toml",
         )
-        self.assertIn("tavily", worker_policy["worker_mcp_disabled_examples"])
+        self.assertEqual(
+            worker_policy["preferred_files"]["optional_project_reviewer"],
+            ".codex/agents/<project_slug>_reviewer.toml",
+        )
+        self.assertEqual(
+            worker_policy["preferred_files"]["optional_project_docs_worker"],
+            ".codex/agents/<project_slug>_docs_worker.toml",
+        )
+        self.assertIn(
+            "each_project_owns_its_mcp_disable_list",
+            worker_policy["worker_mcp_inventory_rules"],
+        )
         self.assertIn(
             "start_a_fresh_session_after_agent_config_changes",
             worker_policy["verification_rules"],
@@ -118,6 +133,10 @@ class RepoKernelCanonTests(unittest.TestCase):
         )
         self.assertIn(
             "disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors",
+            worker_policy["worker_content_rules"],
+        )
+        self.assertIn(
+            "do_not_copy_project_specific_mcp_ids_or_local_paths_from_another_project",
             worker_policy["worker_content_rules"],
         )
         research_policy = payload["research_policy"]
@@ -470,20 +489,19 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("git status --short --branch", content, rel)
             self.assertIn("parallel", content.lower(), rel)
 
-    def test_project_local_worker_templates_parse_and_disable_mcp(self) -> None:
+    def test_project_local_worker_templates_parse_and_use_project_mcp_inventory(self) -> None:
         config = tomllib.loads((ROOT / "templates/project/.codex/config.toml").read_text(encoding="utf-8"))
         self.assertIn("project_code_worker", config["agents"])
 
-        worker = tomllib.loads(
-            (ROOT / "templates/project/.codex/agents/project_code_worker.toml").read_text(encoding="utf-8")
-        )
+        worker_path = ROOT / "templates/project/.codex/agents/project_code_worker.toml"
+        worker_content = worker_path.read_text(encoding="utf-8")
+        worker = tomllib.loads(worker_content)
         self.assertEqual(worker["name"], "project_code_worker")
-        for server in ("exa", "tavily", "chrome-devtools", "telegram-mcp", "analytics-mcp", "codeberg"):
-            self.assertFalse(worker["mcp_servers"][server]["enabled"], server)
-            self.assertTrue(
-                "command" in worker["mcp_servers"][server] or "url" in worker["mcp_servers"][server],
-                server,
-            )
+        self.assertNotIn("mcp_servers", worker)
+        self.assertIn("<server_id_from_your_config>", worker_content)
+        self.assertIn("Copy real transport fields from the MCP config", worker_content)
+        self.assertNotIn("telegram-mcp", worker_content)
+        self.assertNotIn("/Users/", worker_content)
         self.assertIn("NEEDS_CONTEXT", worker["developer_instructions"])
         self.assertIn("repo-local skills, runbooks, README files, and handoffs", worker["developer_instructions"])
 

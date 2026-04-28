@@ -48,7 +48,7 @@ edit outside scope, revert others' changes, or silently expand scope.
 
 Coding workers should be project-local no-MCP workers whenever the platform
 supports custom agents. A rich orchestrator may use MCP/App connectors for
-research, GitHub, browser, analytics, Telegram, or other external operations,
+research, GitHub, browser, analytics, messaging, or other external operations,
 but implementation workers should not inherit that tool surface by default.
 
 Use this role order:
@@ -61,13 +61,20 @@ Use this role order:
    orchestrator is already running in a deliberately lightweight session.
 
 Project-local workers live in `.codex/agents/*.toml` and should explicitly set
-known external MCP servers to `enabled = false`. See
+the project's or operator's MCP server ids to `enabled = false`. The universal
+kernel does not prescribe a fixed MCP list; each project copies its own server
+ids and valid transport fields from the local MCP configuration. See
 `references/PROJECT_LOCAL_WORKERS.md` for the full setup pattern.
 
-Reviewer agents are optional and targeted. Use them for security-sensitive code,
-database migrations, runtime/deploy scripts, privacy/logging changes, production
-integrations, and broad multi-file changes. Do not use reviewer agents by reflex
-for every small docs/test edit.
+Reviewer and specialist agents are optional and targeted. Start a project with
+one project-local code worker, then add roles only when repeated work creates a
+clear boundary. Common useful additions are a read-only reviewer and a
+docs-only worker. Use reviewers for security-sensitive code, database
+migrations, runtime/deploy scripts, privacy/logging changes, production
+integrations, and broad multi-file changes. Use docs workers for handoff,
+runbook, README, PRD closeout, and rollback-note writing from evidence the
+orchestrator already collected. Do not add specialist agents by reflex for
+every small docs/test edit.
 
 ## Concurrency Rules
 
@@ -111,7 +118,8 @@ Worker MCP policy:
 
 - do not rely on the task prompt to disable MCP; MCP startup happens before the
   worker can follow prompt instructions;
-- disable MCP at the worker config layer for coding workers;
+- disable the current project/operator MCP server ids at the worker config
+  layer for coding workers;
 - if a coding worker needs external research or a live service, it returns
   `NEEDS_CONTEXT` and the orchestrator performs that step;
 - keep rich-MCP sessions for orchestrators and read-only research agents, not

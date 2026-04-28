@@ -1,9 +1,9 @@
 # Project-Local Workers
 
-Project-local workers are custom coding agents that live inside a repository
-and carry that repository's operating rules. They are the preferred way to let a
-rich orchestrator use MCP while keeping implementation workers lightweight and
-free of inherited external tools.
+Project-local workers are custom agents that live inside a repository and carry
+that repository's operating rules. They are the preferred way to let a rich
+orchestrator use MCP while keeping implementation, review, and documentation
+workers lightweight and free of inherited external tools.
 
 ## Upstream Research Notes
 
@@ -21,31 +21,70 @@ Checked on 2026-04-27:
 
 ## Pattern
 
-Use three role layers:
+Use four role layers:
 
 1. Rich orchestrator.
    - May use MCP/App connectors for research, GitHub, browser, analytics,
-     Telegram, or other external operations.
+     messaging, or other external operations.
    - Owns scope, research, worker selection, integration, verification, docs,
      commits, live checks, and rollback notes.
 2. Project-local code worker.
    - Lives in the repository.
    - Knows the project canon, forbidden live actions, privacy rules, and local
      verification commands.
-   - Explicitly disables all known external MCP servers.
-3. Global fallback code worker.
+   - Explicitly disables the MCP server ids that exist in the current project
+     or operator environment.
+3. Optional project-local specialist workers.
+   - Added only when the project repeatedly needs that role.
+   - Common useful roles are read-only reviewer and documentation worker.
+   - They follow the same no-MCP and project-canon rules as the code worker.
+4. Global fallback code worker.
    - Lives in the operator's Codex home.
    - Contains universal no-MCP coding rules.
    - Used only when a project-local worker does not exist or the task is truly
      project-agnostic.
 
-Reviewer agents follow the same principle: use no-MCP reviewer roles for normal
-code quality/spec review, and reserve rich MCP or live-service tooling for the
-orchestrator or a separate read-only research/review role with explicit scope.
+Reviewer and docs agents follow the same principle: use no-MCP project-local
+roles for normal review and closeout writing, and reserve rich MCP or
+live-service tooling for the orchestrator or a separate explicitly scoped
+read-only research/review role.
 
 Do not rely on prompt text alone to keep workers away from MCP. Worker prompts
 are seen after the worker starts; MCP startup decisions happen before task
 instructions matter. Disable MCP at the worker config layer.
+
+The universal kernel does not prescribe a fixed MCP server list. Do not copy
+another project's MCP ids or local command paths into a new project. Each
+project should inspect its own configured MCP/App connector surface, decide
+which ids must be unavailable to workers, and put those ids in the project or
+global worker config with valid transport fields and `enabled = false`.
+
+## Role Lifecycle
+
+Do not start a new project with a zoo of agents. Start with one project-local
+code worker:
+
+```text
+<project_slug>_code_worker
+```
+
+Add more project-local roles only when the work pattern is repeated and the
+boundary is clear:
+
+- add `<project_slug>_reviewer` when independent read-only reviews regularly
+  catch meaningful spec, safety, privacy, runtime, or test gaps;
+- add `<project_slug>_docs_worker` when handoff, runbook, README, or closeout
+  writing is frequent enough to justify a separate docs-only role;
+- add narrowly scoped roles such as `<project_slug>_frontend_worker` only when
+  the project has a sustained specialty surface and a distinct rule set;
+- do not add live-service, deployment, production database, messaging broadcast,
+  or generic research workers by default.
+
+Each role differs in its own TOML file: role identity, allowed work type,
+forbidden actions, privacy rules, MCP policy, and response format. The
+orchestrator still supplies the current task: exact write set, forbidden paths,
+evidence to use, checks to run, and return format. The TOML is the durable
+guardrail; the dispatch prompt is the per-task contract.
 
 ## Files
 
@@ -65,6 +104,13 @@ Project-local worker:
 
 ```text
 <repo>/.codex/agents/<project_slug>_code_worker.toml
+```
+
+Optional project-local specialist workers:
+
+```text
+<repo>/.codex/agents/<project_slug>_reviewer.toml
+<repo>/.codex/agents/<project_slug>_docs_worker.toml
 ```
 
 Project canon:
@@ -91,50 +137,46 @@ agent. Do not deploy, contact live production services, run mass sends, print
 secrets, or change files outside the assigned write set.
 
 Do not use MCP servers. If a task needs external research, live service access,
-Telegram, browser automation, analytics, GitHub connector writes, or another
+messaging, browser automation, analytics, GitHub connector writes, or another
 external tool, return NEEDS_CONTEXT.
 """
 
-[mcp_servers.exa]
-command = "npx"
-args = ["-y", "exa-mcp-server"]
-enabled = false
-
-[mcp_servers.tavily]
-command = "node"
-args = ["/Users/raketa23/Work/Vs/reserch/tavily-rotator/dist/index.js"]
-enabled = false
-
-[mcp_servers.chrome-devtools]
-command = "npx"
-args = ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222", "--no-usage-statistics"]
-enabled = false
-
-[mcp_servers.telegram-mcp]
-command = "/Users/raketa23/.codex/bin/start-telegram-mcp.sh"
-enabled = false
-
-[mcp_servers."analytics-mcp"]
-command = "/Users/raketa23/.local/bin/analytics-mcp"
-enabled = false
-
-[mcp_servers.codeberg]
-command = "/Users/raketa23/.codex/bin/start-codeberg-mcp.sh"
-enabled = false
+# Add one [mcp_servers."<server_id_from_your_config>"] block for each MCP
+# server id that exists in this operator/project environment and must be
+# unavailable to this worker. Use the real transport fields from that MCP
+# server's config, then set enabled = false.
 ```
 
-Add additional known MCP server ids used on the operator machine. Unknown MCP
-servers cannot be disabled by a worker config until their ids are known, so keep
-the list current when new MCP servers are installed.
+Replace the example MCP block with the MCP server ids that are actually
+configured on the operator machine. Unknown MCP servers cannot be disabled by a
+worker config until their ids are known, so keep the list current when new MCP
+servers are installed.
 
 Each disabled MCP entry still needs a valid transport definition (`command` for
 stdio or `url` for HTTP). Do not write only `enabled = false`; Codex may reject
 the custom agent file as `invalid transport`.
 
-## Project-Local Worker
+Generic stdio pattern:
 
-Each serious project should define its own code worker. Use the project's slug
-in the name:
+```toml
+[mcp_servers."<server_id_from_your_config>"]
+command = "<same command used by that MCP server>"
+args = ["<same args, if any>"]
+enabled = false
+```
+
+Generic HTTP pattern:
+
+```toml
+[mcp_servers."<http_server_id_from_your_config>"]
+url = "https://example.invalid/mcp"
+enabled = false
+```
+
+## Project-Local Code Worker
+
+Each serious project should define its own code worker first. Use the project's
+slug in the name:
 
 ```text
 <project_slug>_code_worker
@@ -155,7 +197,7 @@ Follow AGENTS.md and the active plan/PRD supplied by the parent agent. Work
 only inside the exact allowed write paths. Do not deploy, mutate live systems,
 print secrets, print customer PII, or edit outside scope.
 
-Do not use MCP servers. If the task needs external research, Telegram, browser
+Do not use MCP servers. If the task needs external research, messaging, browser
 automation, analytics, GitHub connector writes, or live runtime access, return
 NEEDS_CONTEXT and let the orchestrator handle it.
 
@@ -164,32 +206,10 @@ current files, run only assigned local checks, and return changed files,
 commands run, and concerns.
 """
 
-[mcp_servers.exa]
-command = "npx"
-args = ["-y", "exa-mcp-server"]
-enabled = false
-
-[mcp_servers.tavily]
-command = "node"
-args = ["/Users/raketa23/Work/Vs/reserch/tavily-rotator/dist/index.js"]
-enabled = false
-
-[mcp_servers.chrome-devtools]
-command = "npx"
-args = ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222", "--no-usage-statistics"]
-enabled = false
-
-[mcp_servers.telegram-mcp]
-command = "/Users/raketa23/.codex/bin/start-telegram-mcp.sh"
-enabled = false
-
-[mcp_servers."analytics-mcp"]
-command = "/Users/raketa23/.local/bin/analytics-mcp"
-enabled = false
-
-[mcp_servers.codeberg]
-command = "/Users/raketa23/.codex/bin/start-codeberg-mcp.sh"
-enabled = false
+# Add one [mcp_servers."<server_id_from_your_config>"] block for each MCP
+# server id that exists in this operator/project environment and must be
+# unavailable to this worker. Use the real transport fields from that MCP
+# server's config, then set enabled = false.
 ```
 
 Then register it in project `.codex/config.toml`:
@@ -204,9 +224,45 @@ config_file = "agents/project_code_worker.toml"
 description = "Project-local implementation worker without MCP."
 ```
 
+## Optional Project-Local Specialist Roles
+
+Add specialist roles only after the project proves the need. Keep them
+no-MCP, small, and scoped.
+
+Recommended starter extensions:
+
+```text
+<project_slug>_reviewer
+```
+
+Use for read-only review of assigned diffs, specs, security/privacy risks,
+runtime blast radius, and test gaps. The reviewer should not edit files or run
+live checks. It returns findings, open questions, verification gaps, and a
+blocking/approved summary.
+
+```text
+<project_slug>_docs_worker
+```
+
+Use for assigned documentation paths only: handoff, runbook, README, PRD
+closeout, canon updates, and rollback notes. The docs worker writes from
+evidence supplied by the orchestrator and project docs. It must not invent live
+verification, deployment status, customer counts, or production state.
+
+Avoid these default roles:
+
+- deployment worker;
+- production database worker;
+- messaging or mass-broadcast worker;
+- cleanup worker for customer or subscriber data;
+- broad research worker with inherited external tools.
+
+Those surfaces stay with the orchestrator unless a project explicitly designs a
+separate audited, read-only, sandboxed role for one narrow operation.
+
 ## What To Put In The Project Worker
 
-The project-local worker should include only durable project rules:
+The project-local worker config should include only durable project rules:
 
 - where the canonical project rules live, usually `AGENTS.md`;
 - whether live systems may be touched;
@@ -223,10 +279,10 @@ temporary chat-memory-only details in the worker config.
 Keep the worker config small. It is the worker's durable role and guardrail, not
 the whole project manual.
 
-Use this knowledge ladder:
+Use this knowledge ladder for every project-local role:
 
-1. Worker TOML: role, MCP policy, hard prohibitions, privacy rules, and where
-   to find project truth.
+1. Worker TOML: role identity, allowed work type, MCP policy, hard
+   prohibitions, privacy rules, and where to find project truth.
 2. `AGENTS.md`: project canon, workflow order, live-system rules, verification
    expectations, and source-of-truth priority.
 3. Repo-local skills, runbooks, handoffs, and README files: domain knowledge
@@ -248,12 +304,22 @@ knowledge in project docs or skills, then point the worker at those files.
 
 ## Selection Rules
 
-The orchestrator chooses workers explicitly:
+The orchestrator chooses workers explicitly. It does not expect workers to
+self-route after launch:
 
-- Use `<project_slug>_code_worker` for project implementation/docs changes.
+- Use `<project_slug>_code_worker` for scoped implementation changes and small
+  docs updates that are part of the same code slice.
+- Use `<project_slug>_reviewer` for read-only review of an existing diff,
+  broad safety/privacy/runtime risk review, or a spec-compliance check.
+- Use `<project_slug>_docs_worker` for documentation-only closeout work when
+  the facts and evidence are already available.
 - Use `code_worker_no_mcp` only as fallback when the project-local worker is
   unavailable or the task is project-agnostic.
-- Use a separate research role only for read-only external-source work.
+- Keep research, live runtime, provider consoles, messaging sends, deployment,
+  and production operations with the orchestrator unless a project-specific
+  audited role has been explicitly designed.
+- Use a separate research role only for read-only external-source work with a
+  narrow scope and explicit tool policy.
 - Do not use built-in generic workers from a rich-MCP session for project
   implementation when a project-local no-MCP worker exists.
 

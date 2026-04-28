@@ -86,7 +86,10 @@ When bootstrapping a Codex project, copy or adapt
 `templates/project/.codex/config.toml` and
 `templates/project/.codex/agents/project_code_worker.toml`. Rename
 `project_code_worker` to `<project_slug>_code_worker` for serious projects and
-record that selection rule in `AGENTS.md`.
+record that selection rule in `AGENTS.md`. The template does not prescribe a
+universal MCP server list. Inspect the target operator/project MCP config and
+add disabled `[mcp_servers."<id>"]` blocks only for the MCP server ids that
+exist in that environment.
 
 Do not treat MCP or App connector access as the same thing as local `gh` access. They are different identities. If a GitHub App connector fails with a permissions error, fix the installed GitHub App repository access and permissions before refreshing local CLI auth.
 

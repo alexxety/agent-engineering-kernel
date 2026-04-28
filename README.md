@@ -116,6 +116,7 @@ Agentic coding orchestration canon:
 - one orchestrator stays accountable for scope, research, write-set boundaries, verification, docs, commits, and runtime checks
 - rich-MCP orchestrators dispatch project-local no-MCP coding workers when custom agents are available
 - project-local workers are preferred over the global `code_worker_no_mcp` fallback for implementation inside a repo
+- project-local no-MCP configs disable the MCP server ids that exist in that project/operator environment; the kernel does not prescribe a fixed MCP list
 - default to one worker agent at a time
 - run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
 - run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes
@@ -186,7 +187,7 @@ Do not fork the engineering process by model unless a tool constraint truly forc
 - [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md)
   - how an orchestrator should dispatch, limit, review, and recover worker/reviewer agents
 - [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md)
-  - how to create project-local no-MCP coding workers, global fallback workers, and worker selection rules
+  - how to create project-local no-MCP coding/review/docs workers, global fallback workers, and worker selection rules
 - [references/MCP_TOOLING.md](references/MCP_TOOLING.md)
   - how MCP and App connector tooling should be used with GitHub App permissions and `gh` fallback boundaries
 - [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md)

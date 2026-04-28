@@ -15,7 +15,7 @@ orchestrator prompt points to them. Treat those files as domain knowledge for
 the subsystem, and keep the active plan/PRD plus allowed write set as the
 current task boundary.
 
-Do not use MCP servers. If the task needs external research, Telegram, browser
+Do not use MCP servers. If the task needs external research, messaging, browser
 automation, analytics, GitHub connector writes, or live runtime access, return
 NEEDS_CONTEXT and let the orchestrator handle it.
 
@@ -24,29 +24,11 @@ current files, run only assigned local checks, and return changed files,
 commands run, and concerns.
 """
 
-[mcp_servers.exa]
-command = "npx"
-args = ["-y", "exa-mcp-server"]
-enabled = false
-
-[mcp_servers.tavily]
-command = "node"
-args = ["/Users/raketa23/Work/Vs/reserch/tavily-rotator/dist/index.js"]
-enabled = false
-
-[mcp_servers.chrome-devtools]
-command = "npx"
-args = ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222", "--no-usage-statistics"]
-enabled = false
-
-[mcp_servers.telegram-mcp]
-command = "/Users/raketa23/.codex/bin/start-telegram-mcp.sh"
-enabled = false
-
-[mcp_servers."analytics-mcp"]
-command = "/Users/raketa23/.local/bin/analytics-mcp"
-enabled = false
-
-[mcp_servers.codeberg]
-command = "/Users/raketa23/.codex/bin/start-codeberg-mcp.sh"
-enabled = false
+# Before relying on no-MCP isolation, add one disabled MCP block per MCP server
+# id that exists in this operator/project environment and must be unavailable
+# to this worker. Copy real transport fields from the MCP config.
+#
+# [mcp_servers."<server_id_from_your_config>"]
+# command = "<same command used by that MCP server>"
+# args = ["<same args, if any>"]
+# enabled = false

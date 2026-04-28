@@ -62,7 +62,7 @@ Worker agents are coding hands. They must receive a narrow task, explicit allowe
 
 When custom agents are available, implementation workers should be project-local
 no-MCP workers. A rich orchestrator may use MCP/App connectors for research,
-GitHub, browser, analytics, Telegram, or other external operations, but coding
+GitHub, browser, analytics, messaging, or other external operations, but coding
 workers must not inherit that external tool surface.
 
 Project-local worker files:
@@ -74,10 +74,12 @@ Project-local worker files:
 
 Selection rules:
 
-- use `project_code_worker` for implementation and docs changes in this repository
+- use `project_code_worker` for scoped implementation changes and small docs updates in this repository
+- add project-local specialist roles only after repeated need proves a clear boundary, for example `project_reviewer` for read-only diff/spec review or `project_docs_worker` for docs-only closeout writing
 - use the global `code_worker_no_mcp` only as a fallback when the project-local worker is unavailable or the task is truly project-agnostic
 - do not use built-in generic workers from a rich-MCP orchestrator session when a project-local no-MCP worker exists
 - if a worker needs external research or live service access, it returns `NEEDS_CONTEXT` and the orchestrator performs that step
+- keep research, live runtime, deployment, provider consoles, customer data cleanup, and production operations with the orchestrator unless this project explicitly designs a narrow audited role for one of those surfaces
 
 Default concurrency:
 

@@ -13,7 +13,7 @@ Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user 
 Read [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md) when the user asks whether a thin behavior-only guideline layer should exist across `CLAUDE.md`, Cursor rules, or skill/plugin surfaces.
 Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md) when the user asks how Superpowers or another process-skill pack should be used with the kernel.
 Read [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md) when the user asks how orchestrator/worker/reviewer agentic coding should be structured, limited, reviewed, and recovered after resource failures.
-Read [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md) when the user asks how to create global fallback workers, project-local workers, no-MCP coding workers, rich-MCP orchestrators, or worker selection rules.
+Read [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md) when the user asks how to create global fallback workers, project-local workers, no-MCP coding/review/docs workers, rich-MCP orchestrators, or worker selection rules.
 Read [references/MCP_TOOLING.md](references/MCP_TOOLING.md) when the user asks how MCP servers, App connector tooling, GitHub App permissions, or local `gh` fallback should be used.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
@@ -41,7 +41,7 @@ The minimum Superpowers mapping is explicit:
 The agentic coding orchestration rule is explicit:
 
 - one orchestrator remains accountable for scope, verification, docs, commits, and runtime checks
-- rich-MCP orchestrators should dispatch project-local no-MCP coding workers when custom agents are available
+- rich-MCP orchestrators should dispatch project-local no-MCP coding/review/docs workers when custom agents are available
 - project-local workers are preferred over the global no-MCP fallback for project implementation
 - default to one worker agent at a time
 - use at most two parallel worker agents only with disjoint write sets and healthy local executor state
