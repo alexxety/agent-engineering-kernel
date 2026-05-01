@@ -134,6 +134,8 @@ Project-local rules may make these limits stricter, especially for live producti
 - local `gh` auth and GitHub App connector auth are different identities with separate permissions
 - configure GitHub App repository access and permissions in GitHub Installed Apps, not by storing or editing tokens in repo files
 - if an App connector returns a permission error, check its repository access and permissions before refreshing local `gh` auth
+- when one MCP backend exposes multiple accounts, workspaces, organizations, tenants, or profiles, use the provider discovery tool before mutating operations unless the target identity is already explicit
+- mutating MCP operations must pass an explicit identity selector such as `account`, `workspace`, `organization`, or `tenant`; do not silently choose a default identity
 - use shell-safe `gh` fallback when connector tooling is unavailable, stale, or missing the needed operation
 - do not paste or record tokens in PRDs, issues, PR bodies, or project docs
 

@@ -22,10 +22,34 @@ Treat these as different identities:
 - local `gh` CLI token
 - personal access token
 - service account or sandbox identity
+- external account, workspace, organization, tenant, or profile selected inside one MCP server
 
 Local `gh` auth and GitHub App connector auth are different identities with separate permissions. A working `gh auth status` does not prove that the App connector can create issues or pull requests. A connector `403 Resource not accessible by integration` usually points at the installed GitHub App repository access or App permissions, not the local `gh` token.
 
 Do not paste or record tokens in repo docs, PRDs, issue bodies, or chat transcripts. Record the identity class and permission surface, not the secret.
+
+## Multi-Identity MCP Tools
+
+Some MCP servers expose multiple external identities through one backend, for
+example several accounts, workspaces, organizations, tenants, or profiles.
+Identity selection is part of the operation contract, not something the model
+should guess from a default.
+
+When a discovery tool exists, such as `list_accounts`, `list_workspaces`,
+`list_organizations`, or an equivalent provider-specific tool, use it before a
+mutating operation unless the target identity is already explicit in the user
+request, PRD, runbook, or project canon.
+
+Read-only fan-out across identities is allowed only when the tool documents that
+behavior and labels results by identity.
+
+Mutating operations must pass an explicit identity selector such as `account`,
+`workspace`, `organization`, `tenant`, or the provider's equivalent. If the
+target identity is ambiguous, ask or use project canon; do not silently choose a
+default account, workspace, organization, tenant, or profile.
+
+Do not paste or record secrets, session strings, tokens, or private account
+content in repo docs, PRDs, issue bodies, pull requests, or chat transcripts.
 
 ## GitHub App Connector Minimums
 
@@ -42,10 +66,11 @@ If the connector fails with a permission error, check the installed GitHub App f
 ## Preferred Flow
 
 1. Use the MCP server or App connector for structured operations it supports.
-2. Check that the connector identity has repository access and write permissions before assuming a token problem.
-3. If the connector is unavailable, incomplete, stale, or blocked, use the canonical CLI fallback.
-4. Keep the fallback shell-safe: use `gh --body-file`, single-quoted heredoc-generated body files, and the kernel sub-issue helper when normal issue numbers must be linked.
-5. Record the capability gap in the active PRD, issue, or closeout when it changes execution, verification, or operator setup.
+2. For multi-identity MCP tools, discover or confirm the target identity before mutating operations.
+3. Check that the connector identity has repository access and write permissions before assuming a token problem.
+4. If the connector is unavailable, incomplete, stale, or blocked, use the canonical CLI fallback.
+5. Keep the fallback shell-safe: use `gh --body-file`, single-quoted heredoc-generated body files, and the kernel sub-issue helper when normal issue numbers must be linked.
+6. Record the capability gap in the active PRD, issue, or closeout when it changes execution, verification, or operator setup.
 
 ## Verification
 
