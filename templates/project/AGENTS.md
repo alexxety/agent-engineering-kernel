@@ -70,14 +70,17 @@ Project-local worker files:
 ```text
 .codex/config.toml
 .codex/agents/project_code_worker.toml
+scripts/claude-code-readonly-subagent.sh
 ```
 
 Selection rules:
 
 - use `project_code_worker` for scoped implementation changes and small docs updates in this repository
+- use Claude Code only as an explicitly requested or project-authorized one-shot read-only reviewer/design reviewer unless an active PRD defines a stronger role
 - add project-local specialist roles only after repeated need proves a clear boundary, for example `project_reviewer` for read-only diff/spec review or `project_docs_worker` for docs-only closeout writing
 - use the global `code_worker_no_mcp` only as a fallback when the project-local worker is unavailable or the task is truly project-agnostic
 - do not use built-in generic workers from a rich-MCP orchestrator session when a project-local no-MCP worker exists
+- do not silently substitute GPT/Codex or another worker family when the operator explicitly asks for Claude Code and Claude Code fails; diagnose Claude Code CLI/auth/MCP/tool/process setup first
 - if a worker needs external research or live service access, it returns `NEEDS_CONTEXT` and the orchestrator performs that step
 - keep research, live runtime, deployment, provider consoles, customer data cleanup, and production operations with the orchestrator unless this project explicitly designs a narrow audited role for one of those surfaces
 
@@ -103,6 +106,15 @@ While worker agents are active:
 - avoid broad repeated file scans unless needed;
 - do not busy-poll agents;
 - do not launch background services unless the task requires them.
+
+Claude Code adapter rules:
+
+- default Claude Code role is one-shot read-only review/design review;
+- launch through `scripts/claude-code-readonly-subagent.sh` when available;
+- use non-interactive `claude -p`, `--no-session-persistence`, `--mcp-config '{"mcpServers":{}}'`, `--strict-mcp-config`, and read-only tools `Read,Grep,Glob`;
+- do not use `--bare` for OAuth-backed local Claude Code sessions unless API-key or `apiKeyHelper` mode was explicitly configured and smoke-tested;
+- do not grant Claude Code implementation, live systems, GitHub writes, database writes, messaging, secrets, or customer data access without an active PRD;
+- process exit closes the Claude Code worker; if it hangs, terminate it, record partial evidence, and recover sequentially.
 
 If the executor reports resource failures such as `Too many open files`, stream disconnects, or failed process creation:
 
@@ -259,4 +271,5 @@ If this repository also uses a thin behavior-only layer such as `CLAUDE.md`, a C
 - `.github/labels.yml`
 - `scripts/sync_github_labels.py`
 - `scripts/check_kernel_upstream.py`
+- `scripts/claude-code-readonly-subagent.sh`
 - active PRD / decision doc in `docs/`

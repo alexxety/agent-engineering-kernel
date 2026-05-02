@@ -90,7 +90,15 @@ class RepoKernelCanonTests(unittest.TestCase):
             agentic_policy["worker_selection_order"],
         )
         self.assertIn(
+            "claude_code_readonly_adapter_only_when_explicitly_requested_or_project_authorized",
+            agentic_policy["worker_selection_order"],
+        )
+        self.assertIn(
             "do_not_rely_on_task_prompt_to_disable_mcp_startup",
+            agentic_policy["worker_mcp_rules"],
+        )
+        self.assertIn(
+            "claude_code_one_shot_workers_pass_explicit_empty_mcp_config_and_strict_mcp_config",
             agentic_policy["worker_mcp_rules"],
         )
         self.assertIn(
@@ -128,6 +136,14 @@ class RepoKernelCanonTests(unittest.TestCase):
             worker_policy["preferred_files"]["optional_project_docs_worker"],
             ".codex/agents/<project_slug>_docs_worker.toml",
         )
+        self.assertEqual(
+            worker_policy["preferred_files"]["optional_claude_code_readonly_wrapper"],
+            "scripts/claude-code-readonly-subagent.sh",
+        )
+        self.assertIn(
+            "claude_code_adapter_default_role_is_one_shot_readonly_review_or_design_review",
+            worker_policy["selection_rules"],
+        )
         self.assertIn(
             "each_project_owns_its_mcp_disable_list",
             worker_policy["worker_mcp_inventory_rules"],
@@ -149,9 +165,21 @@ class RepoKernelCanonTests(unittest.TestCase):
             worker_policy["worker_content_rules"],
         )
         self.assertIn(
+            "claude_code_oauth_backed_local_runs_do_not_use_bare_by_default",
+            worker_policy["worker_content_rules"],
+        )
+        self.assertIn(
             "do_not_copy_project_specific_mcp_ids_or_local_paths_from_another_project",
             worker_policy["worker_content_rules"],
         )
+        model_policy = payload["model_adapter_policy"]
+        claude_adapter = model_policy["claude_code_subagent_adapter"]
+        self.assertEqual(claude_adapter["default_role"], "readonly_one_shot_reviewer_or_design_reviewer")
+        self.assertEqual(claude_adapter["default_allowed_tools"], ["Read", "Grep", "Glob"])
+        self.assertEqual(claude_adapter["default_mcp_config"], '{"mcpServers":{}}')
+        self.assertTrue(claude_adapter["strict_mcp_config_required"])
+        self.assertFalse(claude_adapter["bare_mode_default"])
+        self.assertEqual(claude_adapter["default_max_budget_usd"], 2)
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
         self.assertEqual(
@@ -237,6 +265,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "templates/project/scripts/check_kernel_upstream.py",
             "templates/project/scripts/link_github_sub_issue.py",
             "templates/project/scripts/sync_github_labels.py",
+            "templates/project/scripts/claude-code-readonly-subagent.sh",
             "templates/project/docs/PRD_TEMPLATE.md",
         ):
             self.assertTrue((ROOT / rel).exists(), rel)
@@ -501,6 +530,26 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Too many open files", content, rel)
             self.assertIn("git status --short --branch", content, rel)
             self.assertIn("parallel", content.lower(), rel)
+
+    def test_kernel_docs_and_templates_mention_claude_code_adapter(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/MODEL_ADAPTERS.md",
+            "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "references/PROJECT_LOCAL_WORKERS.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "docs/claude-code-subagent-canon-prd-2026-05-02.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("Claude Code", content, rel)
+            self.assertIn("MCP", content, rel)
+            self.assertIn("Read", content, rel)
+            self.assertIn("Grep", content, rel)
+            self.assertIn("Glob", content, rel)
+            self.assertIn("fallback", content.lower(), rel)
 
     def test_project_local_worker_templates_parse_and_use_project_mcp_inventory(self) -> None:
         config = tomllib.loads((ROOT / "templates/project/.codex/config.toml").read_text(encoding="utf-8"))

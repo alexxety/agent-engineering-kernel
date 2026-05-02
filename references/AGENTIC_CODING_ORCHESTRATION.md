@@ -26,6 +26,18 @@ Checked on 2026-04-27:
   https://developers.openai.com/codex/subagents
   https://developers.openai.com/codex/mcp
 
+Checked on 2026-05-02:
+
+- Claude Code CLI supports non-interactive print mode, MCP config, and strict
+  MCP config:
+  https://docs.anthropic.com/en/docs/claude-code/cli-reference
+- Claude Code SDK examples support constrained `allowed_tools`, including
+  read-only `Read`, `Glob`, and `Grep`:
+  https://docs.anthropic.com/en/docs/claude-code/sdk
+- Claude Code project subagents can live in `.claude/agents/` and define tool
+  and runtime limits in frontmatter:
+  https://docs.anthropic.com/en/docs/claude-code/sub-agents
+
 ## Roles
 
 The orchestrator is the single accountable engineering owner for the slice.
@@ -65,6 +77,14 @@ the project's or operator's MCP server ids to `enabled = false`. The universal
 kernel does not prescribe a fixed MCP list; each project copies its own server
 ids and valid transport fields from the local MCP configuration. See
 `references/PROJECT_LOCAL_WORKERS.md` for the full setup pattern.
+
+Claude Code may be used as an external subagent adapter under the same role
+model. The default Claude Code adapter role is one-shot, read-only review or
+design review, not implementation. It should be launched with explicit empty
+MCP config, strict MCP enforcement, and a small read-only tool allowlist. If
+the operator explicitly requested Claude Code and the launch fails, diagnose
+the Claude Code CLI/auth/MCP/tool configuration before using another agent
+family.
 
 Reviewer and specialist agents are optional and targeted. Start a project with
 one project-local code worker, then add roles only when repeated work creates a
@@ -158,10 +178,25 @@ Worker MCP policy:
   worker can follow prompt instructions;
 - disable the current project/operator MCP server ids at the worker config
   layer for coding workers;
+- for Claude Code one-shot workers, pass an explicit empty MCP config and
+  strict MCP flag at launch time;
 - if a coding worker needs external research or a live service, it returns
   `NEEDS_CONTEXT` and the orchestrator performs that step;
 - keep rich-MCP sessions for orchestrators and read-only research agents, not
   implementation workers.
+
+Claude Code one-shot lifecycle:
+
+- run non-interactively with `claude -p`;
+- avoid `--bare` for OAuth-backed local Claude Code sessions unless API-key or
+  `apiKeyHelper` mode was explicitly configured and smoke-tested;
+- use `--mcp-config '{"mcpServers":{}}'` and `--strict-mcp-config`;
+- use `--tools 'Read,Grep,Glob'` for read-only review;
+- treat process exit as the end of the subagent thread;
+- if it hangs, terminate the process, record partial evidence, and recover
+  sequentially before retrying;
+- do not silently replace it with another worker family when the user asked
+  for Claude Code.
 
 Before spawning a worker:
 

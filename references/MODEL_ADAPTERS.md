@@ -23,6 +23,38 @@ The engineering kernel is shared. The model adapter is thin.
 - which MCP server or App connector surfaces are available
 - whether a thin behavior-only overlay is materialized in a tool-specific surface
 
+## Claude Code as a subagent adapter
+
+Claude Code can be used as an external subagent, but it remains an adapter
+under the shared orchestrator/worker/reviewer workflow. It is not a separate
+engineering process and not a reason to bypass PRD, write-set, review,
+verification, or rollback rules.
+
+Default approved shape:
+
+- one-shot read-only reviewer or design-review worker;
+- local repository context only;
+- no inherited MCP/App connector surface;
+- read-only tools only, normally `Read`, `Grep`, and `Glob`;
+- orchestrator supplies external research evidence, live-system facts, and the
+  exact question to review.
+
+When the operator explicitly asks for Claude Code, do not silently substitute a
+GPT/Codex worker if Claude Code fails. Diagnose Claude Code first:
+
+- is the CLI installed;
+- is auth healthy for the intended auth mode;
+- is MCP disabled with strict config;
+- are tool permissions scoped correctly;
+- did the process exit, hang, or fail before starting.
+
+Fallback to another agent family only after explicit operator approval and a
+recorded adapter gap.
+
+For OAuth-backed local Claude Code installs, do not add `--bare` to the default
+worker command. `--bare` is reserved for explicitly verified API-key or
+`apiKeyHelper` configurations.
+
 ## Behavioral overlay rule
 
 An optional behavior-only layer may exist across tool-specific surfaces such as:

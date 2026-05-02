@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -29,6 +30,7 @@ class BootstrapProjectKernelTests(unittest.TestCase):
         self.assertIn(".github/pull_request_template.md", files)
         self.assertIn("scripts/sync_github_labels.py", files)
         self.assertIn("scripts/check_kernel_upstream.py", files)
+        self.assertIn("scripts/claude-code-readonly-subagent.sh", files)
         self.assertIn(".kernel/upstream.json", files)
         self.assertIn("docs/PRD_TEMPLATE.md", files)
 
@@ -56,6 +58,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertTrue((target / ".github" / "labels.yml").exists())
             self.assertTrue((target / "scripts" / "sync_github_labels.py").exists())
             self.assertTrue((target / "scripts" / "check_kernel_upstream.py").exists())
+            self.assertTrue((target / "scripts" / "claude-code-readonly-subagent.sh").exists())
+            self.assertTrue(os.access(target / "scripts" / "claude-code-readonly-subagent.sh", os.X_OK))
             self.assertTrue((target / ".kernel" / "upstream.json").exists())
             self.assertIn("fingerprint", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("raw logs", (target / "AGENTS.md").read_text(encoding="utf-8"))
@@ -65,6 +69,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertIn("kernel_upstream_check", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("staging", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("mutating automated tests must not run against production", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("Claude Code adapter rules", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("--strict-mcp-config", (target / "scripts" / "claude-code-readonly-subagent.sh").read_text(encoding="utf-8"))
             self.assertIn("Kernel Impact", (target / "docs" / "PRD_TEMPLATE.md").read_text(encoding="utf-8"))
             self.assertIn("production backup or restore point", (target / "docs" / "PRD_TEMPLATE.md").read_text(encoding="utf-8"))
             self.assertIn("paid GitHub-hosted Actions", (target / "CONTRIBUTING.md").read_text(encoding="utf-8"))
