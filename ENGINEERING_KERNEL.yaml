@@ -657,7 +657,13 @@ model_adapter_policy:
           - allowed_sources_and_tools
           - evidence_requirements
           - no_mutating_provider_actions
-    context_policy: prefer_brief_selected_files_and_selected_diff_context_before_whole_repo
+    context_policy: prefer_context_packet_focused_snippets_and_selected_diff_context_before_large_or_whole_files
+    context_packet_requirements:
+      - goal_and_exact_question
+      - relevant_symbols_interfaces_and_error_evidence
+      - focused_snippets_or_excerpted_sections
+      - selected_diff_context_when_reviewing_changes
+      - explicit_reason_when_whole_large_file_is_needed
     preferred_binary: "$HOME/.local/bin/claude"
     wrapper_binaries_explicit_opt_in: true
     default_model: claude-opus-4-7

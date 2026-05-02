@@ -182,8 +182,10 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertEqual(claude_adapter["operating_modes"]["research_mcp_readonly"]["status"], "separate_active_prd_required")
         self.assertEqual(
             claude_adapter["context_policy"],
-            "prefer_brief_selected_files_and_selected_diff_context_before_whole_repo",
+            "prefer_context_packet_focused_snippets_and_selected_diff_context_before_large_or_whole_files",
         )
+        self.assertIn("focused_snippets_or_excerpted_sections", claude_adapter["context_packet_requirements"])
+        self.assertIn("explicit_reason_when_whole_large_file_is_needed", claude_adapter["context_packet_requirements"])
         self.assertEqual(claude_adapter["preferred_binary"], "$HOME/.local/bin/claude")
         self.assertEqual(claude_adapter["default_model"], "claude-opus-4-7")
         self.assertEqual(claude_adapter["output_format"], "stream-json")
@@ -568,6 +570,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Read", content, rel)
             self.assertIn("design_readonly", content, rel)
             self.assertIn("review_readonly", content, rel)
+            self.assertIn("context packet", content.lower(), rel)
             if rel != "templates/project/README.md":
                 self.assertIn("Grep", content, rel)
                 self.assertIn("Glob", content, rel)

@@ -61,8 +61,11 @@ Canonical operating modes:
   read-only identity, allowed sources/tools, evidence requirements, and no
   mutating provider actions.
 
-Do not feed Claude Code the whole repository by habit. Prefer a brief,
-selected files, and selected diff context.
+Do not feed Claude Code the whole repository or a huge file by habit. Prefer a
+context packet with the goal, exact question, relevant symbols or interfaces,
+error evidence, focused snippets or excerpted sections, and selected diff
+context. Whole large files are opt-in only when full-file context is truly
+required.
 
 When the operator explicitly asks for Claude Code, do not silently substitute a
 GPT/Codex worker if Claude Code fails. Diagnose Claude Code first:

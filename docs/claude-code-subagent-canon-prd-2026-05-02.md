@@ -121,9 +121,13 @@ Canonical operating modes:
 | `implementation_no_mcp` | separate active PRD required | exact allowed write paths, no MCP, no live systems, no secrets, no deploys, explicit verification | patch plus verification evidence |
 | `research_mcp_readonly` | separate active PRD required | explicit read-only identity and allowed external sources/tools | cited evidence and assumptions, no mutating provider actions |
 
-Do not feed Claude Code the whole repository by habit. Prefer a brief,
-selected files, and selected diff context. Large generated/type files are
-allowed only when directly relevant to the question.
+Do not feed Claude Code the whole repository or a huge file by habit. Build a
+context packet first: goal, exact question, relevant symbols or interfaces,
+error evidence, focused snippets or excerpted sections, and selected diff
+context when reviewing changes. Whole large files are opt-in only when the
+worker truly needs full-file context; record that reason in the prompt or PRD.
+Large generated/type files are allowed only when directly relevant to the
+question.
 
 The canonical OAuth-backed local invocation shape is:
 
