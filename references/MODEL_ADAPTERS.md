@@ -33,6 +33,9 @@ verification, or rollback rules.
 Default approved shape:
 
 - one-shot read-only reviewer or design-review worker;
+- high-leverage uses are UI/UX architecture, operator workflow review,
+  PRD/spec/runbook cleanup, independent plan/diff review, test planning, and
+  refactor-boundary advice;
 - local repository context only;
 - no inherited MCP/App connector surface;
 - direct Claude Code binary preferred over wrapper binaries;
@@ -44,6 +47,22 @@ Default approved shape:
 - mode-specific budget cap as a runaway guardrail;
 - orchestrator supplies external research evidence, live-system facts, and the
   exact question to review.
+
+Canonical operating modes:
+
+- `design_readonly`: enabled by the default read-only wrapper for
+  plan/spec/architecture/UX output from selected repository files.
+- `review_readonly`: enabled by the default read-only wrapper for findings
+  against a brief, selected files, or diff context.
+- `implementation_no_mcp`: separate active PRD required with exact write paths,
+  no MCP, no live systems, no secrets, no deploys, verification commands, and
+  orchestrator review.
+- `research_mcp_readonly`: separate active PRD required with an explicit
+  read-only identity, allowed sources/tools, evidence requirements, and no
+  mutating provider actions.
+
+Do not feed Claude Code the whole repository by habit. Prefer a brief,
+selected files, and selected diff context.
 
 When the operator explicitly asks for Claude Code, do not silently substitute a
 GPT/Codex worker if Claude Code fails. Diagnose Claude Code first:

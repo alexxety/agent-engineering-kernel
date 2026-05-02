@@ -70,6 +70,8 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             self.assertIn("staging", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("mutating automated tests must not run against production", (target / "AGENTS.md").read_text(encoding="utf-8"))
             self.assertIn("Claude Code adapter rules", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("design_readonly", (target / "AGENTS.md").read_text(encoding="utf-8"))
+            self.assertIn("review_readonly", (target / "AGENTS.md").read_text(encoding="utf-8"))
             wrapper = (target / "scripts" / "claude-code-readonly-subagent.sh").read_text(encoding="utf-8")
             self.assertIn("--strict-mcp-config", wrapper)
             self.assertIn("--model", wrapper)

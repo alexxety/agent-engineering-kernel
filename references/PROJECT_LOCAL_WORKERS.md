@@ -310,8 +310,14 @@ not create a second engineering workflow.
 Use Claude Code by default only for:
 
 - read-only review of an existing diff;
-- design or PRD review from repository files and evidence supplied by the
+- UI/UX architecture, operator workflows, mobile/desktop layout, and
+  design-system decisions from repository files and evidence supplied by the
   orchestrator;
+- PRD, spec, runbook, closeout, and handoff drafting or cleanup;
+- independent review of an orchestrator plan or diff for missed UX, tests,
+  privacy issues, and edge cases;
+- test planning before implementation;
+- refactor-boundary advice before splitting large files or workflows;
 - small, bounded comparison of project docs, plans, or code paths.
 
 Do not use the default Claude Code adapter for:
@@ -324,6 +330,19 @@ Do not use the default Claude Code adapter for:
 - messaging sends;
 - customer data export;
 - external research unless a separate research role is explicitly designed.
+
+Canonical Claude Code operating modes:
+
+| Mode | Default status | Surface | Output |
+| --- | --- | --- | --- |
+| `design_readonly` | enabled by the read-only wrapper | `Read`, empty strict MCP, no edits | plan, spec, architecture, UX/workflow notes |
+| `review_readonly` | enabled by the read-only wrapper | selected files or diff context, optionally `Read,Grep,Glob`, empty strict MCP, no edits | findings: risks, missing tests, UX/privacy issues, edge cases |
+| `implementation_no_mcp` | separate active PRD required | exact allowed write paths, no MCP, no live systems, no secrets, no deploys, explicit verification | patch plus verification evidence |
+| `research_mcp_readonly` | separate active PRD required | explicit read-only identity and allowed external sources/tools | cited evidence and assumptions, no mutating provider actions |
+
+Do not feed Claude Code the whole repository by habit. Prefer a brief,
+selected files, and selected diff context. Large generated/type files are
+allowed only when directly relevant to the question.
 
 The canonical observable one-shot command for an OAuth-backed local Claude
 Code install is:

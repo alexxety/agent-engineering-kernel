@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project-local no-MCP worker canon and templates so rich-MCP orchestrators can dispatch lightweight implementation workers with global fallback behavior.
 - Added Claude Code subagent adapter canon for one-shot read-only review, strict empty MCP startup, OAuth-safe CLI defaults, and no silent fallback to another agent family when Claude Code was explicitly requested.
 - Tightened Claude Code subagent runtime defaults with direct-binary preference, stream-json visibility, explicit non-plan permission mode, mode-specific tool allowlists, and larger review budget guardrails.
+- Clarified Claude Code operating modes: `design_readonly` and `review_readonly` are enabled by the default wrapper, while `implementation_no_mcp` and `research_mcp_readonly` require separate active PRDs with explicit surfaces and verification.
 - Added explicit subagent thread lifecycle rules: same-patch worker fix loops, one-shot reviewers, fresh re-reviewers, and required `thread_disposition` in final responses.
 - Added Superpowers-compatible process-skill orchestration to the kernel canon and project templates.
 - Added MCP/App connector tooling policy, including GitHub App permission checks, different identities for connector versus local `gh`, and shell-safe fallback behavior.
