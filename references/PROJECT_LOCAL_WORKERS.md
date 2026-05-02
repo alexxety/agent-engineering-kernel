@@ -24,6 +24,10 @@ Checked on 2026-05-02:
 - Claude Code CLI supports non-interactive print mode, `--mcp-config`, and
   `--strict-mcp-config`:
   https://docs.anthropic.com/en/docs/claude-code/cli-reference
+- Claude Code CLI supports `--output-format stream-json`, `--verbose`,
+  `--permission-mode`, `--max-budget-usd`, `--tools`,
+  `--disable-slash-commands`, and `--no-chrome`:
+  https://docs.anthropic.com/en/docs/claude-code/cli-reference
 - Claude Code settings and MCP configuration are separate local/project
   surfaces and must not be treated as repository secrets:
   https://docs.anthropic.com/en/docs/claude-code/settings
@@ -321,17 +325,22 @@ Do not use the default Claude Code adapter for:
 - customer data export;
 - external research unless a separate research role is explicitly designed.
 
-The canonical one-shot command for an OAuth-backed local Claude Code install
-is:
+The canonical observable one-shot command for an OAuth-backed local Claude
+Code install is:
 
 ```bash
-claude -p \
+"${CLAUDE_CODE_BIN:-$HOME/.local/bin/claude}" -p \
+  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-7}" \
   --no-session-persistence \
+  --output-format stream-json \
+  --verbose \
   --mcp-config '{"mcpServers":{}}' \
   --strict-mcp-config \
-  --tools 'Read,Grep,Glob' \
+  --tools 'Read' \
   --permission-mode dontAsk \
-  --max-budget-usd "${CLAUDE_WORKER_MAX_BUDGET_USD:-2}" \
+  --disable-slash-commands \
+  --no-chrome \
+  --max-budget-usd "${CLAUDE_WORKER_MAX_BUDGET_USD:-5}" \
   "$prompt"
 ```
 
@@ -343,13 +352,36 @@ scripts/claude-code-readonly-subagent.sh "$prompt"
 
 Important details:
 
+- prefer a direct Claude Code binary such as `$HOME/.local/bin/claude`; wrapper
+  binaries such as cmux are explicit opt-in because they may add hooks or
+  workspace behavior;
+- pin the intended model for controlled runs; default to `claude-opus-4-7`
+  unless the operator sets `CLAUDE_CODE_MODEL`;
 - the empty MCP config is `{"mcpServers":{}}`, not `{}`;
 - do not use `--bare` by default for OAuth-backed local sessions;
 - use `--bare` only when API-key or `apiKeyHelper` mode is explicitly
   configured and smoke-tested;
-- keep `--tools` read-only unless a project PRD authorizes a stronger role;
-- keep the default `$2` budget cap unless the operator sets
-  `CLAUDE_WORKER_MAX_BUDGET_USD` for that environment;
+- non-`--bare` OAuth mode can still load user settings, hooks, agents, skills,
+  and memory surfaces; for the read-only adapter this is acceptable only when
+  MCP and tools are explicitly restricted;
+- long runs use `--output-format stream-json --verbose` so the orchestrator
+  can see progress and stop the process deliberately;
+- do not use `--permission-mode plan` for read-only workers because it can
+  invoke Claude Code plan-file workflow outside the repository;
+- keep `--permission-mode dontAsk` explicit so local settings do not widen the
+  runtime mode;
+- keep `--tools` as narrow as possible:
+  - `smoke`: no tools;
+  - `review-files`: `Read`;
+  - `review-repo`: `Read,Grep,Glob`;
+- keep mode-specific budget caps unless the operator sets
+  `CLAUDE_WORKER_MAX_BUDGET_USD` for that environment:
+  - `smoke`: USD 1;
+  - `review-files`: USD 5;
+  - `review-repo`: USD 10;
+- treat the budget as a runaway guardrail, not as a target spend; normal
+  controlled Opus 4.7 reviews may cost less than the cap, but the cap should be
+  high enough for useful work;
 - do not put Anthropic API keys, auth state, or operator account details in the
   repository;
 - run `claude auth status` or the project wrapper health check before relying
@@ -361,7 +393,10 @@ diagnose:
 - CLI missing;
 - auth unhealthy;
 - wrong auth mode, such as `--bare` with an OAuth-only local install;
+- wrapper binary behavior, such as cmux hooks;
 - invalid MCP config;
+- missing `--verbose` with `--output-format stream-json`;
+- forbidden `plan` permission mode;
 - tool permission mismatch;
 - process hang or resource exhaustion.
 

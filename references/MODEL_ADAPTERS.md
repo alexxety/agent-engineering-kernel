@@ -35,7 +35,13 @@ Default approved shape:
 - one-shot read-only reviewer or design-review worker;
 - local repository context only;
 - no inherited MCP/App connector surface;
-- read-only tools only, normally `Read`, `Grep`, and `Glob`;
+- direct Claude Code binary preferred over wrapper binaries;
+- controlled review model pinned by default, currently `claude-opus-4-7`;
+- observable stream output for long runs;
+- explicit `dontAsk` permission mode, never `plan`;
+- smallest possible tool set: no tools for smoke, `Read` for exact-file
+  review, and `Read,Grep,Glob` only when repo search is required;
+- mode-specific budget cap as a runaway guardrail;
 - orchestrator supplies external research evidence, live-system facts, and the
   exact question to review.
 
@@ -46,6 +52,9 @@ GPT/Codex worker if Claude Code fails. Diagnose Claude Code first:
 - is auth healthy for the intended auth mode;
 - is MCP disabled with strict config;
 - are tool permissions scoped correctly;
+- is `stream-json` paired with `--verbose`;
+- is `plan` mode avoided;
+- is the command using a direct binary rather than an unexpected wrapper;
 - did the process exit, hang, or fail before starting.
 
 Fallback to another agent family only after explicit operator approval and a

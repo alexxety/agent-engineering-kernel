@@ -38,6 +38,23 @@ with `Not logged in` on an OAuth-backed local installation. The same local
 Claude Code installation worked when run without `--bare` and with explicit
 empty MCP config plus strict MCP enforcement.
 
+Follow-up runtime testing on 2026-05-02 exposed additional adapter details:
+
+- `--output-format stream-json` fails in print mode unless `--verbose` is also
+  present.
+- `--permission-mode plan` is not a read-only reviewer mode for this kernel
+  because it can invoke Claude Code's own plan-file mechanics outside the
+  repository, such as `~/.claude/plans/...`.
+- A shell `claude` command may resolve to a wrapper such as cmux. Controlled
+  worker runs should prefer the direct Claude Code binary and treat wrapper
+  binaries as an explicit opt-in.
+- Controlled review should pin the intended model instead of inheriting a
+  machine default. The current default for this adapter is `claude-opus-4-7`.
+- In OAuth-backed non-`--bare` mode, Claude Code can still load user settings,
+  hooks, agents, skills, and memory surfaces. This is acceptable only as an
+  OAuth tradeoff when MCP and tools are explicitly restricted. Fully hook-free
+  `--bare` mode requires API-key or `apiKeyHelper` auth.
+
 ## Goals
 
 - Keep one model-agnostic engineering workflow.
@@ -69,6 +86,8 @@ empty MCP config plus strict MCP enforcement.
 | Tool allowlist | Anthropic Claude Code SDK docs | SDK examples constrain agents with `allowed_tools`, including `Read`, `Glob`, and `Grep` | Default read-only Claude worker uses only `Read`, `Grep`, and `Glob` |
 | Project subagents | Anthropic Claude Code subagents docs | Project agents can live under `.claude/agents/` and define tools/model/limits in frontmatter | Projects may add `.claude/agents/<project_slug>_readonly_reviewer.md` as an optional project-local Claude role |
 | Settings and auth surfaces | Anthropic Claude Code settings docs | User/local/project settings and MCP configuration are separate surfaces | Do not store Claude auth secrets in project docs; run an auth health check before relying on Claude Code |
+| Streaming observability | Anthropic Claude Code CLI reference plus local CLI `2.1.116` smoke | CLI supports `--output-format stream-json`; local CLI rejects stream-json print mode without `--verbose` | Long worker runs use `--output-format stream-json --verbose` |
+| Permission mode | Anthropic Claude Code CLI reference plus local smoke | CLI supports `plan` and `dontAsk`; local testing showed `plan` can trigger Claude plan-file workflow outside repo scope | Read-only worker uses `dontAsk`; `plan` is forbidden for this adapter |
 
 Sources checked with Tavily Search and Extract on 2026-05-02:
 
@@ -94,13 +113,18 @@ Default approved use:
 The canonical OAuth-backed local invocation shape is:
 
 ```bash
-claude -p \
+"${CLAUDE_CODE_BIN:-$HOME/.local/bin/claude}" -p \
+  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-7}" \
   --no-session-persistence \
+  --output-format stream-json \
+  --verbose \
   --mcp-config '{"mcpServers":{}}' \
   --strict-mcp-config \
-  --tools 'Read,Grep,Glob' \
+  --tools 'Read' \
   --permission-mode dontAsk \
-  --max-budget-usd "${CLAUDE_WORKER_MAX_BUDGET_USD:-2}" \
+  --disable-slash-commands \
+  --no-chrome \
+  --max-budget-usd "${CLAUDE_WORKER_MAX_BUDGET_USD:-5}" \
   "$prompt"
 ```
 
@@ -109,7 +133,18 @@ Rules:
 - Do not add `--bare` to the default command. Use `--bare` only when the
   project/operator explicitly configured API-key or `apiKeyHelper` mode and
   verified it with a smoke test.
+- Prefer the direct Claude Code binary. In this operator environment that is
+  `$HOME/.local/bin/claude`; wrapper binaries such as cmux are explicit opt-in
+  only.
 - The empty MCP config is `{"mcpServers":{}}`, not `{}`.
+- Use `--output-format stream-json --verbose` for observable long runs.
+- Do not use `--permission-mode plan` for this adapter.
+- Pin the model for controlled runs. Default to `claude-opus-4-7`, with
+  `CLAUDE_CODE_MODEL` as the local/operator override.
+- Select the smallest tool set:
+  - smoke: no tools;
+  - exact-file review: `Read`;
+  - repo search review: `Read,Grep,Glob`.
 - If Claude Code fails auth, tool, MCP, permission, or process startup checks,
   stop and diagnose. Do not silently substitute a GPT/Codex worker when the
   operator explicitly asked for Claude Code.
@@ -120,15 +155,22 @@ Rules:
 - If Claude Code hangs, terminate that process, record partial evidence, and
   recover sequentially before retrying.
 
-The default local worker budget guardrail is USD 2 per run:
+Default local worker budget guardrails are:
 
 ```text
-CLAUDE_WORKER_MAX_BUDGET_USD:-2
+smoke:        CLAUDE_WORKER_MAX_BUDGET_USD:-1
+review-files: CLAUDE_WORKER_MAX_BUDGET_USD:-5
+review-repo:  CLAUDE_WORKER_MAX_BUDGET_USD:-10
 ```
 
 Projects may lower or raise that environment variable in local/operator
 configuration, but should not hard-code billing credentials or account details
 in the repository.
+
+The budget cap is a runaway guardrail, not a claim that every normal review
+costs that amount. A real controlled design review observed during adoption
+cost about USD 0.58 with Opus 4.7, so USD 5 is the normal exact-file review
+default and USD 10 is reserved for broader repo-search review.
 
 ## Project Template Decision
 
@@ -140,12 +182,16 @@ scripts/claude-code-readonly-subagent.sh
 
 The helper:
 
-- checks that `claude` exists;
+- prefers `$HOME/.local/bin/claude` and supports `CLAUDE_CODE_BIN` override;
+- pins `claude-opus-4-7` by default and supports `CLAUDE_CODE_MODEL` override;
 - runs `claude auth status` as a health check;
 - uses non-interactive `-p`;
+- uses `--output-format stream-json --verbose`;
 - passes an explicit empty MCP config;
 - enforces strict MCP config;
-- allows only `Read,Grep,Glob`;
+- uses `--permission-mode dontAsk`;
+- rejects cmux or other wrapper binaries unless explicitly allowed;
+- supports `smoke`, `review-files`, and `review-repo` modes;
 - requires a prompt argument;
 - does not store or print secrets.
 

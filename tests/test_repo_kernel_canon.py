@@ -175,11 +175,21 @@ class RepoKernelCanonTests(unittest.TestCase):
         model_policy = payload["model_adapter_policy"]
         claude_adapter = model_policy["claude_code_subagent_adapter"]
         self.assertEqual(claude_adapter["default_role"], "readonly_one_shot_reviewer_or_design_reviewer")
-        self.assertEqual(claude_adapter["default_allowed_tools"], ["Read", "Grep", "Glob"])
+        self.assertEqual(claude_adapter["preferred_binary"], "$HOME/.local/bin/claude")
+        self.assertEqual(claude_adapter["default_model"], "claude-opus-4-7")
+        self.assertEqual(claude_adapter["output_format"], "stream-json")
+        self.assertTrue(claude_adapter["verbose_required_for_stream_json"])
+        self.assertEqual(claude_adapter["permission_mode"], "dontAsk")
+        self.assertIn("plan", claude_adapter["forbidden_permission_modes"])
+        self.assertEqual(claude_adapter["mode_tool_allowlists"]["smoke"], [])
+        self.assertEqual(claude_adapter["mode_tool_allowlists"]["review-files"], ["Read"])
+        self.assertEqual(claude_adapter["mode_tool_allowlists"]["review-repo"], ["Read", "Grep", "Glob"])
         self.assertEqual(claude_adapter["default_mcp_config"], '{"mcpServers":{}}')
         self.assertTrue(claude_adapter["strict_mcp_config_required"])
         self.assertFalse(claude_adapter["bare_mode_default"])
-        self.assertEqual(claude_adapter["default_max_budget_usd"], 2)
+        self.assertEqual(claude_adapter["default_max_budget_usd_by_mode"]["smoke"], 1)
+        self.assertEqual(claude_adapter["default_max_budget_usd_by_mode"]["review-files"], 5)
+        self.assertEqual(claude_adapter["default_max_budget_usd_by_mode"]["review-repo"], 10)
         research_policy = payload["research_policy"]
         self.assertIn("slice_classification", research_policy)
         self.assertEqual(
@@ -547,8 +557,9 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Claude Code", content, rel)
             self.assertIn("MCP", content, rel)
             self.assertIn("Read", content, rel)
-            self.assertIn("Grep", content, rel)
-            self.assertIn("Glob", content, rel)
+            if rel != "templates/project/README.md":
+                self.assertIn("Grep", content, rel)
+                self.assertIn("Glob", content, rel)
             self.assertIn("fallback", content.lower(), rel)
 
     def test_project_local_worker_templates_parse_and_use_project_mcp_inventory(self) -> None:
