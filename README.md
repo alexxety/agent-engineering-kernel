@@ -118,7 +118,7 @@ Agentic coding orchestration canon:
 - rich-MCP orchestrators dispatch project-local no-MCP coding workers when custom agents are available
 - project-local workers are preferred over the global `code_worker_no_mcp` fallback for implementation inside a repo
 - project-local no-MCP configs disable the MCP server ids that exist in that project/operator environment; the kernel does not prescribe a fixed MCP list
-- Claude Code may be used as a one-shot read-only reviewer/design reviewer with `claude -p`, explicit empty MCP config, strict MCP enforcement, and read-only `Read,Grep,Glob` tools; if the operator explicitly asks for Claude Code and it fails, diagnose Claude Code instead of silently switching to another agent family
+- Claude Code may be used as a one-shot read-only reviewer/design reviewer with `claude -p`, direct-binary preference, `claude-opus-4-7` model pin, `stream-json --verbose`, explicit empty MCP config, strict MCP enforcement, `dontAsk` permission mode, mode-specific tools such as `Read` or `Read,Grep,Glob`, and budget caps; if the operator explicitly asks for Claude Code and it fails, diagnose Claude Code instead of silently switching to another agent family
 - default to one worker agent at a time
 - run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
 - run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes

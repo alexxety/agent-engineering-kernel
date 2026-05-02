@@ -31,6 +31,9 @@ Checked on 2026-05-02:
 - Claude Code CLI supports non-interactive print mode, MCP config, and strict
   MCP config:
   https://docs.anthropic.com/en/docs/claude-code/cli-reference
+- Claude Code CLI supports stream JSON output, verbose output, explicit
+  permission mode, tool allowlists, and max budget controls:
+  https://docs.anthropic.com/en/docs/claude-code/cli-reference
 - Claude Code SDK examples support constrained `allowed_tools`, including
   read-only `Read`, `Glob`, and `Grep`:
   https://docs.anthropic.com/en/docs/claude-code/sdk
@@ -81,10 +84,11 @@ ids and valid transport fields from the local MCP configuration. See
 Claude Code may be used as an external subagent adapter under the same role
 model. The default Claude Code adapter role is one-shot, read-only review or
 design review, not implementation. It should be launched with explicit empty
-MCP config, strict MCP enforcement, and a small read-only tool allowlist. If
-the operator explicitly requested Claude Code and the launch fails, diagnose
-the Claude Code CLI/auth/MCP/tool configuration before using another agent
-family.
+MCP config, strict MCP enforcement, a small read-only tool allowlist,
+observable stream output, explicit non-plan permission mode, and a budget cap.
+If the operator explicitly requested Claude Code and the launch fails,
+diagnose the Claude Code CLI/auth/MCP/tool/output/binary configuration before
+using another agent family.
 
 Reviewer and specialist agents are optional and targeted. Start a project with
 one project-local code worker, then add roles only when repeated work creates a
@@ -188,10 +192,22 @@ Worker MCP policy:
 Claude Code one-shot lifecycle:
 
 - run non-interactively with `claude -p`;
+- prefer the direct Claude Code binary over wrapper binaries; wrapper binaries
+  such as cmux are explicit opt-in only;
+- pin the controlled review model, defaulting to `claude-opus-4-7` unless the
+  operator sets `CLAUDE_CODE_MODEL`;
 - avoid `--bare` for OAuth-backed local Claude Code sessions unless API-key or
   `apiKeyHelper` mode was explicitly configured and smoke-tested;
+- recognize that non-`--bare` OAuth mode can still load user hooks/settings;
+  if hook-free execution is required, configure and smoke-test `--bare`;
 - use `--mcp-config '{"mcpServers":{}}'` and `--strict-mcp-config`;
-- use `--tools 'Read,Grep,Glob'` for read-only review;
+- use `--output-format stream-json --verbose` for observable review runs;
+- use explicit `--permission-mode dontAsk`; do not use `plan` for read-only
+  workers because plan mode can write plan files outside the repository;
+- use no tools for smoke, `Read` for exact-file review, and
+  `Read,Grep,Glob` only when repo search is required;
+- default budget caps are USD 1 for smoke, USD 5 for exact-file review, and
+  USD 10 for repo-search review unless the operator overrides them;
 - treat process exit as the end of the subagent thread;
 - if it hangs, terminate the process, record partial evidence, and recover
   sequentially before retrying;

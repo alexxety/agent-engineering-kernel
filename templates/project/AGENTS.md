@@ -111,8 +111,14 @@ Claude Code adapter rules:
 
 - default Claude Code role is one-shot read-only review/design review;
 - launch through `scripts/claude-code-readonly-subagent.sh` when available;
-- use non-interactive `claude -p`, `--no-session-persistence`, `--mcp-config '{"mcpServers":{}}'`, `--strict-mcp-config`, and read-only tools `Read,Grep,Glob`;
+- prefer a direct Claude Code binary over wrapper binaries such as cmux;
+- pin the controlled review model, defaulting to `claude-opus-4-7` unless the operator overrides it;
+- use non-interactive `claude -p`, `--no-session-persistence`, `--output-format stream-json`, `--verbose`, `--mcp-config '{"mcpServers":{}}'`, and `--strict-mcp-config`;
+- use explicit `--permission-mode dontAsk`; do not use `plan` mode for read-only workers;
+- use the smallest tool set: no tools for smoke, `Read` for exact-file review, and `Read,Grep,Glob` only when repo search is required;
+- use mode budget caps as runaway guardrails: USD 1 smoke, USD 5 exact-file review, USD 10 repo-search review unless the operator overrides them;
 - do not use `--bare` for OAuth-backed local Claude Code sessions unless API-key or `apiKeyHelper` mode was explicitly configured and smoke-tested;
+- recognize that OAuth non-`--bare` runs can still load user hooks/settings; fully hook-free `--bare` requires API-key or helper auth;
 - do not grant Claude Code implementation, live systems, GitHub writes, database writes, messaging, secrets, or customer data access without an active PRD;
 - process exit closes the Claude Code worker; if it hangs, terminate it, record partial evidence, and recover sequentially.
 

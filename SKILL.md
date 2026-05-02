@@ -43,7 +43,7 @@ The agentic coding orchestration rule is explicit:
 - one orchestrator remains accountable for scope, verification, docs, commits, and runtime checks
 - rich-MCP orchestrators should dispatch project-local no-MCP coding/review/docs workers when custom agents are available
 - project-local workers are preferred over the global no-MCP fallback for project implementation
-- Claude Code can be used as a one-shot read-only reviewer/design reviewer adapter with explicit empty MCP config, strict MCP enforcement, and read-only `Read,Grep,Glob` tools
+- Claude Code can be used as a one-shot read-only reviewer/design reviewer adapter with direct-binary preference, `claude-opus-4-7` model pin, `stream-json --verbose`, explicit empty MCP config, strict MCP enforcement, `dontAsk` permission mode, mode-specific tools such as `Read` or `Read,Grep,Glob`, and budget caps
 - when the operator explicitly asks for Claude Code and it fails, diagnose Claude Code CLI/auth/MCP/tool/process setup instead of silently switching to GPT/Codex
 - default to one worker agent at a time
 - use at most two parallel worker agents only with disjoint write sets and healthy local executor state
