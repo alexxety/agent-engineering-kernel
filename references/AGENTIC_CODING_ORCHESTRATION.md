@@ -90,6 +90,14 @@ If the operator explicitly requested Claude Code and the launch fails,
 diagnose the Claude Code CLI/auth/MCP/tool/output/binary configuration before
 using another agent family.
 
+Use Claude Code where second-model perspective has high leverage: UI/UX
+architecture, operator workflows, PRD/spec/runbook cleanup, independent
+plan/diff review, test planning, and refactor-boundary advice. The default
+enabled modes are `design_readonly` and `review_readonly`. Treat
+`implementation_no_mcp` and `research_mcp_readonly` as separate PRD-gated
+adapter slices. Do not pass the whole repository by habit; prefer a brief,
+selected files, and selected diff context.
+
 Reviewer and specialist agents are optional and targeted. Start a project with
 one project-local code worker, then add roles only when repeated work creates a
 clear boundary. Common useful additions are a read-only reviewer and a
@@ -191,6 +199,10 @@ Worker MCP policy:
 
 Claude Code one-shot lifecycle:
 
+- choose `design_readonly` for plan/spec/architecture/UX output, or
+  `review_readonly` for findings against a brief, selected files, or a diff;
+- do not use `implementation_no_mcp` or `research_mcp_readonly` without a
+  separate active PRD defining surface, identity, verification, and rollback;
 - run non-interactively with `claude -p`;
 - prefer the direct Claude Code binary over wrapper binaries; wrapper binaries
   such as cmux are explicit opt-in only;

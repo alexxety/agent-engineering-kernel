@@ -104,11 +104,26 @@ Claude Code is a model adapter, not a second engineering process.
 Default approved use:
 
 - one-shot read-only reviewer or design-review worker;
+- UI/UX architecture, operator workflow review, PRD/spec/runbook cleanup,
+  independent plan/diff review, test planning, and refactor-boundary advice;
 - local repository context only;
 - no MCP;
 - no Bash/Edit/Write/MultiEdit by default;
 - orchestrator performs external research and live-service operations, then
   passes evidence into the Claude Code prompt.
+
+Canonical operating modes:
+
+| Mode | Default status | Surface | Output |
+| --- | --- | --- | --- |
+| `design_readonly` | enabled by the read-only wrapper | `Read`, empty strict MCP, no edits | plan, spec, architecture, UX/workflow notes |
+| `review_readonly` | enabled by the read-only wrapper | selected files or diff context, optionally `Read,Grep,Glob`, empty strict MCP, no edits | findings: risks, missing tests, UX/privacy issues, edge cases |
+| `implementation_no_mcp` | separate active PRD required | exact allowed write paths, no MCP, no live systems, no secrets, no deploys, explicit verification | patch plus verification evidence |
+| `research_mcp_readonly` | separate active PRD required | explicit read-only identity and allowed external sources/tools | cited evidence and assumptions, no mutating provider actions |
+
+Do not feed Claude Code the whole repository by habit. Prefer a brief,
+selected files, and selected diff context. Large generated/type files are
+allowed only when directly relevant to the question.
 
 The canonical OAuth-backed local invocation shape is:
 

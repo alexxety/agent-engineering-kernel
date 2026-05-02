@@ -618,6 +618,46 @@ model_adapter_policy:
     - platform_specific_skills_plugins_or_commands
   claude_code_subagent_adapter:
     default_role: readonly_one_shot_reviewer_or_design_reviewer
+    high_leverage_uses:
+      - ui_ux_architecture_operator_workflows_mobile_desktop_layout_design_systems
+      - prd_spec_runbook_closeout_handoff_drafting_and_cleanup
+      - independent_plan_or_diff_review_for_ux_tests_privacy_edge_cases
+      - test_planning_before_implementation
+      - refactor_boundary_advice_before_splitting_large_files_or_workflows
+    operating_modes:
+      design_readonly:
+        status: enabled_by_default_wrapper
+        tools:
+          - Read
+        mcp: empty_strict
+        output: plan_spec_or_architecture_notes
+      review_readonly:
+        status: enabled_by_default_wrapper
+        tools:
+          - Read
+          - Grep
+          - Glob
+        mcp: empty_strict
+        output: findings_risks_missing_tests_ux_privacy_edge_cases
+      implementation_no_mcp:
+        status: separate_active_prd_required
+        requirements:
+          - exact_allowed_write_paths
+          - no_mcp
+          - no_live_systems
+          - no_secrets
+          - no_deploys
+          - verification_commands
+          - orchestrator_review_before_acceptance
+      research_mcp_readonly:
+        status: separate_active_prd_required
+        requirements:
+          - external_contract_slice
+          - explicit_readonly_identity
+          - allowed_sources_and_tools
+          - evidence_requirements
+          - no_mutating_provider_actions
+    context_policy: prefer_brief_selected_files_and_selected_diff_context_before_whole_repo
     preferred_binary: "$HOME/.local/bin/claude"
     wrapper_binaries_explicit_opt_in: true
     default_model: claude-opus-4-7

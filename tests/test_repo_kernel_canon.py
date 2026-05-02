@@ -175,6 +175,15 @@ class RepoKernelCanonTests(unittest.TestCase):
         model_policy = payload["model_adapter_policy"]
         claude_adapter = model_policy["claude_code_subagent_adapter"]
         self.assertEqual(claude_adapter["default_role"], "readonly_one_shot_reviewer_or_design_reviewer")
+        self.assertIn("test_planning_before_implementation", claude_adapter["high_leverage_uses"])
+        self.assertEqual(claude_adapter["operating_modes"]["design_readonly"]["status"], "enabled_by_default_wrapper")
+        self.assertEqual(claude_adapter["operating_modes"]["review_readonly"]["status"], "enabled_by_default_wrapper")
+        self.assertEqual(claude_adapter["operating_modes"]["implementation_no_mcp"]["status"], "separate_active_prd_required")
+        self.assertEqual(claude_adapter["operating_modes"]["research_mcp_readonly"]["status"], "separate_active_prd_required")
+        self.assertEqual(
+            claude_adapter["context_policy"],
+            "prefer_brief_selected_files_and_selected_diff_context_before_whole_repo",
+        )
         self.assertEqual(claude_adapter["preferred_binary"], "$HOME/.local/bin/claude")
         self.assertEqual(claude_adapter["default_model"], "claude-opus-4-7")
         self.assertEqual(claude_adapter["output_format"], "stream-json")
@@ -557,6 +566,8 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Claude Code", content, rel)
             self.assertIn("MCP", content, rel)
             self.assertIn("Read", content, rel)
+            self.assertIn("design_readonly", content, rel)
+            self.assertIn("review_readonly", content, rel)
             if rel != "templates/project/README.md":
                 self.assertIn("Grep", content, rel)
                 self.assertIn("Glob", content, rel)
