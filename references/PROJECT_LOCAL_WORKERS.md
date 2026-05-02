@@ -19,6 +19,21 @@ Checked on 2026-04-27:
   allowlist behavior:
   https://developers.openai.com/codex/config-reference
 
+Checked on 2026-05-02:
+
+- Claude Code CLI supports non-interactive print mode, `--mcp-config`, and
+  `--strict-mcp-config`:
+  https://docs.anthropic.com/en/docs/claude-code/cli-reference
+- Claude Code settings and MCP configuration are separate local/project
+  surfaces and must not be treated as repository secrets:
+  https://docs.anthropic.com/en/docs/claude-code/settings
+  https://docs.anthropic.com/en/docs/claude-code/mcp
+- Claude Code SDK examples support constrained read-only tool allowlists:
+  https://docs.anthropic.com/en/docs/claude-code/sdk
+- Claude Code project subagents can be described under `.claude/agents/` with
+  frontmatter-defined tools and limits:
+  https://docs.anthropic.com/en/docs/claude-code/sub-agents
+
 ## Pattern
 
 Use four role layers:
@@ -111,6 +126,18 @@ Optional project-local specialist workers:
 ```text
 <repo>/.codex/agents/<project_slug>_reviewer.toml
 <repo>/.codex/agents/<project_slug>_docs_worker.toml
+```
+
+Optional Claude Code project subagent:
+
+```text
+<repo>/.claude/agents/<project_slug>_readonly_reviewer.md
+```
+
+Optional Claude Code one-shot wrapper:
+
+```text
+<repo>/scripts/claude-code-readonly-subagent.sh
 ```
 
 Project canon:
@@ -271,6 +298,99 @@ Avoid these default roles:
 Those surfaces stay with the orchestrator unless a project explicitly designs a
 separate audited, read-only, sandboxed role for one narrow operation.
 
+## Claude Code Read-Only Subagent Adapter
+
+Claude Code is an external model adapter under this same worker canon. It does
+not create a second engineering workflow.
+
+Use Claude Code by default only for:
+
+- read-only review of an existing diff;
+- design or PRD review from repository files and evidence supplied by the
+  orchestrator;
+- small, bounded comparison of project docs, plans, or code paths.
+
+Do not use the default Claude Code adapter for:
+
+- implementation edits;
+- live service access;
+- production/staging operations;
+- database writes or migrations;
+- GitHub issue/PR writes;
+- messaging sends;
+- customer data export;
+- external research unless a separate research role is explicitly designed.
+
+The canonical one-shot command for an OAuth-backed local Claude Code install
+is:
+
+```bash
+claude -p \
+  --no-session-persistence \
+  --mcp-config '{"mcpServers":{}}' \
+  --strict-mcp-config \
+  --tools 'Read,Grep,Glob' \
+  --permission-mode dontAsk \
+  --max-budget-usd "${CLAUDE_WORKER_MAX_BUDGET_USD:-2}" \
+  "$prompt"
+```
+
+Use the project helper when available:
+
+```bash
+scripts/claude-code-readonly-subagent.sh "$prompt"
+```
+
+Important details:
+
+- the empty MCP config is `{"mcpServers":{}}`, not `{}`;
+- do not use `--bare` by default for OAuth-backed local sessions;
+- use `--bare` only when API-key or `apiKeyHelper` mode is explicitly
+  configured and smoke-tested;
+- keep `--tools` read-only unless a project PRD authorizes a stronger role;
+- keep the default `$2` budget cap unless the operator sets
+  `CLAUDE_WORKER_MAX_BUDGET_USD` for that environment;
+- do not put Anthropic API keys, auth state, or operator account details in the
+  repository;
+- run `claude auth status` or the project wrapper health check before relying
+  on the worker.
+
+If the user explicitly requests Claude Code and Claude Code fails, stop and
+diagnose:
+
+- CLI missing;
+- auth unhealthy;
+- wrong auth mode, such as `--bare` with an OAuth-only local install;
+- invalid MCP config;
+- tool permission mismatch;
+- process hang or resource exhaustion.
+
+Do not silently switch to GPT/Codex or another agent family. Fallback requires
+explicit operator approval and a recorded adapter gap.
+
+An optional project-local Claude subagent file can document the role for Claude
+Code users:
+
+```markdown
+---
+name: <project_slug>_readonly_reviewer
+description: Read-only project reviewer. No MCP, no edits, no live systems.
+tools: Read, Grep, Glob
+---
+
+You are a read-only reviewer for this repository.
+
+Follow AGENTS.md and the active PRD supplied by the orchestrator. Do not edit
+files, run live checks, deploy, print secrets, or access customer data. If the
+task needs external research or live context, return NEEDS_CONTEXT.
+
+Return findings, open questions, verification gaps, and:
+thread_disposition: parent_may_close_thread
+```
+
+Project subagent files are optional because not every project uses Claude
+Code. The universal bootstrap includes only the shell wrapper and canon text.
+
 ## Thread Lifecycle
 
 Project-local worker threads are disposable execution contexts, not durable
@@ -284,6 +404,11 @@ the orchestrator, blocked, or moved to a new write set.
 Reviewer and explorer threads are one-shot by default. Close them immediately
 after recording their findings, and use a fresh reviewer for re-review after
 fixes.
+
+Claude Code `claude -p` adapter runs are process-based one-shot workers. When
+the process exits, the worker is closed. If a Claude Code process hangs, kill
+that process, record the partial result, and recover sequentially before
+retrying.
 
 Every project worker and specialist should end with a `thread_disposition`
 field so the orchestrator does not have to remember whether the thread can be

@@ -20,6 +20,7 @@ This repository is the standalone source-of-truth for:
 - a reusable Codex skill
 - agentic coding orchestration with explicit worker/reviewer limits and recovery rules
 - project-local no-MCP coding workers with global fallback worker guidance
+- Claude Code subagent adapter rules for one-shot read-only review with strict no-MCP startup
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
@@ -117,6 +118,7 @@ Agentic coding orchestration canon:
 - rich-MCP orchestrators dispatch project-local no-MCP coding workers when custom agents are available
 - project-local workers are preferred over the global `code_worker_no_mcp` fallback for implementation inside a repo
 - project-local no-MCP configs disable the MCP server ids that exist in that project/operator environment; the kernel does not prescribe a fixed MCP list
+- Claude Code may be used as a one-shot read-only reviewer/design reviewer with `claude -p`, explicit empty MCP config, strict MCP enforcement, and read-only `Read,Grep,Glob` tools; if the operator explicitly asks for Claude Code and it fails, diagnose Claude Code instead of silently switching to another agent family
 - default to one worker agent at a time
 - run at most two worker agents concurrently, and only when write sets and runtime resources are disjoint
 - run reviewer agents selectively for security, DB, runtime/deploy, privacy/logging, production integration, or broad multi-file changes
@@ -233,6 +235,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - decision record for environment promotion canon
 - [docs/agentic-coding-orchestration-prd-2026-04-27.md](docs/agentic-coding-orchestration-prd-2026-04-27.md)
   - decision record for orchestrated agentic coding limits and recovery protocol
+- [docs/claude-code-subagent-canon-prd-2026-05-02.md](docs/claude-code-subagent-canon-prd-2026-05-02.md)
+  - decision record for using Claude Code as a bounded no-MCP subagent adapter
 
 ## Bootstrap a project
 

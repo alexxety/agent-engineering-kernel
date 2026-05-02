@@ -24,6 +24,8 @@ Default to one worker agent at a time. Run at most two worker agents in parallel
 
 When custom agents are available, use the project-local no-MCP worker from `.codex/agents/` for implementation work. Rich-MCP orchestrator sessions may use external tools, but coding workers should not inherit MCP servers; use the global `code_worker_no_mcp` only as fallback.
 
+Claude Code may be used as a one-shot read-only reviewer/design reviewer through `scripts/claude-code-readonly-subagent.sh`. The default Claude Code adapter uses `claude -p`, no session persistence, explicit empty MCP config, strict MCP enforcement, and read-only `Read,Grep,Glob` tools. Do not use `--bare` for OAuth-backed local Claude Code sessions unless API-key or `apiKeyHelper` mode has been explicitly configured and smoke-tested. If the operator explicitly asks for Claude Code and it fails, diagnose Claude Code CLI/auth/MCP/tool/process setup before requesting approval to use any fallback agent family.
+
 Keep at most three subagent threads open, close completed threads promptly, and avoid parallel shell/tool calls while workers are active. Implementation workers may remain open only for the same-patch review/fix loop; reviewers are one-shot and should be replaced by a fresh reviewer for re-review after fixes. Every subagent final response should include `thread_disposition` so the orchestrator can close threads deliberately. If the executor reports `Too many open files`, stream disconnects, or failed process creation, stop spawning agents and recover sequentially with `git status --short --branch` and `git diff --check` before continuing.
 
 ## MCP/App connector policy

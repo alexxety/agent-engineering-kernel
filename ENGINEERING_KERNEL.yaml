@@ -136,16 +136,22 @@ agentic_coding_orchestration_policy:
   worker_selection_order:
     - project_local_code_worker_for_project_implementation_and_docs_changes
     - global_code_worker_no_mcp_only_when_project_local_worker_is_unavailable_or_task_is_project_agnostic
+    - claude_code_readonly_adapter_only_when_explicitly_requested_or_project_authorized
     - built_in_generic_worker_only_when_no_no_mcp_worker_exists_or_orchestrator_session_is_lightweight
   project_local_worker_files:
     - .codex/config.toml
     - .codex/agents/<project_slug>_code_worker.toml
+    - .claude/agents/<project_slug>_readonly_reviewer.md_optional
+    - scripts/claude-code-readonly-subagent.sh_optional_helper
   worker_mcp_rules:
     - rich_mcp_orchestrators_may_use_mcp_for_research_connectors_browser_analytics_messaging_or_other_external_operations
     - coding_workers_disable_project_or_operator_mcp_server_ids_in_agent_config
+    - claude_code_one_shot_workers_pass_explicit_empty_mcp_config_and_strict_mcp_config
     - kernel_does_not_prescribe_a_fixed_mcp_server_id_list
     - do_not_rely_on_task_prompt_to_disable_mcp_startup
     - worker_that_needs_external_context_returns_needs_context_for_orchestrator
+    - when_user_explicitly_requests_claude_code_do_not_silently_fallback_to_gpt_or_codex_on_claude_failure
+    - diagnose_claude_code_cli_auth_mcp_tool_or_process_failure_before_retry_or_fallback
   concurrency_defaults:
     max_worker_agents_default: 1
     max_worker_agents_parallel: 2
@@ -219,9 +225,13 @@ project_local_worker_policy:
     project_worker: .codex/agents/<project_slug>_code_worker.toml
     optional_project_reviewer: .codex/agents/<project_slug>_reviewer.toml
     optional_project_docs_worker: .codex/agents/<project_slug>_docs_worker.toml
+    optional_claude_code_readonly_reviewer: .claude/agents/<project_slug>_readonly_reviewer.md
+    optional_claude_code_readonly_wrapper: scripts/claude-code-readonly-subagent.sh
     project_canon: AGENTS.md
   selection_rules:
     - orchestrator_explicitly_selects_project_local_worker_for_project_implementation_and_docs_changes
+    - claude_code_adapter_default_role_is_one_shot_readonly_review_or_design_review
+    - claude_code_adapter_is_not_default_implementation_worker_without_project_prd
     - add_project_local_specialist_roles_only_after_repeated_need_proves_a_clear_boundary
     - project_local_reviewer_is_read_only_for_diff_spec_safety_privacy_runtime_and_test_gap_review
     - project_local_docs_worker_writes_docs_only_from_orchestrator_evidence_and_project_docs
@@ -235,6 +245,9 @@ project_local_worker_policy:
     - dispatch_prompt_names_task_specific_docs_skills_runbooks_or_handoffs_to_read
     - disable_current_project_or_operator_mcp_server_ids_in_worker_config
     - disabled_mcp_entries_still_include_command_or_url_transport_to_avoid_invalid_transport_loader_errors
+    - claude_code_oauth_backed_local_runs_do_not_use_bare_by_default
+    - claude_code_bare_mode_requires_explicit_api_key_or_api_key_helper_verification
+    - claude_code_empty_mcp_config_is_mcpServers_empty_object_not_empty_json_object
     - do_not_copy_project_specific_mcp_ids_or_local_paths_from_another_project
     - keep_task_specific_write_sets_and_verification_commands_in_the_dispatch_prompt
   worker_mcp_inventory_rules:
@@ -245,6 +258,7 @@ project_local_worker_policy:
     - leave_project_specific_mcp_names_in_project_config_not_the_universal_kernel
   verification_rules:
     - parse_global_and_project_worker_toml_before_use
+    - run_claude_auth_status_or_project_claude_wrapper_smoke_before_using_claude_code_adapter
     - start_a_fresh_session_after_agent_config_changes
     - verify_worker_availability_before_spawning_workers
     - record_platform_gaps_when_custom_agent_selection_is_unavailable
@@ -598,6 +612,19 @@ model_adapter_policy:
     - verbosity
     - planning_mechanics
     - platform_specific_skills_plugins_or_commands
+  claude_code_subagent_adapter:
+    default_role: readonly_one_shot_reviewer_or_design_reviewer
+    default_allowed_tools:
+      - Read
+      - Grep
+      - Glob
+    default_mcp_config: '{"mcpServers":{}}'
+    strict_mcp_config_required: true
+    no_session_persistence_default: true
+    bare_mode_default: false
+    default_max_budget_usd: 2
+    no_silent_fallback_when_explicitly_requested: true
+    default_wrapper: scripts/claude-code-readonly-subagent.sh
   primary_target: GPT-5.4/Codex
   secondary_target: Claude Code
   hard_rule:
