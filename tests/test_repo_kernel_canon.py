@@ -253,6 +253,21 @@ class RepoKernelCanonTests(unittest.TestCase):
             environment_promotion_policy["rules"],
         )
 
+    def test_machine_readable_kernel_includes_risk_based_required_ci(self) -> None:
+        payload = yaml.safe_load((ROOT / "ENGINEERING_KERNEL.yaml").read_text(encoding="utf-8"))
+        execution_policy = payload["execution_surface_policy"]
+        rules = execution_policy["rules"]
+        self.assertIn(
+            "do_not_use_workflow_level_path_filters_or_commit_message_skips_for_required_workflows",
+            rules,
+        )
+        self.assertIn("use_lightweight_classifier_jobs_before_expensive_required_jobs", rules)
+        self.assertIn("risk_gate_expensive_required_jobs_with_job_level_if_conditions", rules)
+        self.assertIn(
+            "force_full_required_ci_for_main_release_manual_scheduled_dependency_workflow_and_explicit_full_ci_override",
+            rules,
+        )
+
     def test_kernel_readme_and_templates_document_pre_change_baseline_rule(self) -> None:
         readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertIn("baseline verification when an existing contract already exists", readme_text)
@@ -368,6 +383,22 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("owned compute", content, rel)
             self.assertIn("paid GitHub-hosted", content, rel)
             self.assertIn("dependency cache", content, rel)
+
+    def test_kernel_docs_and_templates_explain_risk_based_required_ci(self) -> None:
+        for rel in (
+            "README.md",
+            "references/EXECUTION_SURFACES.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            normalized = content.lower()
+            self.assertIn("risk-based", normalized, rel)
+            self.assertIn("job-level", normalized, rel)
+            self.assertIn("required check", normalized, rel)
+            self.assertIn("pending", normalized, rel)
+            self.assertIn("full-ci", normalized, rel)
 
     def test_kernel_docs_and_templates_mention_environment_promotion(self) -> None:
         for rel in (

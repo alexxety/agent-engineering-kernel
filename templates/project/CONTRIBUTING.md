@@ -55,6 +55,8 @@ Keep at most three subagent threads open, close completed threads promptly, and 
 - GitHub coordinates issues, PRs, check status, schedules, and deploy triggers; owned compute should execute routine work by default
 - if the repository already has self-hosted runners or can reasonably provide them, prefer them over paid GitHub-hosted Actions for recurring work
 - document the self-hosted runner label(s) before enabling recurring GitHub checks
+- keep required workflows triggered and use risk-based classifier jobs plus job-level `if` gates for expensive jobs instead of workflow-level skips that can leave required checks `Pending`
+- use `full-ci` or an equivalent explicit override for the full matrix; main, release, scheduled, manual, dependency, and workflow changes also run full CI
 - check or bootstrap local prerequisites before assuming CI is the right place to run the work
 - keep GitHub Actions for repository-native automation, schedules, deploys, and hosted checks that genuinely need the platform
 - do not enable paid GitHub-hosted runners, dependency cache uploads, or long-lived artifact storage without an explicit PRD/decision note

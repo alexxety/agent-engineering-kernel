@@ -37,6 +37,8 @@ Execution-surface canon:
 - GitHub coordinates repository workflow: issues, PRs, check status, schedules, and deploy triggers
 - owned compute executes routine work by default: local machine first, then self-hosted runners for recurring checks
 - self-hosted runners are preferred over paid GitHub-hosted Actions when the repository already has them or can reasonably provide them
+- required GitHub workflows stay triggered; risk-based classifier jobs and job-level `if` gates reduce expensive jobs without leaving required checks `Pending`
+- `full-ci` or an equivalent explicit override forces the full matrix, as do main, release, scheduled, manual, dependency, and workflow changes
 - paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage are explicit exceptions for private repositories, not defaults
 - GitHub Actions remain for repo-native automation, schedules, deploys, and hosted checks that actually belong there
 - production-bound work should document local, disposable verify, staging, and production boundaries before launch hardening

@@ -24,6 +24,8 @@ This repository follows the agent engineering kernel.
 - GitHub coordinates issues, PRs, check status, schedules, and deploy triggers; owned compute should execute routine work by default
 - if the project has self-hosted runners or can reasonably provide them, prefer them over paid GitHub-hosted Actions for recurring work
 - document self-hosted runner labels before enabling recurring GitHub checks
+- required workflows should stay triggered; use risk-based classifier jobs and job-level `if` gates for expensive jobs instead of workflow-level skips that can leave required checks `Pending`
+- `full-ci` or an equivalent explicit override forces the full matrix, as do main, release, scheduled, manual, dependency, and workflow changes
 - GitHub Actions are for repository-native automation, schedules, deploys, and hosted checks that genuinely belong there
 - paid GitHub-hosted runners, dependency cache uploads, and long-lived artifact storage require an explicit PRD/decision note
 - production-bound work documents `local`, disposable `verify`, `staging`, and `production` boundaries before launch hardening
