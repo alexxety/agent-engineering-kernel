@@ -167,6 +167,8 @@ Project-local rules may make these limits stricter, especially for live producti
 - document the project self-hosted runner label(s) before enabling recurring GitHub checks
 - check local prerequisites before work starts
 - if the repo defines a local bootstrap path, use or repair it before escalating elsewhere
+- keep required workflows triggered and use risk-based classifier jobs plus job-level `if` gates for expensive jobs instead of workflow-level skips that can leave required checks `Pending`
+- use `full-ci` or an equivalent explicit override for the full matrix; main, release, scheduled, manual, dependency, and workflow changes also run full CI
 - use GitHub Actions for repository-native automation, schedules, deploys, and hosted verification that genuinely belongs there
 - do not enable paid GitHub-hosted runners, dependency cache uploads, or long-lived artifact storage without an explicit PRD/decision note
 

@@ -49,6 +49,25 @@ Use GitHub Actions when the value is specifically repository-native automation:
 - hosted verification that must execute inside GitHub
 - branch/merge policy checks that belong to the repository platform
 
+## Risk-Based Required CI
+
+For required checks, do not use workflow-level `paths`, `paths-ignore`, or
+commit-message skip instructions as the normal optimization path. If the whole
+workflow is skipped before jobs are created, GitHub can leave required checks in
+`Pending`.
+
+Keep required workflows triggered, then reduce runner load inside the workflow:
+
+- run a lightweight classifier job first
+- gate expensive jobs with job-level `if` conditions
+- let irrelevant jobs become `skipped` required checks instead of missing checks
+- run the full required CI matrix for `main`, release/deploy, scheduled,
+  manual, dependency, workflow, and explicit `full-ci` override changes
+
+This is risk-based CI: the repository still gets required check visibility, but
+small frontend-only, backend-only, docs-only, or canon-only PRs do not consume
+unrelated self-hosted runner time.
+
 ## Environment Promotion
 
 Execution surfaces answer where work runs. Environment promotion answers how code,
@@ -93,6 +112,8 @@ Project-local canon should state:
 - whether the project has self-hosted runners
 - the self-hosted runner label(s) for recurring repository checks
 - which workflows must remain in GitHub Actions
+- which required workflows use risk-based classifier jobs and job-level gates
+- the explicit `full-ci` override label or equivalent manual full-check path
 - the environment promotion path from local to verify to staging to production
 - the production-safe migration/deploy command and backup or restore-point path
 - that agents should not route routine dev/test work to paid hosted Actions by
