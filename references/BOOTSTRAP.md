@@ -44,6 +44,8 @@ The bootstrapped canon should also make explicit:
 - that production secrets and production database URLs must not be used in local config or local tests
 - that mutating automated tests must not run against production
 - that production-safe migration/deploy command, backup/restore-point path, smoke checks, and rollback are project-local canon
+- that a new shell, navigation model, admin information architecture, or major UI cannot become default until cutover entitlement role-matrix evidence proves it uses the same entitlement source of truth
+- that default cutover role-matrix evidence covers unauthenticated, personal, workspace owner/admin, workspace member, enterprise/admin, platform admin, desktop/mobile navigation, command/search palette, topbar/page chrome, and direct restricted routes
 - that each serious slice begins with `kernel_upstream_check`
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision

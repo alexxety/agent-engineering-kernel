@@ -32,6 +32,8 @@ This repository follows the agent engineering kernel.
 - production secrets and production database URLs must not be used in local verification
 - mutating automated tests must not run against production
 - production-safe migration/deploy command, backup or restore-point path, smoke checks, and rollback must be project-local canon
+- new shell, navigation, admin information architecture, or major UI cutover cannot become default until entitlement role-matrix evidence proves the same source of truth is respected
+- default cutover role-matrix evidence covers unauthenticated, personal, workspace owner/admin, workspace member, enterprise/admin, platform admin, desktop/mobile navigation, command/search palette, topbar/page chrome, and direct restricted routes
 - serious slices begin with `kernel_upstream_check`
 - the project pins its upstream kernel commit in `.kernel/upstream.json`
 - if drift exists, open or update a `kernel_adoption_task`

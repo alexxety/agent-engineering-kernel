@@ -72,6 +72,29 @@ Keep at most three subagent threads open, close completed threads promptly, and 
 - Do not run mutating automated tests against production.
 - Document the production-safe migration/deploy command, backup or restore-point path, smoke checks, and rollback before production use.
 
+## Cutover entitlement parity
+
+Before making a new shell, navigation model, admin information architecture, or major UI the default, record cutover entitlement role-matrix evidence in the PRD or closeout.
+
+Required role-matrix coverage:
+
+- unauthenticated
+- personal user
+- workspace owner/admin
+- workspace member
+- enterprise/admin
+- platform admin
+
+Required surface coverage:
+
+- desktop navigation
+- mobile navigation
+- command/search palette
+- topbar/page chrome
+- direct restricted routes
+
+The new default UI must use the same entitlement source of truth as the existing product, unless the PRD records an explicit replacement decision. Server authorization remains mandatory, but it is not enough by itself; client surfaces must not blur roles.
+
 ## Start from the correct issue
 
 Use:

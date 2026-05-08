@@ -28,6 +28,7 @@ This repository is the standalone source-of-truth for:
 - a canonical `kernel_adoption_task` so downstream repos handle kernel drift deterministically
 - optional kernel fleet sweep so one operator machine can review many consumer repos at once
 - environment promotion canon for local, disposable verify, staging, and production boundaries
+- cutover entitlement parity for new shell/navigation/admin UI defaults
 
 The goal is simple: a new agent in a new repository should not need the workflow re-explained in chat.
 
@@ -94,6 +95,14 @@ Verification canon:
 - production secrets and production database URLs must not be used in local verification
 - mutating automated tests must not run against production data or production provider identities
 - post-change verification before publish remains mandatory
+
+Cutover entitlement parity canon:
+
+- before a new shell, navigation model, admin information architecture, or major UI becomes default, identify the existing entitlement source of truth
+- the new default UI must consume the same entitlement source or record an explicit replacement decision
+- role-matrix evidence must cover unauthenticated, personal, workspace owner/admin, workspace member, enterprise/admin, and platform admin paths
+- desktop navigation, mobile navigation, command/search palette, topbar/page chrome, and direct restricted routes must be checked before default cutover
+- server authorization remains the security boundary, but client surfaces that blur role visibility are regressions, not design polish
 
 Environment-promotion canon:
 
