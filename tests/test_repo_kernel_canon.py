@@ -119,6 +119,14 @@ class RepoKernelCanonTests(unittest.TestCase):
             agentic_policy["tool_load_rules"],
         )
         self.assertIn(
+            "serialize_git_ref_index_and_worktree_mutating_commands_per_repository",
+            agentic_policy["tool_load_rules"],
+        )
+        self.assertIn(
+            "do_not_run_git_fetch_pull_switch_checkout_merge_rebase_branch_delete_or_push_in_parallel_for_the_same_repository",
+            agentic_policy["tool_load_rules"],
+        )
+        self.assertIn(
             "implementation_worker_thread_is_kept_open_only_for_same_patch_review_fix_loop",
             agentic_policy["thread_lifecycle_rules"],
         )
@@ -130,6 +138,10 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("too_many_open_files", agentic_policy["recovery_triggers"])
         self.assertIn(
             "do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run",
+            agentic_policy["recovery_rules"],
+        )
+        self.assertIn(
+            "after_git_ref_lock_race_recover_with_sequential_git_status_fetch_pull_ff_only_and_diff_check",
             agentic_policy["recovery_rules"],
         )
         worker_policy = payload["project_local_worker_policy"]
@@ -608,6 +620,22 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("Too many open files", content, rel)
             self.assertIn("git status --short --branch", content, rel)
             self.assertIn("parallel", content.lower(), rel)
+
+    def test_kernel_docs_and_templates_serialize_git_ref_operations(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/GITHUB_DELIVERY.md",
+            "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("git fetch", content, rel)
+            self.assertIn("git pull", content, rel)
+            self.assertIn("git diff --check", content, rel)
+            self.assertIn("parallel", content.lower(), rel)
+            self.assertIn("same repo", content.lower(), rel)
 
     def test_kernel_docs_and_templates_mention_claude_code_adapter(self) -> None:
         for rel in (

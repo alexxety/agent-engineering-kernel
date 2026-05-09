@@ -204,6 +204,8 @@ agentic_coding_orchestration_policy:
   tool_load_rules:
     - avoid_parallel_shell_or_tool_wrappers_while_worker_agents_are_active
     - prefer_sequential_shell_commands_while_worker_agents_are_active
+    - serialize_git_ref_index_and_worktree_mutating_commands_per_repository
+    - do_not_run_git_fetch_pull_switch_checkout_merge_rebase_branch_delete_or_push_in_parallel_for_the_same_repository
     - avoid_broad_repeated_file_scans_unless_needed
     - do_not_busy_poll_agents
     - close_completed_or_abandoned_agent_threads_immediately_after_recording_result
@@ -227,6 +229,7 @@ agentic_coding_orchestration_policy:
     - stop_parallel_shell_and_tool_calls
     - close_completed_or_errored_agent_threads
     - recover_with_minimal_sequential_commands
+    - after_git_ref_lock_race_recover_with_sequential_git_status_fetch_pull_ff_only_and_diff_check
     - do_not_edit_runtime_code_or_claim_verification_until_git_status_and_git_diff_check_can_run
   integration_rules:
     - verify_changed_files_stay_within_allowed_write_set
@@ -577,6 +580,9 @@ github_delivery_flow:
     - prefer_mcp_or_app_connector_for_structured_github_issue_pr_and_metadata_operations_when_available_and_authorized
     - local_gh_auth_and_github_app_connector_auth_are_different_identities_with_separate_permissions
     - if_github_connector_returns_resource_not_accessible_by_integration_check_installed_github_app_repository_access_and_permissions
+    - serialize_git_ref_index_and_worktree_mutating_commands_per_repository
+    - do_not_run_git_fetch_pull_switch_checkout_merge_rebase_branch_delete_or_push_in_parallel_for_the_same_repository
+    - after_git_ref_lock_race_recover_with_sequential_git_status_fetch_pull_ff_only_and_diff_check
     - never_embed_markdown_with_backticks_in_inline_double_quoted_gh_body_arguments
     - single_quoted_heredoc_is_an_acceptable_fallback_only_when_it_writes_the_body_file_first
     - when_linking_sub_issues_from_cli_prefer_the_kernel_helper_or_graphql_addSubIssue_after_resolving_issue_node_ids

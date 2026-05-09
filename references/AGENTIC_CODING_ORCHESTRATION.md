@@ -186,6 +186,15 @@ While any worker agent is active:
 - do not launch background services unless required;
 - do not busy-poll agents.
 
+Regardless of whether worker agents are active, git commands that touch refs,
+the index, or the working tree are serialized per repository. Do not run `git
+fetch`, `git pull`, `git switch`, `git checkout`, `git merge`, `git rebase`,
+`git branch -d/-D`, or `git push` through parallel shell/tool wrappers for the
+same repo. They can race on `.git/refs` lock files or leave the operator with a
+misleading local view. If this happens, stop parallel git calls and recover with
+sequential `git status --short --branch`, the needed `git fetch`, `git pull
+--ff-only` when appropriate, and `git diff --check`.
+
 Worker MCP policy:
 
 - do not rely on the task prompt to disable MCP; MCP startup happens before the

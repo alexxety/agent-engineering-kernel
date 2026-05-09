@@ -136,6 +136,13 @@ If the executor reports resource failures such as `Too many open files`, stream 
 
 Project-local rules may make these limits stricter, especially for live production surfaces.
 
+Git ref/index/worktree operations must be serialized per repository. Do not run
+`git fetch`, `git pull`, `git switch`, `git checkout`, `git merge`, `git
+rebase`, `git branch -d/-D`, or `git push` in parallel for the same repo. If a
+ref lock race occurs, recover with sequential `git status --short --branch`,
+the needed `git fetch`, `git pull --ff-only` when appropriate, and `git diff
+--check`.
+
 ## Research canon
 
 - use Tavily Search first, not Tavily Research first
