@@ -136,6 +136,7 @@ Agentic coding orchestration canon:
 - keep at most three subagent threads open and close completed threads immediately
 - keep implementation workers open only for the same-patch review/fix loop; treat reviewers as one-shot and require `thread_disposition` in subagent final responses
 - avoid parallel shell/tool calls while worker agents are active
+- serialize git ref/index/worktree-mutating commands per repository; never run `git fetch`, `git pull`, `git switch`, `git checkout`, `git merge`, `git rebase`, `git branch -d/-D`, or `git push` in parallel for the same repo
 - stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files` or stream disconnects
 - resume only after `git status --short --branch` and `git diff --check` can run
 - project-local `AGENTS.md` may impose stricter lower limits

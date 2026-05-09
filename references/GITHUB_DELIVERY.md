@@ -17,6 +17,20 @@ Tooling rule:
 - if the App connector returns `Resource not accessible by integration`, check the installed GitHub App repository access and permissions before refreshing the local `gh` token
 - when the connector is unavailable, stale, or missing a needed operation, use the shell-safe `gh` fallback below
 
+Git state serialization rule:
+
+- serialize git commands that touch refs, the index, or the working tree within
+  one repository
+- do not run `git fetch`, `git pull`, `git switch`, `git checkout`, `git
+  merge`, `git rebase`, `git branch -d/-D`, or `git push` through parallel
+  tool wrappers for the same repo
+- read-only commands such as `git diff`, `git status`, `git log`, and `git
+  show` may be parallelized only when they do not depend on a fresh ref update
+  and no ref-mutating git command is running for that repo
+- if a ref lock race occurs, recover sequentially: `git status --short
+  --branch`, then the needed `git fetch`, then `git pull --ff-only` when
+  appropriate, then `git diff --check`
+
 ## Canonical sequence
 
 1. Create or update the PRD
@@ -55,6 +69,8 @@ production deploy, read-safe production smoke checks, and monitoring.
 - when using `gh issue create`, `gh issue edit`, or `gh pr create` from shell, prefer `--body-file` over inline `--body`
 - when MCP or an App connector can do the structured write, prefer it over shelling out, then verify the connector path itself
 - do not treat a working local `gh` token as proof that the GitHub App connector has repository access or write permissions
+- serialize git ref/index/worktree-mutating commands per repository; never run
+  fetch/pull/merge/switch/branch-delete/push in parallel for the same repo
 - never embed markdown with backticks or fenced code blocks in inline double-quoted `gh --body` arguments
 - acceptable fallback is a single-quoted heredoc such as `<<'EOF'` that writes the body file first
 - when linking GitHub sub-issues from the CLI, prefer `scripts/link_github_sub_issue.py` or GraphQL `addSubIssue` after resolving issue node ids

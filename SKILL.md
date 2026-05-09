@@ -53,6 +53,7 @@ The agentic coding orchestration rule is explicit:
 - treat reviewer/explorer/docs-specialist threads as one-shot and use fresh reviewers for re-review
 - require subagent final responses to include `thread_disposition`
 - avoid parallel shell/tool calls while worker agents are active
+- serialize git ref/index/worktree-mutating commands such as `git fetch`, `git pull`, `git switch`, `git merge`, branch deletion, and `git push` per repository; never run them in parallel for the same repo
 - stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files`
 - resume only after `git status --short --branch` and `git diff --check` can run
 

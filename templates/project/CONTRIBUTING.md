@@ -28,6 +28,8 @@ Claude Code may be used as a one-shot read-only reviewer/design reviewer through
 
 Keep at most three subagent threads open, close completed threads promptly, and avoid parallel shell/tool calls while workers are active. Implementation workers may remain open only for the same-patch review/fix loop; reviewers are one-shot and should be replaced by a fresh reviewer for re-review after fixes. Every subagent final response should include `thread_disposition` so the orchestrator can close threads deliberately. If the executor reports `Too many open files`, stream disconnects, or failed process creation, stop spawning agents and recover sequentially with `git status --short --branch` and `git diff --check` before continuing.
 
+Git ref/index/worktree operations are serialized per repository. Do not run `git fetch`, `git pull`, `git switch`, `git checkout`, `git merge`, `git rebase`, `git branch -d/-D`, or `git push` in parallel for the same repo. If a ref lock race occurs, recover sequentially with `git status --short --branch`, the needed `git fetch`, `git pull --ff-only` when appropriate, and `git diff --check`.
+
 ## MCP/App connector policy
 
 - use MCP or App connector tooling for supported structured external-service operations when available and authorized
