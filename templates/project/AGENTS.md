@@ -186,6 +186,14 @@ Project-local rules may make these limits stricter, especially for live producti
 - project canon must document backup or restore-point path, staging smoke checks, production smoke checks, and rollback
 - production data may move down to staging only through documented backup/restore and sanitization; local or staging data must not move up to production
 
+## Cutover entitlement parity canon
+
+- a new shell, navigation model, admin information architecture, or major UI cannot become default until it proves entitlement parity with the existing source of truth
+- record cutover role-matrix evidence in the active PRD or closeout before default rollout
+- the default role-matrix covers unauthenticated, personal user, workspace owner/admin, workspace member, enterprise/admin, and platform admin
+- the default surface matrix covers desktop navigation, mobile navigation, command/search palette, topbar/page chrome, and direct restricted routes
+- server authorization remains the security boundary, but UI surfaces that expose the wrong role experience are regressions
+
 ## Kernel sync canon
 
 - every serious slice begins with `kernel_upstream_check`

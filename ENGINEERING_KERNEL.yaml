@@ -12,6 +12,7 @@ layers:
   minimal_core:
     - project_local_canon
     - prd_first_execution
+    - cutover_entitlement_parity_policy
     - agent_skill_orchestration_policy
     - agentic_coding_orchestration_policy
     - project_local_worker_policy
@@ -70,6 +71,33 @@ prd_first_execution:
     - refactor_slices_prefer_before_and_after_equivalence_checks
     - docs_only_canon_only_or_greenfield_slices_may_skip_pre_change_baseline_if_no_existing_contract_exists
     - docs_and_prd_are_part_of_the_slice
+
+cutover_entitlement_parity_policy:
+  applies_to:
+    - new_shell_or_navigation_model
+    - admin_information_architecture_cutover
+    - major_ui_default_cutover
+  source_of_truth_rules:
+    - identify_existing_entitlement_or_capability_source_of_truth_before_cutover
+    - new_default_ui_must_consume_the_same_entitlement_source_or_record_explicit_replacement_decision
+    - server_authorization_remains_the_security_boundary_but_client_surface_filtering_must_match_expected_roles
+  required_role_matrix:
+    - unauthenticated
+    - personal_user
+    - workspace_owner_or_admin
+    - workspace_member
+    - enterprise_or_account_admin
+    - platform_admin
+  required_surfaces:
+    - desktop_navigation
+    - mobile_navigation
+    - command_or_search_palette
+    - topbar_or_page_chrome
+    - direct_route_restricted_state
+  default_cutover_rules:
+    - do_not_make_new_shell_navigation_admin_ia_or_major_ui_default_until_role_matrix_parity_is_green
+    - record_cutover_entitlement_role_matrix_evidence_in_active_prd_or_closeout
+    - treat_beautiful_ui_that_blurs_entitlements_as_a_regression_not_a_design_tradeoff
 
 agent_skill_orchestration_policy:
   preferred_skill_pack: Superpowers

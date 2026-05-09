@@ -68,6 +68,12 @@ The environment-promotion rule is explicit:
 - production secrets and production database URLs must not be used in local config or local tests
 - mutating automated tests must not run against production
 
+The cutover entitlement parity rule is explicit:
+
+- a new shell, navigation model, admin information architecture, or major UI cannot become default until role-matrix evidence proves the same entitlement source of truth is respected
+- the role-matrix covers unauthenticated, personal, workspace owner/admin, workspace member, enterprise/admin, and platform admin surfaces
+- desktop navigation, mobile navigation, command/search palette, topbar/page chrome, and direct restricted routes are checked before default cutover
+
 ## Use this skill for
 
 - creating a reusable engineering kernel for future projects
@@ -82,6 +88,7 @@ The environment-promotion rule is explicit:
 - establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
 - establishing local-first execution and prerequisite bootstrap
 - establishing environment promotion and production safety rules
+- establishing cutover entitlement parity before a new shell/navigation/admin UI becomes default
 - establishing kernel sync review and kernel impact discipline
 - establishing kernel upstream awareness and downstream adoption checks
 - establishing the canonical `kernel_adoption_task` work item for downstream kernel updates

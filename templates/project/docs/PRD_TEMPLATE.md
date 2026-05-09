@@ -72,6 +72,27 @@ Record near slice start.
 
 Phased plan with validation and rollback.
 
+## Cutover Entitlement Role-Matrix
+
+Required when the slice makes a new shell, navigation model, admin information architecture, or major UI the default.
+
+- default cutover in scope: `yes | no`
+- entitlement source of truth:
+- replacement decision if not using the existing entitlement source: `n/a | describe`
+- role-matrix evidence:
+  - unauthenticated:
+  - personal user:
+  - workspace owner/admin:
+  - workspace member:
+  - enterprise/admin:
+  - platform admin:
+- surface evidence:
+  - desktop navigation:
+  - mobile navigation:
+  - command/search palette:
+  - topbar/page chrome:
+  - direct restricted routes:
+
 For production-bound work, record:
 
 - local verification path;

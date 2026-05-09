@@ -63,12 +63,21 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("kernel_adoption_task_policy", payload)
         self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
+        self.assertIn("cutover_entitlement_parity_policy", payload)
         prd_first = payload["prd_first_execution"]
         self.assertIn("baseline_verification", prd_first["order"])
         self.assertIn("post_change_verification", prd_first["order"])
         self.assertIn(
             "capture_smallest_relevant_baseline_verification_before_edits_when_existing_contract_exists",
             prd_first["rules"],
+        )
+        cutover_policy = payload["cutover_entitlement_parity_policy"]
+        self.assertIn("workspace_member", cutover_policy["required_role_matrix"])
+        self.assertIn("platform_admin", cutover_policy["required_role_matrix"])
+        self.assertIn("command_or_search_palette", cutover_policy["required_surfaces"])
+        self.assertIn(
+            "do_not_make_new_shell_navigation_admin_ia_or_major_ui_default_until_role_matrix_parity_is_green",
+            cutover_policy["default_cutover_rules"],
         )
         skill_policy = payload["agent_skill_orchestration_policy"]
         self.assertEqual(skill_policy["preferred_skill_pack"], "Superpowers")
@@ -421,6 +430,23 @@ class RepoKernelCanonTests(unittest.TestCase):
             if rel != "references/GITHUB_DELIVERY.md":
                 self.assertIn("production secrets", content.lower(), rel)
                 self.assertIn("mutating", content.lower(), rel)
+
+    def test_kernel_docs_and_templates_mention_cutover_entitlement_parity(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/BOOTSTRAP.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            normalized = content.lower()
+            self.assertIn("cutover", normalized, rel)
+            self.assertIn("entitlement", normalized, rel)
+            self.assertIn("role-matrix", normalized, rel)
+            self.assertIn("default", normalized, rel)
 
     def test_kernel_workflow_uses_owned_compute_runner(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "tests.yml").read_text(encoding="utf-8")
