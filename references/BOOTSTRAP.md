@@ -55,6 +55,14 @@ The bootstrapped canon should also make explicit:
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
 - that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, same-patch worker thread lifecycle, one-shot reviewers, `thread_disposition`, and a recovery protocol for executor/resource failures such as `Too many open files`
 - that rich-MCP orchestrators should dispatch project-local no-MCP coding workers when custom agents are available, with the global `code_worker_no_mcp` only as fallback
+- that multi-agent production-bound work uses a named release candidate branch
+  or integration branch, exact commit SHA, draft PR, staging verification,
+  production backup when applicable, production smoke checks, PR evidence,
+  merge to `main`, and intentional branch/worktree cleanup
+- that a second agent recovering live runtime must receive or reconstruct the
+  handoff packet before deploying or restarting services
+- that `main` is source of truth only after the verified release candidate is
+  merged, and agents must not deploy from stale, dirty, or detached checkouts
 - that MCP or App connector tooling is preferred for supported structured external-service operations when available and authorized
 - that local `gh` auth and GitHub App connector auth are different identities with separate permissions
 - that GitHub App repository access and permissions are configured in GitHub Installed Apps, not by storing or editing tokens in project files
@@ -85,6 +93,12 @@ Do not treat a compact behavior guideline file as a replacement for the bootstra
 Do not treat Superpowers or another process-skill pack as a replacement for the bootstrapped canon. Skills help the agent choose the right workflow; the project canon remains the source of truth.
 
 Do not treat subagent fan-out as automatically better. Use the orchestrator/worker/reviewer limits in `references/AGENTIC_CODING_ORCHESTRATION.md`; prefer one worker at a time unless independence and executor health are clear.
+
+Do not treat a runtime recovery as permission to deploy the nearest checkout.
+Use `references/MULTI_AGENT_RELEASE_COORDINATION.md`: identify the active
+release candidate, package fixes into an auditable branch/PR, deploy staging
+first, take production backup or restore point when schema/data can change, and
+record evidence before merging to `main`.
 
 When bootstrapping a Codex project, copy or adapt
 `templates/project/.codex/config.toml` and

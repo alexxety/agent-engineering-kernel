@@ -26,6 +26,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/BOOTSTRAP.md",
             "references/BEHAVIORAL_OVERLAY.md",
             "references/AGENTIC_CODING_ORCHESTRATION.md",
+            "references/MULTI_AGENT_RELEASE_COORDINATION.md",
             "references/PROJECT_LOCAL_WORKERS.md",
             "references/SUPERPOWERS_SKILL_ORCHESTRATION.md",
             "references/MCP_TOOLING.md",
@@ -51,6 +52,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("model_adapter_policy", payload)
         self.assertIn("agent_skill_orchestration_policy", payload)
         self.assertIn("agentic_coding_orchestration_policy", payload)
+        self.assertIn("multi_agent_release_coordination_policy", payload)
         self.assertIn("project_local_worker_policy", payload)
         self.assertIn("mcp_tooling_policy", payload)
         self.assertIn("research_policy", payload)
@@ -146,6 +148,32 @@ class RepoKernelCanonTests(unittest.TestCase):
             "after_git_ref_lock_race_recover_with_sequential_git_status_fetch_pull_ff_only_and_diff_check",
             agentic_policy["recovery_rules"],
         )
+        release_policy = payload["multi_agent_release_coordination_policy"]
+        self.assertIn(
+            "main_is_source_of_truth_only_after_verified_integration_pr_is_merged",
+            release_policy["core_rule"],
+        )
+        self.assertIn(
+            "before_merge_source_of_truth_is_active_release_candidate_branch_sha_pr_deploy_command_runtime_state_and_verification_evidence",
+            release_policy["core_rule"],
+        )
+        self.assertIn("integration_release_branch", release_policy["branch_topologies"]["multiple_agent_slices"])
+        self.assertIn("deployed_commit_by_environment", release_policy["orchestrator_owns"])
+        self.assertIn(
+            "second_agent_touching_live_runtime_receives_or_reconstructs_handoff_packet_before_acting",
+            release_policy["worker_live_runtime_rules"],
+        )
+        self.assertIn("current_release_candidate", release_policy["handoff_packet_required_fields"])
+        self.assertIn(
+            "deploy_production_from_same_release_candidate_sha_with_documented_command",
+            release_policy["runtime_recovery_order"],
+        )
+        self.assertIn("service_or_compose_overlays", release_policy["deploy_command_contract_fields"])
+        self.assertIn(
+            "after_merge_fetch_origin_main_and_confirm_merge_commit",
+            release_policy["closeout_rules"],
+        )
+        self.assertIn("dirty_checkout_with_unexplained_files", release_policy["red_flags"])
         worker_policy = payload["project_local_worker_policy"]
         self.assertEqual(
             worker_policy["preferred_files"]["project_worker"],

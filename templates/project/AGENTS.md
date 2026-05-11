@@ -143,6 +143,59 @@ ref lock race occurs, recover with sequential `git status --short --branch`,
 the needed `git fetch`, `git pull --ff-only` when appropriate, and `git diff
 --check`.
 
+## Multi-agent release coordination canon
+
+When several agents, branches, or worktrees touch the same production-bound
+project, one orchestrator owns the release candidate.
+
+Rules:
+
+- `main` is source of truth only after the verified PR or integration PR is
+  merged.
+- Before merge, the source of truth is the active release candidate: branch,
+  exact commit SHA, PR, deploy command, runtime state, and verification
+  evidence.
+- Do not recover production by deploying from a stale `main`, dirty checkout,
+  detached runtime directory, or "closest" local folder.
+- Multiple agent branches that must ship together go through an integration
+  branch and draft PR before staging or production.
+- Deploy only from a clean release-candidate worktree and the documented
+  project deploy command.
+- Runtime recovery starts by identifying live health, current deployed state,
+  active PR/branch/SHA, deploy overlays/env, schema state, and logs.
+- Workers do not deploy, mutate live databases, send live messages, or change
+  provider consoles unless an active PRD creates a narrow audited role for that
+  surface.
+- A second agent touching live runtime must receive or reconstruct a handoff
+  packet before acting.
+
+Minimum handoff packet:
+
+```text
+repo path
+source-of-truth branch
+active worktree
+current release candidate branch and SHA
+issue or PR
+staging and production URLs
+documented deploy command
+backup requirement
+allowed actions
+forbidden actions
+verification commands
+open questions
+```
+
+Production-bound closeout records:
+
+- staging deploy and smoke evidence;
+- production backup or restore point when schema/data can change;
+- production deploy command and commit SHA;
+- read-safe production smoke checks;
+- log scan result;
+- PR comment or closeout evidence;
+- merge to `main` and release branch cleanup decision.
+
 ## Research canon
 
 - use Tavily Search first, not Tavily Research first
