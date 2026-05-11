@@ -51,6 +51,9 @@ The bootstrapped canon should also make explicit:
 - that active PRDs and closeouts carry a `Kernel Impact` decision
 - that serious closeouts carry `Issue Sync: updated | skipped | not_applicable`
 - that durable GitHub issue state belongs in the issue body, while comments stay limited to short notes, explicit requests, or external blockers
+- that Work Item Routing identifies the target repo or project-local surface before issue creation and never uses the current checkout as the implicit target
+- that Project Health Audit can flag missing SSOT, metric definitions, freshness policy, decision log, escalation rules, incident log, prohibited actions, eval cases, and critical runbooks
+- that Optional Weekly Operating Loop is off by default, but when adopted it plans outcomes, compares evidence in retro, and gives stale carryover a terminal decision
 - that Superpowers or equivalent process skills are tactical workflow aids, subordinate to repo canon, and should be read or invoked before acting when relevant and available
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
 - that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, same-patch worker thread lifecycle, one-shot reviewers, `thread_disposition`, and a recovery protocol for executor/resource failures such as `Too many open files`

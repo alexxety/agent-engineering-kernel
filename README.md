@@ -25,6 +25,9 @@ This repository is the standalone source-of-truth for:
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
 - session issue sync closeout so serious slices record whether GitHub issue state was updated, skipped, or not applicable
+- work item routing so tasks land in the repo or surface where work actually happens instead of the current checkout
+- project health audit checks for missing SSOT, freshness, decision log, escalation, incident, and eval artifacts
+- optional weekly operating loop for projects that choose outcomes, plan-vs-actual retro, and carryover decisions
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
 - kernel upstream awareness so consumer repositories can detect kernel drift explicitly
 - a canonical `kernel_adoption_task` so downstream repos handle kernel drift deterministically
@@ -67,6 +70,9 @@ Shared core:
 - shell-safe GitHub CLI delivery through `--body-file` or a single-quoted heredoc-generated body file instead of inline markdown bodies
 - shell-safe sub-issue linking through `scripts/link_github_sub_issue.py`; if REST is used directly, `sub_issue_id` means child issue database id, not `#issue_number`
 - serious slice closeouts record `Issue Sync: updated | skipped | not_applicable`
+- durable work creation records `Work Item Routing` when the correct repo or project-local surface is not obvious
+- bootstrap and audits can use `Project Health Audit` to surface missing operating artifacts
+- projects that choose a weekly cadence can use `Optional Weekly Operating Loop` without making W-labels or GitHub Projects universal
 
 Bug-intake canon:
 
@@ -189,6 +195,30 @@ Session issue sync canon:
 - durable status and next steps belong in the issue body; comments are for short chronological notes, explicit requests, or external blockers
 - weekly labels, CRM pointers, Projects, and weekly planning cadence remain optional project-local policies
 
+Work Item Routing canon:
+
+- decide the target repo or project-local surface before creating a durable work item
+- never default to the current checkout, current worktree, or current terminal directory
+- search duplicates in the target surface before create
+- if no routing rule matches, ask or record `ambiguous` instead of guessing
+- routing tables stay project-local
+
+Project Health Audit canon:
+
+- audit for missing SSOT per domain, metric definitions, data freshness policy, decision log, escalation rules, incident log, prohibited actions, eval or golden cases, and critical pipeline runbooks
+- classify findings as control, visibility, or consistency gaps
+- do not invent missing metrics, owners, or decision history
+- route follow-up work through Work Item Routing before creating tasks
+
+Optional Weekly Operating Loop canon:
+
+- bootstrap default is off; projects opt in when a weekly cadence is useful
+- plan outcomes, not task lists
+- each outcome has a measurable check or evidence path
+- retro compares planned outcomes with evidence
+- stale carryover gets a terminal decision: close, drop, promote, or spillover with reason
+- W-labels, retro labels, GitHub Projects, CRM pointers, and calendar integration remain project-local choices
+
 Model-specific behavior is a thin adapter only:
 
 - tool selection
@@ -241,6 +271,12 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - exact downstream `Task` shape for adopting, deferring, or rejecting a kernel update
 - [references/KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md)
   - how one operator machine can scan several consumer repos for kernel drift
+- [references/WORK_ITEM_ROUTING.md](references/WORK_ITEM_ROUTING.md)
+  - how durable work items route to the correct repo or project-local surface instead of the current checkout
+- [references/PROJECT_HEALTH_AUDIT.md](references/PROJECT_HEALTH_AUDIT.md)
+  - how to audit missing SSOT, decision log, escalation, incident, freshness, and eval artifacts
+- [references/OPTIONAL_WEEKLY_OPERATING_LOOP.md](references/OPTIONAL_WEEKLY_OPERATING_LOOP.md)
+  - optional weekly outcomes, evidence scorecards, and stale carryover decisions
 - [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md)
   - how research works, including the repo-local versus external-contract boundary
 - [docs/external-source-of-truth-matrix-prd-2026-04-18.md](docs/external-source-of-truth-matrix-prd-2026-04-18.md)

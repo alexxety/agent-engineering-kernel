@@ -25,6 +25,8 @@ layers:
     - kernel_adoption_task_policy
     - kernel_sync_policy
     - session_issue_sync_policy
+    - work_item_routing_policy
+    - project_health_audit_policy
     - github_issue_tree
     - automatic_bug_intake
     - github_delivery_flow
@@ -532,6 +534,7 @@ behavioral_overlay_policy:
 
 optional_operator_layers:
   - kernel_fleet_sweep_policy
+  - optional_weekly_operating_loop_policy
 
 kernel_upstream_awareness_policy:
   protocol_name: kernel_upstream_check
@@ -633,6 +636,77 @@ session_issue_sync_policy:
     - do_not_write_private_customer_credential_or_production_sensitive_details_to_public_issues
     - weekly_labels_crm_pointers_projects_and_weekly_cadence_are_optional_project_local_policies
     - issue_sync_does_not_grant_automatic_github_write_authority
+
+work_item_routing_policy:
+  decision_field: Work Item Routing
+  allowed_values:
+    - target_surface
+    - ambiguous
+    - not_applicable
+  routing_sources:
+    - project_local_canon
+    - AGENTS.md
+    - repository_or_workspace_routing_table
+    - active_prd
+  rules:
+    - identify_target_repository_or_project_local_surface_before_creating_work_item
+    - never_default_to_current_checkout_as_target_repository
+    - match_by_task_domain_affected_system_owner_and_source_of_truth_path
+    - search_duplicates_in_target_surface_before_create
+    - update_or_link_existing_work_item_when_duplicate_matches
+    - if_multiple_targets_match_choose_most_specific_or_ask
+    - if_no_routing_rule_matches_ask_or_record_ambiguous_instead_of_guessing
+    - keep_routing_maps_project_local_not_universal
+    - github_projects_weekly_labels_and_crm_fields_are_optional_routing_helpers_not_required_routing_source
+
+project_health_audit_policy:
+  purpose:
+    - surface_missing_operational_artifacts_before_agents_rely_on_memory
+    - turn_bootstrap_or_audit_gaps_into_project_local_work_items
+  default_artifacts:
+    - ssot_per_domain
+    - metric_definitions
+    - data_freshness_policy
+    - decision_log
+    - escalation_rules
+    - incident_log
+    - prohibited_actions
+    - eval_or_golden_cases
+    - critical_pipeline_runbooks
+  finding_classes:
+    - control_gap
+    - visibility_gap
+    - consistency_gap
+  rules:
+    - do_not_invent_missing_metrics_owners_or_decision_history
+    - mark_missing_data_as_missing_instead_of_filling_from_memory
+    - stale_snapshots_require_disclosure_unless_freshness_policy_proves_current
+    - prefer_small_durable_artifacts_over_large_undocumented_processes
+    - keep_business_specific_metrics_and_owners_project_local
+    - route_health_audit_followup_tasks_through_work_item_routing_before_create
+
+optional_weekly_operating_loop_policy:
+  bootstrap_default: false
+  planning_rules:
+    - outcomes_not_task_lists
+    - each_outcome_has_measurable_check_or_evidence_path
+    - route_weekly_work_items_before_create
+    - record_capacity_constraints_instead_of_planning_impossible_week
+  retro_rules:
+    - compare_planned_outcomes_against_evidence
+    - classify_outcomes_as_done_partial_miss_dropped_or_spillover
+    - gather_evidence_before_asking_for_human_context
+    - write_retro_decisions_to_durable_project_local_artifact_or_issue_body
+  terminal_carryover_decisions:
+    - close
+    - drop
+    - promote
+    - spillover
+  rules:
+    - weekly_operating_loop_is_optional_not_bootstrap_default
+    - weekly_labels_retro_labels_github_projects_crm_pointers_and_calendar_integrations_are_project_local_choices
+    - repeated_spillover_requires_reformulation_not_blind_relabeling
+    - do_not_mix_retro_fact_gathering_with_forward_planning_without_recorded_transition
 
 github_issue_tree:
   parent: Epic

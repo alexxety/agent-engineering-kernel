@@ -40,6 +40,9 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
             "references/SESSION_ISSUE_SYNC.md",
+            "references/WORK_ITEM_ROUTING.md",
+            "references/PROJECT_HEALTH_AUDIT.md",
+            "references/OPTIONAL_WEEKLY_OPERATING_LOOP.md",
             "references/GITHUB_DELIVERY.md",
             "scripts/check_kernel_upstream.py",
             "scripts/kernel_fleet_sweep.py",
@@ -67,6 +70,9 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
         self.assertIn("session_issue_sync_policy", payload)
+        self.assertIn("work_item_routing_policy", payload)
+        self.assertIn("project_health_audit_policy", payload)
+        self.assertIn("optional_weekly_operating_loop_policy", payload)
         self.assertIn("cutover_entitlement_parity_policy", payload)
         prd_first = payload["prd_first_execution"]
         self.assertIn("baseline_verification", prd_first["order"])
@@ -321,6 +327,25 @@ class RepoKernelCanonTests(unittest.TestCase):
             "weekly_labels_crm_pointers_projects_and_weekly_cadence_are_optional_project_local_policies",
             session_issue_sync_policy["rules"],
         )
+        routing_policy = payload["work_item_routing_policy"]
+        self.assertEqual(routing_policy["decision_field"], "Work Item Routing")
+        self.assertIn(
+            "never_default_to_current_checkout_as_target_repository",
+            routing_policy["rules"],
+        )
+        self.assertIn(
+            "search_duplicates_in_target_surface_before_create",
+            routing_policy["rules"],
+        )
+        health_policy = payload["project_health_audit_policy"]
+        self.assertIn("ssot_per_domain", health_policy["default_artifacts"])
+        self.assertIn("decision_log", health_policy["default_artifacts"])
+        self.assertIn("control_gap", health_policy["finding_classes"])
+        weekly_policy = payload["optional_weekly_operating_loop_policy"]
+        self.assertFalse(weekly_policy["bootstrap_default"])
+        self.assertIn("outcomes_not_task_lists", weekly_policy["planning_rules"])
+        self.assertIn("close", weekly_policy["terminal_carryover_decisions"])
+        self.assertIn("spillover", weekly_policy["terminal_carryover_decisions"])
 
     def test_machine_readable_kernel_includes_risk_based_required_ci(self) -> None:
         payload = yaml.safe_load((ROOT / "ENGINEERING_KERNEL.yaml").read_text(encoding="utf-8"))
@@ -615,6 +640,28 @@ class RepoKernelCanonTests(unittest.TestCase):
             self.assertIn("skipped", content, rel)
             self.assertIn("not_applicable", content, rel)
             self.assertIn("issue body", content.lower(), rel)
+
+    def test_kernel_docs_and_templates_mention_operational_canon_layers(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/WORK_ITEM_ROUTING.md",
+            "references/PROJECT_HEALTH_AUDIT.md",
+            "references/OPTIONAL_WEEKLY_OPERATING_LOOP.md",
+            "references/BOOTSTRAP.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("Work Item Routing", content, rel)
+            self.assertIn("Project Health Audit", content, rel)
+            self.assertIn("Optional Weekly Operating Loop", content, rel)
+            self.assertIn("current checkout", content.lower(), rel)
+            self.assertIn("decision log", content.lower(), rel)
+            self.assertIn("outcomes", content.lower(), rel)
 
     def test_kernel_docs_and_templates_mention_external_source_of_truth_matrix(self) -> None:
         for rel in (
