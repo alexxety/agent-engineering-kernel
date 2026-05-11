@@ -1,6 +1,6 @@
 ---
 name: engineering-kernel
-description: Bootstrap or audit a serious agent-led engineering workflow in any repository. Use when Codex must establish or update project canon, PRD-first execution, GitHub Epic/Task/Bug decomposition, PR verification discipline, reusable bootstrap files, or a model-agnostic workflow that future GPT/Codex and Claude-style agents can reuse without re-explaining the process in chat.
+description: Bootstrap or audit a serious agent-led engineering workflow in any repository. Use when Codex must establish or update project canon, PRD-first execution, GitHub Epic/Task/Bug decomposition, PR verification discipline, multi-agent release coordination, reusable bootstrap files, or a model-agnostic workflow that future GPT/Codex and Claude-style agents can reuse without re-explaining the process in chat.
 ---
 
 # Engineering Kernel
@@ -13,6 +13,7 @@ Read [references/MODEL_ADAPTERS.md](references/MODEL_ADAPTERS.md) when the user 
 Read [references/BEHAVIORAL_OVERLAY.md](references/BEHAVIORAL_OVERLAY.md) when the user asks whether a thin behavior-only guideline layer should exist across `CLAUDE.md`, Cursor rules, or skill/plugin surfaces.
 Read [references/SUPERPOWERS_SKILL_ORCHESTRATION.md](references/SUPERPOWERS_SKILL_ORCHESTRATION.md) when the user asks how Superpowers or another process-skill pack should be used with the kernel.
 Read [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md) when the user asks how orchestrator/worker/reviewer agentic coding should be structured, limited, reviewed, and recovered after resource failures.
+Read [references/MULTI_AGENT_RELEASE_COORDINATION.md](references/MULTI_AGENT_RELEASE_COORDINATION.md) when the user asks how multiple agents, branches, worktrees, integration PRs, staging/prod deploys, runtime recovery, or handoffs should be coordinated in one production-bound project.
 Read [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md) when the user asks how to create global fallback workers, project-local workers, no-MCP coding/review/docs workers, rich-MCP orchestrators, or worker selection rules.
 Read [references/MCP_TOOLING.md](references/MCP_TOOLING.md) when the user asks how MCP servers, App connector tooling, GitHub App permissions, or local `gh` fallback should be used.
 Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the user asks how research and evidence collection should work.
@@ -64,6 +65,19 @@ The agentic coding orchestration rule is explicit:
 - stop spawning agents and recover sequentially after executor/resource failures such as `Too many open files`
 - resume only after `git status --short --branch` and `git diff --check` can run
 
+The multi-agent release coordination rule is explicit:
+
+- `main` is source of truth only after the verified integration PR is merged
+- before merge, the source of truth is the active release candidate branch,
+  commit SHA, PR, deploy command, runtime state, and verification evidence
+- never recover production by deploying from a stale, detached, or dirty
+  checkout without first identifying the release candidate
+- multiple agent branches that must ship together go through an integration
+  branch, draft PR, staging verification, production verification when
+  applicable, PR evidence, merge to `main`, and branch cleanup
+- second agents touching live runtime must receive or reconstruct a handoff
+  packet before acting
+
 The MCP tooling rule is explicit:
 
 - prefer MCP or App connector tooling for supported structured external-service operations
@@ -89,6 +103,8 @@ The cutover entitlement parity rule is explicit:
 - establishing PRD-first execution
 - establishing Superpowers-compatible process-skill orchestration
 - establishing orchestrator / worker / reviewer agentic coding limits and recovery protocol
+- establishing multi-agent release coordination across branches, worktrees,
+  integration PRs, staging, production, and runtime recovery
 - establishing Claude Code as a bounded no-MCP subagent adapter
 - establishing MCP/App connector tooling boundaries and GitHub App permission checks
 - establishing GitHub `Epic / Task / Bug` workflow

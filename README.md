@@ -19,6 +19,7 @@ This repository is the standalone source-of-truth for:
 - project bootstrap templates
 - a reusable Codex skill
 - agentic coding orchestration with explicit worker/reviewer limits and recovery rules
+- multi-agent release coordination across branches, worktrees, integration PRs, staging, production, and runtime recovery
 - project-local no-MCP coding workers with global fallback worker guidance
 - Claude Code subagent adapter rules for one-shot read-only review with strict no-MCP startup
 - repo-managed GitHub metadata and community-health baseline
@@ -143,6 +144,16 @@ Agentic coding orchestration canon:
 - resume only after `git status --short --branch` and `git diff --check` can run
 - project-local `AGENTS.md` may impose stricter lower limits
 
+Multi-agent release coordination canon:
+
+- `main` is source of truth only after the verified PR or integration PR is merged
+- before merge, the active release candidate is the source of truth: branch, SHA, PR, deploy command, runtime state, and evidence
+- multiple agent branches that must ship together use an integration branch and draft PR
+- do not deploy production from a stale `main`, dirty checkout, detached runtime directory, or improvised command
+- runtime recovery identifies the active release candidate, deploy overlays/env, schema state, logs, and project runbook before mutating live services
+- production-bound recovery deploys staging first, takes a backup or restore point when schema/data can change, then deploys production with read-safe smoke checks and PR evidence
+- after merge, fetch `origin/main`, confirm the merge commit, clean the release branch intentionally, and treat `main` as source of truth again
+
 MCP tooling canon:
 
 - use MCP or App connector tooling for supported structured external-service operations when available and authorized
@@ -212,6 +223,8 @@ Do not fork the engineering process by model unless a tool constraint truly forc
   - how Superpowers and equivalent process skills should be used without replacing the kernel
 - [references/AGENTIC_CODING_ORCHESTRATION.md](references/AGENTIC_CODING_ORCHESTRATION.md)
   - how an orchestrator should dispatch, limit, review, and recover worker/reviewer agents
+- [references/MULTI_AGENT_RELEASE_COORDINATION.md](references/MULTI_AGENT_RELEASE_COORDINATION.md)
+  - how several agents, branches, worktrees, staging/prod deploys, and runtime recovery are coordinated safely
 - [references/PROJECT_LOCAL_WORKERS.md](references/PROJECT_LOCAL_WORKERS.md)
   - how to create project-local no-MCP coding/review/docs workers, global fallback workers, and worker selection rules
 - [references/MCP_TOOLING.md](references/MCP_TOOLING.md)
