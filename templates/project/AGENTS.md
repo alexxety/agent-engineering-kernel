@@ -302,6 +302,53 @@ Rules:
 - Issue Sync records the decision; it does not grant automatic GitHub write
   authority
 
+## Work Item Routing canon
+
+Before creating a durable issue, backlog task, or cross-repo follow-up, identify
+where the work actually belongs.
+
+Rules:
+
+- record `Work Item Routing` when the target repo or project-local surface is not obvious
+- never default to the current checkout, current worktree, or terminal directory
+- search duplicates in the target surface before creating new work
+- if multiple targets match, choose the most specific target or ask
+- if no routing rule matches, ask or record `ambiguous` instead of guessing
+- keep routing tables project-local
+
+## Project Health Audit canon
+
+Use Project Health Audit during bootstrap or audit work to find missing
+operating artifacts.
+
+Default checks:
+
+- SSOT per domain
+- metric definitions
+- data freshness policy
+- decision log
+- escalation rules
+- incident log
+- prohibited actions
+- eval or golden cases
+- critical pipeline runbooks
+
+Classify findings as control, visibility, or consistency gaps. Do not invent
+missing metrics, owners, or decision history. Route follow-up tasks through Work
+Item Routing before creating issues.
+
+## Optional Weekly Operating Loop canon
+
+Optional Weekly Operating Loop is not required by default. If this project
+chooses a weekly cadence:
+
+- plan outcomes, not task lists
+- give each outcome a measurable check or evidence path
+- route weekly work items before create
+- compare planned outcomes against evidence during retro
+- resolve stale carryover with a terminal decision: close, drop, promote, or spillover with reason
+- keep W-labels, retro labels, GitHub Projects, CRM pointers, and calendar integration project-local
+
 ## GitHub workflow canon
 
 - non-trivial work starts from a parent GitHub issue

@@ -61,6 +61,10 @@ production deploy, read-safe production smoke checks, and monitoring.
 - update the relevant issue body for durable status, next steps, verification, and links when issue sync applies
 - use issue comments only for short chronological notes, explicit user requests, or external blockers
 - issue sync does not grant automatic GitHub write authority; follow project-local authorization and tool identity rules
+- before creating a durable issue or follow-up, record Work Item Routing when the correct target repo or project-local surface is not obvious
+- never treat the current checkout as the target repo by default
+- search duplicates in the routed target surface before creating new work
+- health-audit follow-ups from Project Health Audit, including missing decision log or escalation-rule tasks, use the same routing and duplicate-search rule; optional weekly outcomes do too when the project adopts Optional Weekly Operating Loop
 - use draft PR while the scope or verification is still moving
 - prefer squash merge unless the project canon explicitly chooses another method
 - automatic bug intake opens or updates the `Bug` issue before the fix slice starts

@@ -145,6 +145,25 @@ during closeout.
 - do not close issues without verified completion and project-local authority
 - weekly labels, CRM pointers, GitHub Projects fields, and weekly planning cadence are optional project-local policies
 
+## Work Item Routing
+
+- identify the target repo or project-local surface before creating durable work
+- never default to the current checkout as the target repo
+- search duplicates in the target surface before creating a new issue
+- ask or record `ambiguous` when no routing rule matches
+
+## Project Health Audit
+
+Bootstrap and audit work should flag missing SSOT, metric definitions, data freshness policy, decision log, escalation rules, incident log, prohibited actions, eval or golden cases, and critical runbooks.
+
+Classify findings as control, visibility, or consistency gaps. Route follow-up tasks through Work Item Routing before creating issues.
+
+## Optional Weekly Operating Loop
+
+Optional Weekly Operating Loop is off by default. If the project adopts a weekly cadence, plan outcomes, compare outcomes against evidence during retro, and resolve stale carryover as close, drop, promote, or spillover with reason.
+
+W-labels, retro labels, GitHub Projects, CRM pointers, and calendar integration remain project-local choices.
+
 ## PR rule
 
 - one PR should normally close one leaf issue

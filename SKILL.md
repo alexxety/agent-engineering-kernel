@@ -21,6 +21,9 @@ Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when t
 Read [references/ENVIRONMENT_PROMOTION.md](references/ENVIRONMENT_PROMOTION.md) when the user asks how local, verify, staging, and production environments should be separated and promoted safely.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
 Read [references/SESSION_ISSUE_SYNC.md](references/SESSION_ISSUE_SYNC.md) when the user asks how serious slices should update or explicitly skip GitHub issue state at closeout.
+Read [references/WORK_ITEM_ROUTING.md](references/WORK_ITEM_ROUTING.md) when the user asks where work items, issues, backlog tasks, or cross-repo follow-ups should live.
+Read [references/PROJECT_HEALTH_AUDIT.md](references/PROJECT_HEALTH_AUDIT.md) when the user asks how to audit a project for missing operating artifacts such as SSOT, decision log, escalation rules, incident log, or eval cases.
+Read [references/OPTIONAL_WEEKLY_OPERATING_LOOP.md](references/OPTIONAL_WEEKLY_OPERATING_LOOP.md) when the user asks how optional weekly planning, outcomes, retro scorecards, or carryover decisions should work.
 Read [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md) when the user asks how consumer projects should notice upstream kernel changes and decide whether to adopt them.
 Read [references/KERNEL_ADOPTION_TASK.md](references/KERNEL_ADOPTION_TASK.md) when the user asks what exact downstream `Task` should be opened or updated after `kernel_upstream_check` reports drift.
 Read [references/KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md) when the user asks how one operator machine should check kernel drift across many consumer repositories at once.
@@ -38,6 +41,12 @@ The session issue sync rule is explicit:
 - serious closeouts record `Issue Sync: updated | skipped | not_applicable`
 - durable status, next steps, verification, and links belong in the issue body
 - comments are for short chronological notes, explicit user requests, or external blockers
+
+The operational canon rules are explicit:
+
+- `Work Item Routing` decides the target repo or project-local surface before issue creation; never use the current checkout as the implicit target
+- `Project Health Audit` surfaces missing SSOT, metric definitions, freshness policy, decision log, escalation rules, incident log, prohibited actions, eval or golden cases, and critical runbooks
+- `Optional Weekly Operating Loop` is not bootstrap default; when enabled, it plans outcomes, checks evidence, and gives stale carryover a terminal decision
 
 The minimum Superpowers mapping is explicit:
 
@@ -108,6 +117,9 @@ The cutover entitlement parity rule is explicit:
 - establishing Claude Code as a bounded no-MCP subagent adapter
 - establishing MCP/App connector tooling boundaries and GitHub App permission checks
 - establishing GitHub `Epic / Task / Bug` workflow
+- establishing work item routing before issue creation
+- establishing project health audit checks for missing operational artifacts
+- establishing optional weekly operating loops with outcomes and terminal carryover decisions
 - establishing automatic deduplicated GitHub bug intake
 - establishing Tavily Search-first research behavior, with Tavily Research reserved for justified expensive deep-sweeps
 - establishing local-first execution and prerequisite bootstrap
@@ -156,6 +168,9 @@ The cutover entitlement parity rule is explicit:
 - ownership and labels
 - research policy
 - GitHub delivery flow
+- work item routing
+- project health audit
+- optional weekly operating loop when the project chooses a weekly cadence
 
 3. Keep the core model-agnostic.
 One engineering process, thin adapters only.
@@ -184,6 +199,9 @@ Prefer a small durable set of outputs:
 - explicit bug-intake policy for verifier/watchdog/runtime incidents
 - explicit environment-promotion policy for local, verify, staging, and production
 - explicit `Issue Sync` closeout decision for serious slices
+- explicit `Work Item Routing` decision when durable work could belong to another repo or surface
+- explicit `Project Health Audit` findings for missing operating artifacts
+- explicit `Optional Weekly Operating Loop` adoption or non-adoption when weekly cadence is discussed
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 - explicit process-skill policy for Superpowers or equivalent skills

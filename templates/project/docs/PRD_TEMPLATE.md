@@ -114,6 +114,34 @@ Production-bound work must also confirm that production secrets and production d
 - live checks
 - rollback validation
 
+## Work Item Routing
+
+Record this before creating durable work when the target is not obvious.
+
+- target repo or project-local surface:
+- duplicate search in target surface:
+- ambiguity: `none | ambiguous | not_applicable`
+
+Never default to the current checkout as the target repo.
+
+## Project Health Audit
+
+Record applicable findings when this slice bootstraps or audits project operations.
+
+- SSOT / metric definitions / freshness policy:
+- decision log / escalation rules / incident log:
+- prohibited actions / eval or golden cases / runbooks:
+- follow-up routing:
+
+## Optional Weekly Operating Loop
+
+Record only if this project uses a weekly cadence.
+
+- adopted: `yes | no | not_applicable`
+- planned outcomes and evidence checks:
+- retro / plan-vs-actual evidence:
+- stale carryover decision: `close | drop | promote | spillover | not_applicable`
+
 ## Issue Sync
 
 Record this during closeout.
