@@ -23,6 +23,7 @@ layers:
     - kernel_upstream_awareness_policy
     - kernel_adoption_task_policy
     - kernel_sync_policy
+    - session_issue_sync_policy
     - github_issue_tree
     - automatic_bug_intake
     - github_delivery_flow
@@ -529,6 +530,23 @@ kernel_sync_policy:
     - if_learning_is_project_specific_keep_it_in_project_local_canon_not_the_universal_kernel
     - kernel_sync_review_happens_after_live_verification_not_before
     - do_not_use_kernel_sync_review_as_a_substitute_for_kernel_upstream_check
+
+session_issue_sync_policy:
+  closeout_field: Issue Sync
+  allowed_values:
+    - updated
+    - skipped
+    - not_applicable
+  rules:
+    - every_serious_slice_records_issue_sync_closeout_decision
+    - search_existing_issues_before_creating_new_issue
+    - prefer_issue_body_updates_for_durable_status_next_steps_verification_and_links
+    - use_issue_comments_only_for_short_chronological_notes_external_blockers_or_explicit_user_request
+    - surface_stale_or_unhealthy_issue_state_instead_of_silently_fixing_it
+    - do_not_close_issues_without_verified_completion_and_project_local_authority
+    - do_not_write_private_customer_credential_or_production_sensitive_details_to_public_issues
+    - weekly_labels_crm_pointers_projects_and_weekly_cadence_are_optional_project_local_policies
+    - issue_sync_does_not_grant_automatic_github_write_authority
 
 github_issue_tree:
   parent: Epic

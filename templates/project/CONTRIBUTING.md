@@ -132,6 +132,19 @@ If the work spans multiple slices, decompose it into GitHub sub-issues.
 - use `promote_to_kernel` only for reusable engineering workflow or verification patterns
 - keep repository-specific ops canon in the project repo instead of polluting the universal kernel
 
+## Session issue sync
+
+Every serious slice should record `Issue Sync: updated | skipped | not_applicable`
+during closeout.
+
+- use `updated` when the relevant GitHub issue body, status, next step, verification, labels, or links were brought current
+- use `skipped` when issue sync normally applies but was intentionally skipped with a recorded reason
+- use `not_applicable` when the slice has no durable issue state to update
+- search existing issues before creating a new one
+- prefer issue body updates for durable state; use comments only for short chronological notes, explicit user requests, or external blockers
+- do not close issues without verified completion and project-local authority
+- weekly labels, CRM pointers, GitHub Projects fields, and weekly planning cadence are optional project-local policies
+
 ## PR rule
 
 - one PR should normally close one leaf issue

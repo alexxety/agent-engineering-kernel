@@ -38,6 +38,7 @@ class RepoKernelCanonTests(unittest.TestCase):
             "references/KERNEL_ADOPTION_TASK.md",
             "references/MODEL_ADAPTERS.md",
             "references/RESEARCH_POLICY.md",
+            "references/SESSION_ISSUE_SYNC.md",
             "references/GITHUB_DELIVERY.md",
             "scripts/check_kernel_upstream.py",
             "scripts/kernel_fleet_sweep.py",
@@ -63,6 +64,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("kernel_adoption_task_policy", payload)
         self.assertIn("kernel_fleet_sweep_policy", payload)
         self.assertIn("kernel_sync_policy", payload)
+        self.assertIn("session_issue_sync_policy", payload)
         self.assertIn("cutover_entitlement_parity_policy", payload)
         prd_first = payload["prd_first_execution"]
         self.assertIn("baseline_verification", prd_first["order"])
@@ -272,6 +274,24 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn(
             "project_canon_must_document_the_production_safe_migration_or_deploy_command_before_production_use",
             environment_promotion_policy["rules"],
+        )
+        session_issue_sync_policy = payload["session_issue_sync_policy"]
+        self.assertEqual(session_issue_sync_policy["closeout_field"], "Issue Sync")
+        self.assertEqual(
+            session_issue_sync_policy["allowed_values"],
+            ["updated", "skipped", "not_applicable"],
+        )
+        self.assertIn(
+            "every_serious_slice_records_issue_sync_closeout_decision",
+            session_issue_sync_policy["rules"],
+        )
+        self.assertIn(
+            "prefer_issue_body_updates_for_durable_status_next_steps_verification_and_links",
+            session_issue_sync_policy["rules"],
+        )
+        self.assertIn(
+            "weekly_labels_crm_pointers_projects_and_weekly_cadence_are_optional_project_local_policies",
+            session_issue_sync_policy["rules"],
         )
 
     def test_machine_readable_kernel_includes_risk_based_required_ci(self) -> None:
@@ -548,6 +568,25 @@ class RepoKernelCanonTests(unittest.TestCase):
             if rel != "references/KERNEL_UPSTREAM_AWARENESS.md":
                 self.assertIn("kernel_sync_review", content, rel)
                 self.assertIn("Kernel Impact", content, rel)
+
+    def test_kernel_docs_and_templates_mention_session_issue_sync(self) -> None:
+        for rel in (
+            "README.md",
+            "SKILL.md",
+            "references/SESSION_ISSUE_SYNC.md",
+            "references/BOOTSTRAP.md",
+            "references/GITHUB_DELIVERY.md",
+            "templates/project/README.md",
+            "templates/project/AGENTS.md",
+            "templates/project/CONTRIBUTING.md",
+            "templates/project/docs/PRD_TEMPLATE.md",
+        ):
+            content = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("Issue Sync", content, rel)
+            self.assertIn("updated", content, rel)
+            self.assertIn("skipped", content, rel)
+            self.assertIn("not_applicable", content, rel)
+            self.assertIn("issue body", content.lower(), rel)
 
     def test_kernel_docs_and_templates_mention_external_source_of_truth_matrix(self) -> None:
         for rel in (
