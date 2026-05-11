@@ -57,6 +57,10 @@ production deploy, read-safe production smoke checks, and monitoring.
 - baseline-before-edits and post-change verification are different moments; keep both explicit when an existing contract already exists
 - keep the PR description aligned with the real scope and verification
 - production-bound PRs should name the staging and production promotion gates or link the decision note that owns them
+- serious slice closeout records `Issue Sync: updated | skipped | not_applicable`
+- update the relevant issue body for durable status, next steps, verification, and links when issue sync applies
+- use issue comments only for short chronological notes, explicit user requests, or external blockers
+- issue sync does not grant automatic GitHub write authority; follow project-local authorization and tool identity rules
 - use draft PR while the scope or verification is still moving
 - prefer squash merge unless the project canon explicitly chooses another method
 - automatic bug intake opens or updates the `Bug` issue before the fix slice starts

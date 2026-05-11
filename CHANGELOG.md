@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added session issue sync canon so serious slices record whether GitHub issue state was updated, intentionally skipped, or not applicable.
 - Added agentic coding orchestration canon: orchestrator/worker/reviewer roles, subagent concurrency limits, prompt write-set contract, review boundaries, and recovery protocol for executor resource failures.
 - Added project-local no-MCP worker canon and templates so rich-MCP orchestrators can dispatch lightweight implementation workers with global fallback behavior.
 - Added Claude Code subagent adapter canon for one-shot read-only review, strict empty MCP startup, OAuth-safe CLI defaults, and no silent fallback to another agent family when Claude Code was explicitly requested.

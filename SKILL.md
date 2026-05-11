@@ -19,6 +19,7 @@ Read [references/RESEARCH_POLICY.md](references/RESEARCH_POLICY.md) when the use
 Read [references/EXECUTION_SURFACES.md](references/EXECUTION_SURFACES.md) when the user asks where work should run locally versus in GitHub Actions or CI.
 Read [references/ENVIRONMENT_PROMOTION.md](references/ENVIRONMENT_PROMOTION.md) when the user asks how local, verify, staging, and production environments should be separated and promoted safely.
 Read [references/KERNEL_SYNC_POLICY.md](references/KERNEL_SYNC_POLICY.md) when the user asks how live project learnings should be reviewed and promoted back into the universal kernel.
+Read [references/SESSION_ISSUE_SYNC.md](references/SESSION_ISSUE_SYNC.md) when the user asks how serious slices should update or explicitly skip GitHub issue state at closeout.
 Read [references/KERNEL_UPSTREAM_AWARENESS.md](references/KERNEL_UPSTREAM_AWARENESS.md) when the user asks how consumer projects should notice upstream kernel changes and decide whether to adopt them.
 Read [references/KERNEL_ADOPTION_TASK.md](references/KERNEL_ADOPTION_TASK.md) when the user asks what exact downstream `Task` should be opened or updated after `kernel_upstream_check` reports drift.
 Read [references/KERNEL_FLEET_SWEEP.md](references/KERNEL_FLEET_SWEEP.md) when the user asks how one operator machine should check kernel drift across many consumer repositories at once.
@@ -30,6 +31,12 @@ The bug-intake rule is explicit:
 - do not create bug issues from raw logs or chat alerts
 - use one stable fingerprint per bug class
 - update the existing open bug issue when the fingerprint matches
+
+The session issue sync rule is explicit:
+
+- serious closeouts record `Issue Sync: updated | skipped | not_applicable`
+- durable status, next steps, verification, and links belong in the issue body
+- comments are for short chronological notes, explicit user requests, or external blockers
 
 The minimum Superpowers mapping is explicit:
 
@@ -91,6 +98,7 @@ The cutover entitlement parity rule is explicit:
 - establishing environment promotion and production safety rules
 - establishing cutover entitlement parity before a new shell/navigation/admin UI becomes default
 - establishing kernel sync review and kernel impact discipline
+- establishing session issue sync closeout discipline
 - establishing kernel upstream awareness and downstream adoption checks
 - establishing the canonical `kernel_adoption_task` work item for downstream kernel updates
 - establishing optional multi-repo kernel fleet sweep on the operator machine
@@ -159,6 +167,7 @@ Prefer a small durable set of outputs:
 - active PRD / decision record
 - explicit bug-intake policy for verifier/watchdog/runtime incidents
 - explicit environment-promotion policy for local, verify, staging, and production
+- explicit `Issue Sync` closeout decision for serious slices
 - explicit `kernel_impact` field in PRD/closeout flow
 - explicit `Kernel Impact` closeout decision after serious slices
 - explicit process-skill policy for Superpowers or equivalent skills

@@ -23,6 +23,7 @@ This repository is the standalone source-of-truth for:
 - Claude Code subagent adapter rules for one-shot read-only review with strict no-MCP startup
 - repo-managed GitHub metadata and community-health baseline
 - kernel sync review for promoting proven project learnings back into the universal kernel
+- session issue sync closeout so serious slices record whether GitHub issue state was updated, skipped, or not applicable
 - optional GitHub Projects layer only when the repository actually needs shared planning views beyond issue-first execution
 - kernel upstream awareness so consumer repositories can detect kernel drift explicitly
 - a canonical `kernel_adoption_task` so downstream repos handle kernel drift deterministically
@@ -64,6 +65,7 @@ Shared core:
 - PR closes leaf issue only
 - shell-safe GitHub CLI delivery through `--body-file` or a single-quoted heredoc-generated body file instead of inline markdown bodies
 - shell-safe sub-issue linking through `scripts/link_github_sub_issue.py`; if REST is used directly, `sub_issue_id` means child issue database id, not `#issue_number`
+- serious slice closeouts record `Issue Sync: updated | skipped | not_applicable`
 
 Bug-intake canon:
 
@@ -166,6 +168,15 @@ Kernel sync canon:
 - active PRDs and serious closeouts carry an explicit `Kernel Impact` decision
 - only reusable process patterns belong in the universal kernel
 - project-specific ops details stay in the project-local canon
+
+Session issue sync canon:
+
+- every serious engineering slice records `Issue Sync`
+- `updated` means the relevant GitHub issue state was updated
+- `skipped` means an issue update would normally apply but was intentionally skipped with a reason
+- `not_applicable` means there is no durable GitHub issue state to update
+- durable status and next steps belong in the issue body; comments are for short chronological notes, explicit requests, or external blockers
+- weekly labels, CRM pointers, Projects, and weekly planning cadence remain optional project-local policies
 
 Model-specific behavior is a thin adapter only:
 

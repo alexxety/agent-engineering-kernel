@@ -220,6 +220,35 @@ the needed `git fetch`, `git pull --ff-only` when appropriate, and `git diff
 - only promote reusable process patterns into the universal kernel
 - keep project-specific operational rules in this repository, not in the universal kernel
 
+## Session issue sync canon
+
+Every serious slice records `Issue Sync: updated | skipped | not_applicable`
+at closeout.
+
+Use:
+
+- `updated` when the relevant GitHub issue body, status, next step,
+  verification, labels, or links were brought current
+- `skipped` when issue sync normally applies but was intentionally skipped
+  with a recorded reason
+- `not_applicable` when the slice has no durable issue state to update
+
+Rules:
+
+- search existing issues before creating a new issue
+- put durable state in the issue body instead of burying it in comments
+- use comments only for short chronological notes, explicit user-requested
+  notes, or external blockers
+- surface stale, orphaned, or contradictory issue state instead of silently
+  hiding it
+- do not close issues without verified completion and project-local authority
+- do not write private customer, credential, secret, or production-sensitive
+  details to public issues
+- weekly labels, CRM pointers, GitHub Projects fields, and weekly planning
+  cadence are optional project-local policies, not universal invariants
+- Issue Sync records the decision; it does not grant automatic GitHub write
+  authority
+
 ## GitHub workflow canon
 
 - non-trivial work starts from a parent GitHub issue

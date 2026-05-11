@@ -49,6 +49,8 @@ The bootstrapped canon should also make explicit:
 - that each serious slice begins with `kernel_upstream_check`
 - that each serious slice ends with `kernel_sync_review`
 - that active PRDs and closeouts carry a `Kernel Impact` decision
+- that serious closeouts carry `Issue Sync: updated | skipped | not_applicable`
+- that durable GitHub issue state belongs in the issue body, while comments stay limited to short notes, explicit requests, or external blockers
 - that Superpowers or equivalent process skills are tactical workflow aids, subordinate to repo canon, and should be read or invoked before acting when relevant and available
 - that the minimum Superpowers mapping includes `using-superpowers` for skill selection and `verification-before-completion` before success claims
 - that orchestrated agentic coding has one accountable orchestrator, one worker by default, at most two parallel workers with disjoint write sets, targeted reviewer agents, prompt write-set contracts, same-patch worker thread lifecycle, one-shot reviewers, `thread_disposition`, and a recovery protocol for executor/resource failures such as `Too many open files`

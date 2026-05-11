@@ -45,6 +45,8 @@ This repository follows the agent engineering kernel.
 - kernel updates are adopted explicitly through normal project issues/PRDs, not auto-applied blindly
 - every serious slice ends with `kernel_sync_review`
 - serious closeouts record `Kernel Impact`
+- serious closeouts record `Issue Sync: updated | skipped | not_applicable`
+- durable GitHub issue status, next steps, verification, and links belong in the issue body; comments are for short notes, explicit requests, or external blockers
 - PR closes the leaf issue only
 - agents should read or invoke relevant Superpowers skills before acting: `using-superpowers` / `brainstorming` for new behavior, `writing-plans` for multi-step work, `test-driven-development` for implementation, `systematic-debugging` for bugs, and `verification-before-completion` before success claims
 - orchestrated agentic coding keeps one accountable orchestrator, defaults to one worker agent, permits at most two parallel workers only with disjoint write sets, uses targeted one-shot reviewer agents, keeps implementation workers open only for the same-patch review/fix loop, requires `thread_disposition`, and stops spawning agents after executor/resource failures such as `Too many open files`

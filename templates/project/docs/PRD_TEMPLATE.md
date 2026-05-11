@@ -114,6 +114,21 @@ Production-bound work must also confirm that production secrets and production d
 - live checks
 - rollback validation
 
+## Issue Sync
+
+Record this during closeout.
+
+Choose one:
+
+- `updated`
+- `skipped`
+- `not_applicable`
+
+Why:
+
+Explain whether the relevant GitHub issue state was updated, intentionally skipped, or not applicable.
+When issue sync applies, keep durable status, next steps, verification, and links in the issue body.
+
 ## Kernel Impact
 
 Record this during `kernel_sync_review`.
