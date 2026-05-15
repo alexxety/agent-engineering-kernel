@@ -195,6 +195,19 @@ misleading local view. If this happens, stop parallel git calls and recover with
 sequential `git status --short --branch`, the needed `git fetch`, `git pull
 --ff-only` when appropriate, and `git diff --check`.
 
+Shared root checkout guard:
+
+- the repository's primary/root checkout is a coordination surface, not a
+  default worker workspace;
+- before any edit, the orchestrator or worker must identify the assigned
+  worktree with `git status --short --branch` and `git worktree list`;
+- if the current checkout is clean `main`, a shared operator checkout, a branch
+  owned by another agent, or has unexplained dirty files, do not edit there;
+- create or reuse an isolated worktree for the slice, including docs-only,
+  PRD-only, and canon-only changes when parallel work exists;
+- if the worktree assignment is unclear, return `NEEDS_WORKTREE_CONTEXT` rather
+  than making a best-effort edit in the current directory.
+
 Worker MCP policy:
 
 - do not rely on the task prompt to disable MCP; MCP startup happens before the

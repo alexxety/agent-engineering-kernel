@@ -79,6 +79,11 @@ The multi-agent release coordination rule is explicit:
 - `main` is source of truth only after the verified integration PR is merged
 - before merge, the source of truth is the active release candidate branch,
   commit SHA, PR, deploy command, runtime state, and verification evidence
+- the repository's primary/root checkout is a coordination surface, not the
+  default workspace for agent edits; every task uses an isolated worktree unless
+  the handoff explicitly names the root checkout as the active worktree
+- docs-only, PRD-only, and canon-only slices still use isolated worktrees when
+  parallel work exists in the same repository
 - never recover production by deploying from a stale, detached, or dirty
   checkout without first identifying the release candidate
 - multiple agent branches that must ship together go through an integration

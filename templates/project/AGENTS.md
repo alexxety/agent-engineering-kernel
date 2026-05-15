@@ -155,8 +155,18 @@ Rules:
 - Before merge, the source of truth is the active release candidate: branch,
   exact commit SHA, PR, deploy command, runtime state, and verification
   evidence.
+- The repository's primary/root checkout is not a default agent workspace. Keep
+  it clean on `main` or explicitly record it as the active worktree in the
+  handoff. Otherwise every task, including docs-only/canon-only work, uses an
+  isolated worktree.
+- Before the first edit, run `git status --short --branch` and
+  `git worktree list`; if the current checkout belongs to another branch,
+  another agent, or has unexplained dirty files, stop and create/reuse an
+  isolated worktree.
 - Do not recover production by deploying from a stale `main`, dirty checkout,
   detached runtime directory, or "closest" local folder.
+- Do not switch the shared root checkout to a new task branch just to begin
+  work; create a new worktree instead.
 - Multiple agent branches that must ship together go through an integration
   branch and draft PR before staging or production.
 - Deploy only from a clean release-candidate worktree and the documented
@@ -175,6 +185,7 @@ Minimum handoff packet:
 repo path
 source-of-truth branch
 active worktree
+shared root checkout policy
 current release candidate branch and SHA
 issue or PR
 staging and production URLs
