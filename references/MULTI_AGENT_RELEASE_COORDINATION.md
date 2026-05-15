@@ -81,7 +81,20 @@ project-authorized release agent following the documented command.
 ## Worktree Rules
 
 - Create implementation branches in isolated worktrees.
+- Treat the repository's primary/root checkout as a coordination checkout, not
+  an agent workspace. It should stay on clean `main` by default, or be named
+  explicitly in the active handoff as the release-candidate worktree.
+- A new agent must not start edits in the current terminal directory just
+  because it is already there. Before the first edit, it must run
+  `git status --short --branch` and `git worktree list`, identify whether the
+  current checkout is the assigned worktree, and create or switch to a separate
+  worktree when it is not.
+- The isolated-worktree rule applies to docs-only and canon-only slices too
+  when another agent, branch, PR, or release candidate is active for the same
+  repository. Documentation edits can still corrupt another branch's closeout.
 - Never switch a dirty shared checkout to "just deploy quickly".
+- Never switch a shared root checkout away from its current branch to "make
+  room" for a new task. Create another worktree instead.
 - Never deploy from a detached checkout unless the project canon explicitly
   marks that checkout as the release candidate and records its SHA.
 - If a branch is already checked out in another worktree, do not force switch
@@ -156,6 +169,7 @@ repo:
   path:
   source_of_truth_branch:
   active_worktree:
+  shared_root_checkout_policy:
   current_release_candidate:
   exact_commit_sha:
 github:
@@ -184,6 +198,10 @@ open_questions:
 If this packet is missing and the task touches live runtime, the second agent
 should ask for or reconstruct it before acting.
 
+For non-runtime work, a reduced handoff still records the active worktree. If a
+second agent cannot tell whether the current checkout is assigned to its slice,
+it should return `NEEDS_WORKTREE_CONTEXT` instead of editing.
+
 ## Merge And Closeout
 
 A release candidate can be merged only after:
@@ -210,6 +228,8 @@ Stop and recover before changing runtime when any of these are true:
 
 - the checkout is dirty and the dirty files are not fully understood;
 - the checkout is detached and no release candidate SHA was recorded;
+- the current directory is the shared root checkout and the task did not
+  explicitly assign that checkout as the active worktree;
 - another agent has an open branch/PR that was already staged or deployed;
 - the deploy command differs from the project runbook;
 - compose/service overlays are ambiguous;
