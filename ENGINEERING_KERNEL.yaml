@@ -882,7 +882,7 @@ model_adapter_policy:
       - explicit_reason_when_whole_large_file_is_needed
     preferred_binary: "$HOME/.local/bin/claude"
     wrapper_binaries_explicit_opt_in: true
-    default_model: claude-opus-4-7
+    default_model: claude-opus-4-8
     output_format: stream-json
     verbose_required_for_stream_json: true
     permission_mode: dontAsk

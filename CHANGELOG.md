@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated the canonical Claude Code read-only worker default model from `claude-opus-4-7` to `claude-opus-4-8` across kernel policy, docs, project templates, wrapper script, and tests.
 - Added operational canon layers for work item routing, project health audit, and optional weekly operating loops.
 - Added session issue sync canon so serious slices record whether GitHub issue state was updated, intentionally skipped, or not applicable.
 - Added agentic coding orchestration canon: orchestrator/worker/reviewer roles, subagent concurrency limits, prompt write-set contract, review boundaries, and recovery protocol for executor resource failures.

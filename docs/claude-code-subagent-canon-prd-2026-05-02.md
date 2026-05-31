@@ -49,7 +49,7 @@ Follow-up runtime testing on 2026-05-02 exposed additional adapter details:
   worker runs should prefer the direct Claude Code binary and treat wrapper
   binaries as an explicit opt-in.
 - Controlled review should pin the intended model instead of inheriting a
-  machine default. The current default for this adapter is `claude-opus-4-7`.
+  machine default. The current default for this adapter is `claude-opus-4-8`.
 - In OAuth-backed non-`--bare` mode, Claude Code can still load user settings,
   hooks, agents, skills, and memory surfaces. This is acceptable only as an
   OAuth tradeoff when MCP and tools are explicitly restricted. Fully hook-free
@@ -133,7 +133,7 @@ The canonical OAuth-backed local invocation shape is:
 
 ```bash
 "${CLAUDE_CODE_BIN:-$HOME/.local/bin/claude}" -p \
-  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-7}" \
+  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-8}" \
   --no-session-persistence \
   --output-format stream-json \
   --verbose \
@@ -158,7 +158,7 @@ Rules:
 - The empty MCP config is `{"mcpServers":{}}`, not `{}`.
 - Use `--output-format stream-json --verbose` for observable long runs.
 - Do not use `--permission-mode plan` for this adapter.
-- Pin the model for controlled runs. Default to `claude-opus-4-7`, with
+- Pin the model for controlled runs. Default to `claude-opus-4-8`, with
   `CLAUDE_CODE_MODEL` as the local/operator override.
 - Select the smallest tool set:
   - smoke: no tools;
@@ -188,7 +188,7 @@ in the repository.
 
 The budget cap is a runaway guardrail, not a claim that every normal review
 costs that amount. A real controlled design review observed during adoption
-cost about USD 0.58 with Opus 4.7, so USD 5 is the normal exact-file review
+cost about USD 0.58 with the prior Opus adapter, so USD 5 is the normal exact-file review
 default and USD 10 is reserved for broader repo-search review.
 
 ## Project Template Decision
@@ -202,7 +202,7 @@ scripts/claude-code-readonly-subagent.sh
 The helper:
 
 - prefers `$HOME/.local/bin/claude` and supports `CLAUDE_CODE_BIN` override;
-- pins `claude-opus-4-7` by default and supports `CLAUDE_CODE_MODEL` override;
+- pins `claude-opus-4-8` by default and supports `CLAUDE_CODE_MODEL` override;
 - runs `claude auth status` as a health check;
 - uses non-interactive `-p`;
 - uses `--output-format stream-json --verbose`;

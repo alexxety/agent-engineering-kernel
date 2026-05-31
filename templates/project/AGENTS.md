@@ -116,7 +116,7 @@ Claude Code adapter rules:
 - do not feed Claude Code the whole repository or a huge file by habit; prefer a context packet with the goal, exact question, relevant symbols/interfaces, focused snippets, and selected diff context; whole large files require an explicit reason;
 - launch through `scripts/claude-code-readonly-subagent.sh` when available;
 - prefer a direct Claude Code binary over wrapper binaries such as cmux;
-- pin the controlled review model, defaulting to `claude-opus-4-7` unless the operator overrides it;
+- pin the controlled review model, defaulting to `claude-opus-4-8` unless the operator overrides it;
 - use non-interactive `claude -p`, `--no-session-persistence`, `--output-format stream-json`, `--verbose`, `--mcp-config '{"mcpServers":{}}'`, and `--strict-mcp-config`;
 - use explicit `--permission-mode dontAsk`; do not use `plan` mode for read-only workers;
 - use the smallest tool set: no tools for smoke, `Read` for exact-file review, and `Read,Grep,Glob` only when repo search is required;

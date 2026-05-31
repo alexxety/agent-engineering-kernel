@@ -20,7 +20,7 @@ Modes:
 
 Environment:
   CLAUDE_CODE_BIN                 override the claude binary path
-  CLAUDE_CODE_MODEL               override the model, defaults to claude-opus-4-7
+  CLAUDE_CODE_MODEL               override the model, defaults to claude-opus-4-8
   CLAUDE_WORKER_MAX_BUDGET_USD    override the mode default budget
   CLAUDE_CODE_ALLOW_WRAPPER=1     allow known wrapper binaries such as cmux
 
@@ -91,7 +91,7 @@ fi
 
 prompt=$1
 budget=${CLAUDE_WORKER_MAX_BUDGET_USD:-$default_budget}
-model=${CLAUDE_CODE_MODEL:-claude-opus-4-7}
+model=${CLAUDE_CODE_MODEL:-claude-opus-4-8}
 
 exec "$claude_bin" -p \
   --model "$model" \

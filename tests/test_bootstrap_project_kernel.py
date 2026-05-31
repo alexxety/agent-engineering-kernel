@@ -76,7 +76,7 @@ class BootstrapProjectKernelTests(unittest.TestCase):
             wrapper = (target / "scripts" / "claude-code-readonly-subagent.sh").read_text(encoding="utf-8")
             self.assertIn("--strict-mcp-config", wrapper)
             self.assertIn("--model", wrapper)
-            self.assertIn("claude-opus-4-7", wrapper)
+            self.assertIn("claude-opus-4-8", wrapper)
             self.assertIn("--output-format stream-json", wrapper)
             self.assertIn("--verbose", wrapper)
             self.assertIn("--permission-mode dontAsk", wrapper)

@@ -353,7 +353,7 @@ Code install is:
 
 ```bash
 "${CLAUDE_CODE_BIN:-$HOME/.local/bin/claude}" -p \
-  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-7}" \
+  --model "${CLAUDE_CODE_MODEL:-claude-opus-4-8}" \
   --no-session-persistence \
   --output-format stream-json \
   --verbose \
@@ -378,7 +378,7 @@ Important details:
 - prefer a direct Claude Code binary such as `$HOME/.local/bin/claude`; wrapper
   binaries such as cmux are explicit opt-in because they may add hooks or
   workspace behavior;
-- pin the intended model for controlled runs; default to `claude-opus-4-7`
+- pin the intended model for controlled runs; default to `claude-opus-4-8`
   unless the operator sets `CLAUDE_CODE_MODEL`;
 - the empty MCP config is `{"mcpServers":{}}`, not `{}`;
 - do not use `--bare` by default for OAuth-backed local sessions;
@@ -403,7 +403,7 @@ Important details:
   - `review-files`: USD 5;
   - `review-repo`: USD 10;
 - treat the budget as a runaway guardrail, not as a target spend; normal
-  controlled Opus 4.7 reviews may cost less than the cap, but the cap should be
+  controlled Opus 4.8 reviews may cost less than the cap, but the cap should be
   high enough for useful work;
 - do not put Anthropic API keys, auth state, or operator account details in the
   repository;

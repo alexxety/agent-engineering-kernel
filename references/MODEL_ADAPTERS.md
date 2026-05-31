@@ -39,7 +39,7 @@ Default approved shape:
 - local repository context only;
 - no inherited MCP/App connector surface;
 - direct Claude Code binary preferred over wrapper binaries;
-- controlled review model pinned by default, currently `claude-opus-4-7`;
+- controlled review model pinned by default, currently `claude-opus-4-8`;
 - observable stream output for long runs;
 - explicit `dontAsk` permission mode, never `plan`;
 - smallest possible tool set: no tools for smoke, `Read` for exact-file

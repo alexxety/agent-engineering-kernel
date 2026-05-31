@@ -244,7 +244,7 @@ class RepoKernelCanonTests(unittest.TestCase):
         self.assertIn("focused_snippets_or_excerpted_sections", claude_adapter["context_packet_requirements"])
         self.assertIn("explicit_reason_when_whole_large_file_is_needed", claude_adapter["context_packet_requirements"])
         self.assertEqual(claude_adapter["preferred_binary"], "$HOME/.local/bin/claude")
-        self.assertEqual(claude_adapter["default_model"], "claude-opus-4-7")
+        self.assertEqual(claude_adapter["default_model"], "claude-opus-4-8")
         self.assertEqual(claude_adapter["output_format"], "stream-json")
         self.assertTrue(claude_adapter["verbose_required_for_stream_json"])
         self.assertEqual(claude_adapter["permission_mode"], "dontAsk")

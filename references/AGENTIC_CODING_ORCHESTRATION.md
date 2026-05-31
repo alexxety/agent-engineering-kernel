@@ -233,7 +233,7 @@ Claude Code one-shot lifecycle:
 - run non-interactively with `claude -p`;
 - prefer the direct Claude Code binary over wrapper binaries; wrapper binaries
   such as cmux are explicit opt-in only;
-- pin the controlled review model, defaulting to `claude-opus-4-7` unless the
+- pin the controlled review model, defaulting to `claude-opus-4-8` unless the
   operator sets `CLAUDE_CODE_MODEL`;
 - avoid `--bare` for OAuth-backed local Claude Code sessions unless API-key or
   `apiKeyHelper` mode was explicitly configured and smoke-tested;
