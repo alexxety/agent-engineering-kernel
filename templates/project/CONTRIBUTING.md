@@ -36,6 +36,8 @@ Git ref/index/worktree operations are serialized per repository. Do not run `git
 - local `gh` auth and GitHub App connector auth are different identities with separate permissions
 - configure GitHub App repository access and permissions in GitHub Installed Apps, not by storing tokens in repo files
 - if an App connector fails with a permission error, check repository access and App permissions before refreshing local `gh` auth
+- when one MCP backend exposes multiple accounts, workspaces, organizations, tenants, or profiles, use the provider discovery tool before mutating operations unless the target identity is already explicit
+- mutating MCP operations must pass an explicit identity selector such as `account`, `workspace`, `organization`, or `tenant`; do not silently choose a default identity
 - use the canonical shell-safe `gh` fallback when connector tooling is missing, stale, or blocked
 
 ## Research policy

@@ -398,6 +398,7 @@ mcp_tooling_policy:
     - local_gh_cli_token
     - personal_access_token
     - service_account_or_sandbox_identity
+    - external_service_account_workspace_organization_tenant_or_profile_selected_inside_one_mcp_server
   github_connector_minimum_permissions:
     - repository_access_to_target_repo
     - contents_read_write_when_code_branches_or_files_are_changed
@@ -410,6 +411,11 @@ mcp_tooling_policy:
     - github_app_installation_permissions_are_configured_in_github_installed_apps_not_in_the_local_gh_token
     - do_not_paste_or_record_tokens_in_repo_docs_prds_or_issue_bodies
     - if_connector_write_fails_check_repository_access_and_app_permissions_before_refreshing_local_cli_auth
+    - multi_identity_mcp_tools_must_treat_identity_selection_as_part_of_the_operation_contract
+    - when_a_discovery_tool_such_as_list_accounts_list_workspaces_or_list_organizations_exists_use_it_before_mutating_operations_unless_the_target_identity_is_already_explicit
+    - read_only_fanout_across_identities_is_allowed_only_when_the_tool_documents_it_and_labels_results_by_identity
+    - mutating_mcp_operations_must_pass_an_explicit_identity_selector_or_ask_when_ambiguous
+    - do_not_silently_choose_default_accounts_workspaces_organizations_tenants_or_profiles_for_write_send_edit_delete_admin_billing_permission_or_deploy_actions
     - when_connector_tooling_is_missing_or_blocked_use_the_canonical_cli_fallback_and_record_the_gap_when_it_affects_the_slice
     - github_cli_fallbacks_must_follow_shell_safe_body_file_and_sub_issue_rules
     - verify_live_external_writes_with_a_sandbox_or_low_impact_identity_before_claiming_connector_access_works
